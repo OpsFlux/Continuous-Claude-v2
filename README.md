@@ -516,6 +516,21 @@ claude
 | "analyze session", "what happened", "session insights" | Runs **braintrust-analyze** to review traces |
 | "recall", "what was tried", "past reasoning" | Searches **reasoning history** |
 
+### Hook Development
+
+| Say This | What Happens |
+|----------|--------------|
+| "create hook", "write hook", "hook for" | Loads **hook-developer** skill - complete reference for all 10 hook types |
+| "hook schema", "hook input", "hook output" | Same - shows input/output schemas, matchers, testing patterns |
+| "debug hook", "hook not working", "hook failing" | Runs **debug-hooks** skill - systematic debugging workflow |
+
+**The `/hook-developer` skill** is a comprehensive reference covering:
+- All 10 Claude Code hook types (PreToolUse, PostToolUse, SessionStart, etc.)
+- Input/output JSON schemas for each hook
+- Matcher patterns and registration in settings.json
+- Shell wrapper → TypeScript handler pattern
+- Testing commands for manual hook validation
+
 ### Other
 
 | Say This | What Happens |
@@ -813,6 +828,7 @@ The StatusLine writes context % to `/tmp/claude-context-pct-{SESSION_ID}.txt` (p
 | Event | When | What This Kit Does |
 |-------|------|-------------------|
 | **SessionStart** | New session, `/clear`, compact | Loads ledger + latest handoff into context |
+| **PreToolUse** | Before tool execution | **TypeScript preflight** - catches type errors before Edit/Write on .ts files |
 | **PreCompact** | Before context compaction | Creates auto-handoff, blocks manual compact |
 | **UserPromptSubmit** | Before processing user message | Shows skill suggestions, context warnings |
 | **PostToolUse** | After Edit/Write/Bash | Tracks modified files for auto-summary |
@@ -875,6 +891,24 @@ Runs: Every message you send
    - 80%: `Recommend: /create_handoff then /clear soon`
    - 90%: `CONTEXT CRITICAL: Run /create_handoff NOW!`
 
+### TypeScript Preflight Hook (PreToolUse)
+
+Runs: Before Edit/Write on `.ts` or `.tsx` files
+
+**What it does:**
+1. Runs `tsc --noEmit` on the file being edited
+2. If type errors exist, blocks the edit and shows errors to Claude
+3. Claude fixes the issues before proceeding
+
+**Why this matters:** Catches type errors early, before they compound across multiple edits. Claude sees the errors in context and can fix them immediately.
+
+**Example output when blocked:**
+```
+TypeScript errors in src/hooks/my-hook.ts:
+  Line 15: Property 'result' does not exist on type 'HookOutput'
+  Line 23: Argument of type 'string' is not assignable to parameter of type 'number'
+```
+
 ### How Hooks Work
 
 Hooks are **pre-bundled** - no runtime dependencies needed. Shell wrappers call bundled JS:
@@ -905,10 +939,11 @@ interface SessionStartInput {
   session_id: string;
 }
 
-// Output controls behavior
+// Output controls behavior (varies by hook type)
 interface HookOutput {
-  result: 'continue' | 'block';  // Block stops the action
-  message?: string;               // Shown to user
+  continue?: boolean;             // true to proceed (default)
+  decision?: 'block';             // Block stops the action (PreToolUse only)
+  reason?: string;                // Shown when blocking
   hookSpecificOutput?: {          // Injected into context
     additionalContext: string;
   };
