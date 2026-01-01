@@ -3,21 +3,24 @@ name: onboard
 description: Analyze brownfield codebase and create initial continuity ledger
 ---
 
-# Onboard - Project Discovery & Ledger Creation
+<a id="onboard-project-discovery-ledger-creation"></a>
+# 上载 - 项目发现和编辑器创建
 
-Analyze a brownfield codebase and create an initial continuity ledger.
+分析一个棕地密码库，并创建一个初始的连续性分类账。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- First time working in an existing project
-- User says "onboard", "analyze this project", "get familiar with codebase"
-- After running `init-project.sh` in a new project
+- 第一次在现有项目中工作
+- 用户表示"上","分析这个项目","熟悉代码库".
+- 运行后`init-project.sh`在新项目中
 
-## How to Use
+<a id="how-to-use"></a>
+## 如何使用
 
-**Spawn the onboard agent:**
+**机上代理人：**
 
-Use the Task tool with `subagent_type: "general-purpose"` and this prompt:
+使用任务工具`subagent_type: "general-purpose"`而这个提示 :
 
 ```
 Onboard me to this project.
@@ -36,22 +39,25 @@ Read and follow the instructions in .claude/agents/onboard.md exactly.
 6. Create a continuity ledger at thoughts/ledgers/CONTINUITY_CLAUDE-<project>.md
 ```
 
-## Why an Agent?
+<a id="why-an-agent"></a>
+## 为什么是代理?
 
-The onboard process:
-- Requires multiple exploration steps (RepoPrompt builder is slow)
-- Should not pollute main context with codebase dumps
-- Returns a clean summary + creates the ledger
+机上进程 :
+- 需要多个勘探步骤( RepoPrompt 构建器缓慢)
+- 不应污染主上下文的代码库垃圾堆
+- 返回干净摘要 + 创建分类账
 
-## Output
+<a id="output"></a>
+## 产出
 
-- Continuity ledger created at `thoughts/ledgers/CONTINUITY_CLAUDE-<name>.md`
-- User has clear starting context
-- Ready to begin work with full project awareness
+- 在`thoughts/ledgers/CONTINUITY_CLAUDE-<name>.md`
+- 用户有明确的起始上下文
+- 做好全面了解项目工作的准备
 
-## Notes
+<a id="notes"></a>
+## 页：1
 
-- This skill is for BROWNFIELD projects (existing code)
-- For greenfield, use `/create_plan` instead
-- Ledger can be updated anytime with `/continuity_ledger`
-- RepoPrompt requires the app running with MCP Server enabled
+- 该技能用于 BROWNFIELD 项目(现有代码)
+- 用于绿地`/create_plan`换成
+- 编辑器可以随时更新`/continuity_ledger`
+- RepoPrompt 需要使用 MCP 服务器运行的应用程序

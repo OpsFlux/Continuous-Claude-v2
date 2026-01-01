@@ -4,17 +4,20 @@ description: Template for chaining multiple MCP tools in a single script
 allowed-tools: [Bash, Read]
 ---
 
-# Multi-Tool Pipeline Template
+<a id="multi-tool-pipeline-template"></a>
+# 多工具管道模板
 
-Reference implementation showing how to chain multiple MCP tools in a script.
+引用执行显示如何将多个 MCP 工具在脚本中链条。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- As a **template** when creating new MCP pipeline scripts
-- To understand the pattern for tool chaining
-- When skill-developer needs to create a new pipeline
+- 在创建新的 MCP 管道脚本时作为**template**
+- 理解工具链的图案
+- 当技能开发者需要建立新的管道时
 
-## The Pattern
+<a id="the-pattern"></a>
+## 图案
 
 ```python
 async def main():
@@ -30,15 +33,16 @@ async def main():
     return {"combined": result1, "processed": result2}
 ```
 
-## Example Implementation
+<a id="example-implementation"></a>
+## 实例
 
-See the reference script:
+见参考脚本：
 
 ```bash
 cat $CLAUDE_PROJECT_DIR/scripts/multi_tool_pipeline.py
 ```
 
-Run it:
+运行它：
 
 ```bash
 uv run python -m runtime.harness scripts/multi_tool_pipeline.py \
@@ -46,24 +50,27 @@ uv run python -m runtime.harness scripts/multi_tool_pipeline.py \
     --max-commits 5
 ```
 
-## Key Elements
+<a id="key-elements"></a>
+## 关键要素
 
-1. **CLI Arguments** - Use argparse for parameters
-2. **Sequential Calls** - await each tool before the next
-3. **Error Handling** - try/except around the pipeline
-4. **Progress Output** - print status for visibility
-5. **Structured Return** - return combined results
+1. **CLI 参数** - 参数使用参数参数
+2. **连续呼叫** - 在下一个工具之前等待每个工具
+3. **不当处理** -- -- 试验/管道周围除外
+4. **产出** - 可见度打印状态
+5. **回归** - 回归综合结果
 
-## Creating Your Own Pipeline
+<a id="creating-your-own-pipeline"></a>
+## 创建您自己的管道
 
-1. Copy `scripts/multi_tool_pipeline.py` as a starting point
-2. Replace the tool calls with your MCP servers/tools
-3. Adjust CLI arguments for your use case
-4. Use `/skill-developer` to wrap it in a skill
+1. 复制`scripts/multi_tool_pipeline.py`作为起点
+2. 用您的 MCP 服务器/工具替换工具调用
+3. 为您的使用调整 CLI 参数
+4. 使用`/skill-developer`把它包起来
 
-## MCP Tool Naming
+<a id="mcp-tool-naming"></a>
+## MCP 工具命名
 
-Tools are named `serverName__toolName` (double underscore):
+工具名称`serverName__toolName`(双下划线):
 
 ```python
 await call_mcp_tool("git__git_status", {...})

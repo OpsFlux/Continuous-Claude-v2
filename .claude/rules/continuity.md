@@ -2,27 +2,31 @@
 globs: ["thoughts/ledgers/CONTINUITY_CLAUDE-*.md"]
 ---
 
-# Continuity Ledger Rules
+<a id="continuity-ledger-rules"></a>
+# 连续规则
 
-The ledger is the single source of truth - for session state AND multi-phase implementations.
+分类账是了解真相的唯一来源，用于会议状态和多阶段的执行。
 
-## File Location
-- Ledgers live in: `thoughts/ledgers/`
-- Format: `thoughts/ledgers/CONTINUITY_CLAUDE-<session-name>.md`
-- Use kebab-case for session name
-- One ledger per active work stream
+<a id="file-location"></a>
+## 文件位置
+- 探险家住在：`thoughts/ledgers/`
+- 格式 :`thoughts/ledgers/CONTINUITY_CLAUDE-<session-name>.md`
+- 对会话名称使用 kebab 大小写
+- 每个工作流有一个分类账
 
-## Required Sections
-1. **Goal** - Success criteria (what does "done" look like?)
-2. **Constraints** - Technical requirements, patterns to follow
-3. **Key Decisions** - Choices made with rationale
-4. **State** - Done/Now/Next with checkboxes for multi-phase work
-5. **Open Questions** - Mark uncertain items as UNCONFIRMED
-6. **Working Set** - Files, branch, test commands
+<a id="required-sections"></a>
+## 所需章节
+1. **目标** - 成功标准("done"是什么样子的?).
+2. **制约** -- -- 技术要求、模式
+3. **关键决定** -- -- 所作选择的理由
+4. **状态** - 完成/现在/下一个带有多阶段工作的复选框
+5. **开放式问题** -- -- 将不确定项目标为 UNCONFIRMED
+6. **工作集** - 文件、分支、测试命令
 
-## State Section: Multi-Phase Format
+<a id="state-section-multi-phase-format"></a>
+## 状态部分：多阶段格式
 
-For multi-phase implementations, use checkboxes in State:
+对于多相执行，在状态下使用复选框：
 
 ```markdown
 ## State
@@ -36,34 +40,38 @@ For multi-phase implementations, use checkboxes in State:
   - [ ] Phase 6: Write tests
 ```
 
-**Checkbox states:**
-- `[x]` = Completed
-- `[→]` = In progress (current)
-- `[ ]` = Pending
+**检查框表示：**
+- `[x]`= 已完成
+- `[→]`= 进行中(当前)
+- `[ ]`= 待决
 
-**Why checkboxes in files:** TodoWrite survives compaction, but the *understanding* around those todos degrades each time context is compressed. File-based checkboxes are never compressed—full fidelity preserved.
+**文件的复选框为何：** TodoWrite 活下来了收缩，但围绕这些待办事宜的*理解*每一次都会被压缩。 基于文件的复选框永远不会被压缩——完全忠诚保存。
 
-## Starting an Implementation
+<a id="starting-an-implementation"></a>
+## 启动执行
 
-When implementing a plan with multiple phases:
-1. Add all phases as checkboxes in State section
-2. Mark current phase with `[→]`
-3. Update checkboxes as you complete each phase
-4. StatusLine shows: `✓ Phase 2 → Phase 3: Current work`
+在执行具有多个阶段的计划时：
+1. 在状态部分添加所有阶段为复选框
+2. 将当前阶段标记为`[→]`
+3. 在每个阶段完成时更新复选框
+4. 状态行显示 :`✓ Phase 2 → Phase 3: Current work`
 
-## When to Update
-- After completing a phase (update checkbox immediately)
-- Before `/clear` (always clear, never compact)
-- When context usage >70%
+<a id="when-to-update"></a>
+## 何时更新
+- 完成阶段后( 立即更新复选框)
+- 在此之前`/clear`(总是清晰，从不紧凑)
+- 当上下文使用量大于 70%时
 
-## UNCONFIRMED Prefix
+<a id="unconfirmed-prefix"></a>
+## 未识别前缀
 ```markdown
 ## Open Questions
 - UNCONFIRMED: Does the auth middleware need updating?
 ```
 
-## After Clear
-1. Ledger loads automatically (SessionStart hook)
-2. Find `[→]` to see current phase
-3. Verify any UNCONFIRMED items
-4. Continue from where you left off with fresh context
+<a id="after-clear"></a>
+## 清除后
+1. 自动装入编程器( CASEStart sook)
+2. 查找`[→]`以查看当前阶段
+3. 核查任何未识别物项
+4. 从您留下的新上下文继续

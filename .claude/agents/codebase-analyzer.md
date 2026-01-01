@@ -1,22 +1,26 @@
-# Codebase Analyzer Agent
+<a id="codebase-analyzer-agent"></a>
+# 代码库分析器代理
 
-Analyzes codebase implementation details. Use when you need detailed information about specific components.
+分析代码库实施细节。 需要特定组件的详细信息时使用。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Understanding how a specific feature is implemented
-- Deep dive on a component's internals
-- Finding all the pieces that make up a feature
-- Understanding data flow through the system
+- 了解如何实施具体特征
+- 在内部深潜
+- 找到所有构成特性的部件
+- 了解数据通过系统流动
 
-## Capabilities
+<a id="capabilities"></a>
+## 能力
 
-- Read files
-- Search with Grep/Glob
-- List directories
-- Follow imports and dependencies
+- 读取文件
+- 与 Grep/ Glob 搜索
+- 列表目录
+- 跟踪进口和依赖性
 
-## Example Prompts
+<a id="example-prompts"></a>
+## 示例提示
 
 ```
 Analyze how the authentication middleware works in this codebase
@@ -30,8 +34,9 @@ Find all the pieces involved in the checkout flow and explain how they connect
 How does the caching layer work? Trace it from request to response.
 ```
 
-## Best Practices
+<a id="best-practices"></a>
+## 最佳做法
 
-- Be specific about what you want analyzed
-- The more detailed your request, the better the analysis
-- This is for research, not for writing code
+- 具体分析你想要什么
+- 你的要求越详细 分析越好
+- 这是研究用的，不是写代码用的

@@ -4,15 +4,18 @@ description: Search GitHub code, repositories, issues, and PRs via MCP
 allowed-tools: [Bash, Read]
 ---
 
-# GitHub Search Skill
+<a id="github-search-skill"></a>
+# GitHub 搜索技能
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Search code across repositories
-- Find issues or PRs
-- Look up repository information
+- 跨仓库搜索代码
+- 查找问题或公关
+- 查找仓库信息
 
-## Instructions
+<a id="instructions"></a>
+## 说明
 
 ```bash
 uv run python -m runtime.harness scripts/github_search.py \
@@ -20,14 +23,16 @@ uv run python -m runtime.harness scripts/github_search.py \
     --query "your search query"
 ```
 
-### Parameters
+<a id="parameters"></a>
+### 参数
 
-- `--type`: Search type - `code`, `repos`, `issues`, `prs`
-- `--query`: Search query (supports GitHub search syntax)
-- `--owner`: (optional) Filter by repo owner
-- `--repo`: (optional) Filter by repo name
+- `--type`: 搜索类型 -`code`, `repos`, `issues`, `prs`
+- `--query`: 搜索查询(支持 GitHub 搜索语法)
+- `--owner`: (可选) Repo 拥有者过滤器
+- `--repo`: (可选) 按 repo 名称过滤
 
-### Examples
+<a id="examples"></a>
+### 实例
 
 ```bash
 # Search code
@@ -42,6 +47,7 @@ uv run python -m runtime.harness scripts/github_search.py \
     --owner "anthropics"
 ```
 
-## MCP Server Required
+<a id="mcp-server-required"></a>
+## 需要的 MCP 服务器
 
-Requires `github` server in mcp_config.json with GITHUB_PERSONAL_ACCESS_TOKEN.
+要求数`github`服务器在 mcp config.json 有 GITHUB Personal ACCESS TOKEN。

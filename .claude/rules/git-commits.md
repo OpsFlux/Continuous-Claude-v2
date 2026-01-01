@@ -1,41 +1,46 @@
-# Git Commit Rules
+<a id="git-commit-rules"></a>
+# Git 提交规则
 
-When the user asks to commit, push, or save changes to git:
+当用户要求承诺、推动或保存更改为 git 时：
 
-## MUST Use /commit Skill
+<a id="must-use-commit-skill"></a>
+## 必须使用/commit 技能
 
-**DO NOT** run `git commit` directly. Instead:
+**不执行**`git commit`直接说 相反：
 
 ```
 Skill("commit")
 ```
 
-The `/commit` skill:
-1. Removes Claude attribution from commits
-2. Generates reasoning.md capturing what was tried
-3. Clears build attempts for next feature
+这个`/commit`技能 :
+1. 从承诺中删除 Claude 属性
+2. 生成推理。md 捕捉被尝试的东西
+3. 清除构建下一个特性的尝试
 
-## Why This Matters
+<a id="why-this-matters"></a>
+## 为什么这很重要
 
-- Regular `git commit` adds "Generated with Claude Code" and Co-Author lines
-- The `/commit` skill removes these so commits appear user-authored
-- Reasoning capture preserves build history for future sessions
+- 经常`git commit`添加“ Generated with Claude Code” 和“ 联合认证” 线条
+- 这个`/commit`技能删除这些任务， 以显示用户授权
+- 理性捕捉为今后届会保留了建设历史
 
-## Trigger Words
+<a id="trigger-words"></a>
+## 触发词
 
-When you see these in user prompts, use the commit skill:
-- "commit", "push", "save changes"
-- "push to github", "push changes"
-- "commit and push"
+在用户提示中看到这些时，请使用承诺技能：
+- "承诺","推","拯救"
+- "推来推去" "推去改变"
+- "承诺和推"
 
-## After Commit
+<a id="after-commit"></a>
+## 提交后
 
-The skill will prompt you to run:
+这个技能会促使你跑：
 ```bash
 bash .claude/scripts/generate-reasoning.sh <hash> "<message>"
 ```
 
-Then push if requested:
+请按下：
 ```bash
 git push origin <branch>
 ```

@@ -1,23 +1,28 @@
-# Idempotent Redundancy
+<a id="idempotent-redundancy"></a>
+# 同上，注：
 
-When adding redundant paths (fallbacks, belt-and-suspenders), make them idempotent.
+当添加冗余路径(倒回，带-和-悬回)时，使其具有一能。
 
-## Pattern
+<a id="pattern"></a>
+## 图案
 
-Redundancy without idempotency causes loops, churn, or data corruption.
+冗余而无一分之能，会引发循环，分流或数据腐败。
 
+<a id="do"></a>
 ## DO
-- Use `_is_merge: true` for Braintrust updates
-- Check if value exists before writing (fallback only if missing)
-- Use atomic write/rename for file operations
-- Make reconciliation steps safe to run repeatedly
+- 使用`_is_merge: true`用于更新大 Braintrust
+- 写入前检查值是否存在( 仅在缺失时返回)
+- 在文件操作中使用原子写入/重命名
+- 让调节步骤安全地反复运行
 
-## DON'T
-- Write unconditionally in fallback paths
-- Allow multiple writers to overwrite each other
-- Fire "repair" actions that can trigger more repairs
+<a id="dont"></a>
+## 别
+- 在后退路径中无条件写入
+- 允许多个作者覆盖对方
+- 能够引发更多修复的"修复"行动
 
-## Source Sessions
-- a541f08a: "Redundancy is good only if idempotent"
-- 1c21e6c8: "Belt-and-suspenders, but make it idempotent"
-- 6a9f2d7a: "Idempotent repair hooks"
+<a id="source-sessions"></a>
+## 源会话
+- a541f08a:"只有一能"才算不错".
+- 1c21e6c8:"活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活活
+- 6a9f2d7a:"仪表修理钩"

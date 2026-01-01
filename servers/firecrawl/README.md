@@ -1,19 +1,20 @@
-# firecrawl MCP Tools
+<a id="firecrawl-mcp-tools"></a>
+# firecrawl 磁共振 工具
 
-Auto-generated wrappers for firecrawl MCP server.
+用于 firecrawl MCP 服务器的自动生成包装。
 
-## Tools
+<a id="tools"></a>
+## 工具
 
 - `firecrawl_scrape`: 
-Scrape content from a single URL with advanced options. 
-This is the most powerful, fastest and most reliable scraper tool, if available you should always default to using this tool for any web scraping needs.
+从一个具有高级选项的单一 URL 中搜索内容 。
+这是最强大、最快和最可靠的刮刮工具，如果有的话，你应该总是不使用这个工具来满足任何网络刮刮的需要。
 
-**Best for:** Single page content extraction, when you know exactly which page contains the information.
-**Not recommended for:** Multiple pages (use batch_scrape), unknown page (use search), structured data (use extract).
-**Common mistakes:** Using scrape for a list of URLs (use batch_scrape instead). If batch scrape doesnt work, just use scrape and call it multiple times.
-**Other Features:** Use 'branding' format to extract brand identity (colors, fonts, typography, spacing, UI components) for design analysis or style replication.
-**Prompt Example:** "Get the content of the page at https://example.com."
-**Usage Example:**
+**用于：** 单页内容提取，当您确切知道哪个页面包含信息时。
+**不建议：** 多页(使用批量 scrape)，未知页(使用搜索)，结构数据(使用提取).
+**共同错误：** 在 URL 列表中使用 raise( 使用批号  scrape 代替) 。 如果批发刮片不起作用，只需使用刮片并多次拨打。
+**其他特征：** 使用“ 品牌” 格式来提取品牌身份(颜色，字体，打字，间距，UI 组件)用于设计分析或样式复制。
+**Prompt 示例：** "在 https://example.com."**用户示例：**
 ```json
 {
   "name": "firecrawl_scrape",
@@ -24,18 +25,18 @@ This is the most powerful, fastest and most reliable scraper tool, if available 
   }
 }
 ```
-**Performance:** Add maxAge parameter for 500% faster scrapes using cached data.
-**Returns:** Markdown, HTML, or other formats as specified.
+**业绩：** 使用缓存数据添加 500 分快刮的 maxAge 参数 。
+**返回：** 标记下， HTML, 或指定的其他格式。
 
 
 - `firecrawl_map`: 
-Map a website to discover all indexed URLs on the site.
+绘制一个网站以发现网站上所有索引的 URL 。
 
-**Best for:** Discovering URLs on a website before deciding what to scrape; finding specific sections of a website.
-**Not recommended for:** When you already know which specific URL you need (use scrape or batch_scrape); when you need the content of the pages (use scrape after mapping).
-**Common mistakes:** Using crawl to discover URLs instead of map.
-**Prompt Example:** "List all URLs on example.com."
-**Usage Example:**
+**用于：** 在决定刮去什么之前在网站上发现 URL;找到网站的特定章节。
+**不建议：** 当您已经知道您需要哪个特定的 URL( 使用刮去或批次  scrape); 当您需要页面的内容( 映射后使用刮去) 。
+**共同错误：** 使用爬行来发现 URL 而不是地图。
+**Prompt 示例：**"在 example.com 上列出全部 URL".
+**用户示例：**
 ```json
 {
   "name": "firecrawl_map",
@@ -44,34 +45,34 @@ Map a website to discover all indexed URLs on the site.
   }
 }
 ```
-**Returns:** Array of URLs found on the site.
+**返回：** 网站上发现的 URL 阵列。
 
 - `firecrawl_search`: 
-Search the web and optionally extract content from search results. This is the most powerful web search tool available, and if available you should always default to using this tool for any web search needs.
+搜索网页并选择从搜索结果中提取内容。 这是现有最强大的网络搜索工具，如果可用，你应该总是默认使用这个工具满足任何网络搜索需要。
 
-The query also supports search operators, that you can use if needed to refine the search:
-| Operator | Functionality | Examples |
+查询还支持搜索操作员，如果需要，您可以使用这些操作员来改进搜索：
+| 运算符 | 职能 | 实例 |
 ---|-|-|
-| `""` | Non-fuzzy matches a string of text | `"Firecrawl"`
-| `-` | Excludes certain keywords or negates other operators | `-bad`, `-site:firecrawl.dev`
-| `site:` | Only returns results from a specified website | `site:firecrawl.dev`
-| `inurl:` | Only returns results that include a word in the URL | `inurl:firecrawl`
-| `allinurl:` | Only returns results that include multiple words in the URL | `allinurl:git firecrawl`
-| `intitle:` | Only returns results that include a word in the title of the page | `intitle:Firecrawl`
-| `allintitle:` | Only returns results that include multiple words in the title of the page | `allintitle:firecrawl playground`
-| `related:` | Only returns results that are related to a specific domain | `related:firecrawl.dev`
-| `imagesize:` | Only returns images with exact dimensions | `imagesize:1920x1080`
-| `larger:` | Only returns images larger than specified dimensions | `larger:1920x1080`
+| `""` | 非模糊文本匹配字符串 | `"Firecrawl"`
+| `-` | 排除某些关键字或否定其他运算符 | `-bad`, `-site:firecrawl.dev`
+| `site:` | 只有指定网站的返回结果 | `site:firecrawl.dev`
+| `inurl:` | 只返回在 URL 中包含一个单词的结果 | `inurl:firecrawl`
+| `allinurl:` | 只返回在 URL 中包含多个单词的结果 | `allinurl:git firecrawl`
+| `intitle:` | 只返回页面标题中包含一个单词的结果 | `intitle:Firecrawl`
+| `allintitle:` | 只返回页面标题中包含多个单词的结果 | `allintitle:firecrawl playground`
+| `related:` | 只返回与特定域相关的结果 | `related:firecrawl.dev`
+| `imagesize:` | 只返回精确尺寸的图像 | `imagesize:1920x1080`
+| `larger:` | 只返回大于指定尺寸的图像 | `larger:1920x1080`
 
-**Best for:** Finding specific information across multiple websites, when you don't know which website has the information; when you need the most relevant content for a query.
-**Not recommended for:** When you need to search the filesystem. When you already know which website to scrape (use scrape); when you need comprehensive coverage of a single website (use map or crawl.
-**Common mistakes:** Using crawl or map for open-ended questions (use search instead).
-**Prompt Example:** "Find the latest research papers on AI published in 2023."
-**Sources:** web, images, news, default to web unless needed images or news.
-**Scrape Options:** Only use scrapeOptions when you think it is absolutely necessary. When you do so default to a lower limit to avoid timeouts, 5 or lower.
-**Optimal Workflow:** Search first using firecrawl_search without formats, then after fetching the results, use the scrape tool to get the content of the relevantpage(s) that you want to scrape
+**用于：** 在多个网站中查找特定信息，当您不知道哪个网站有信息时;当您需要查询最相关的内容时。
+**不建议：** 当你需要搜索文件系统时 。 当您已经知道要刮去哪个网站( 使用刮去) ; 您需要完整覆盖单个网站( 使用地图或爬行) 。
+**共同错误：** 使用 craw 或 映射来进行开放式的问题( 使用 )页：1
+**Prompt Election:**"寻找 2023 年出版的 AI 最新研究论文".
+**来源：**网络，图像，新闻，默认为网络，除非需要图像或新闻。
+**拼写选项：** 只有在您认为绝对必要时才使用 raise 选项 。 当这样做默认为下限以避免超时时，5 或更低。
+**工作流量：** 首先使用 firecrawl 无格式搜索，然后在获取结果后使用获取要刮去的相关页面内容的刮去工具
 
-**Usage Example without formats (Preferred):**
+**无格式的使用示例(首选):**
 ```json
 {
   "name": "firecrawl_search",
@@ -84,7 +85,7 @@ The query also supports search operators, that you can use if needed to refine t
   }
 }
 ```
-**Usage Example with formats:**
+**使用格式示例：**
 ```json
 {
   "name": "firecrawl_search",
@@ -105,17 +106,17 @@ The query also supports search operators, that you can use if needed to refine t
   }
 }
 ```
-**Returns:** Array of search results (with optional scraped content).
+**返回：** 搜索结果阵列(带有可选的报废内容)。
 
 - `firecrawl_crawl`: 
- Starts a crawl job on a website and extracts content from all pages.
+在网站上开始一个爬行任务，并从所有页面提取内容。
  
- **Best for:** Extracting content from multiple related pages, when you need comprehensive coverage.
- **Not recommended for:** Extracting content from a single page (use scrape); when token limits are a concern (use map + batch_scrape); when you need fast results (crawling can be slow).
- **Warning:** Crawl responses can be very large and may exceed token limits. Limit the crawl depth and number of pages, or use map + batch_scrape for better control.
- **Common mistakes:** Setting limit or maxDiscoveryDepth too high (causes token overflow) or too low (causes missing pages); using crawl for a single page (use scrape instead). Using a /* wildcard is not recommended.
- **Prompt Example:** "Get all blog posts from the first two levels of example.com/blog."
- **Usage Example:**
+**用于：** 在需要全面报道时从多个相关页面提取内容。
+**不建议：** 从一页取出内容( 使用刮; 当符号限制是一个问题( 使用地图 + 批次  scrape); 当您需要快速结果( 爬行可能很慢) ) 。
+**警告：** 爬行反应可能非常大并可能超过象征性限制。 限制页面的爬行深度和数量， 或使用地图 + 批次  scrape 更好控制系统。
+**共同错误：** 设定限制或最大 发现深度太高( 导致符号溢出) 或太低( 导致缺少页面); 使用 craw for a single page( 使用 scrape 代替) 。 不建议使用/*通配符。
+**Prompt 示例：**"从前两个级别的例子。com/blog 中获取所有博客文章".
+**用户示例：**
  ```json
  {
    "name": "firecrawl_crawl",
@@ -129,13 +130,13 @@ The query also supports search operators, that you can use if needed to refine t
    }
  }
  ```
- **Returns:** Operation ID for status checking; use firecrawl_check_crawl_status to check progress.
+**返回：** 状态检查操作 ID; 使用 firecrawl check crawl status 检查进度 。
  
  
 - `firecrawl_check_crawl_status`: 
-Check the status of a crawl job.
+检查爬行工作的状况。
 
-**Usage Example:**
+**用户示例：**
 ```json
 {
   "name": "firecrawl_check_crawl_status",
@@ -144,22 +145,22 @@ Check the status of a crawl job.
   }
 }
 ```
-**Returns:** Status and progress of the crawl job, including results if available.
+**返回：** 爬行工作的现状和进展，包括可获得的结果。
 
 - `firecrawl_extract`: 
-Extract structured information from web pages using LLM capabilities. Supports both cloud AI and self-hosted LLM extraction.
+利用 LLM 能力从网页中提取结构化信息。 支持云 AI 和自办 LLM 提取。
 
-**Best for:** Extracting specific structured data like prices, names, details from web pages.
-**Not recommended for:** When you need the full content of a page (use scrape); when you're not looking for specific structured data.
-**Arguments:**
-- urls: Array of URLs to extract information from
-- prompt: Custom prompt for the LLM extraction
-- schema: JSON schema for structured data extraction
-- allowExternalLinks: Allow extraction from external links
-- enableWebSearch: Enable web search for additional context
-- includeSubdomains: Include subdomains in extraction
-**Prompt Example:** "Extract the product name, price, and description from these product pages."
-**Usage Example:**
+**用于：** 从网页上提取具体的结构化数据，如价格，姓名，细节等。
+**不建议：** 当您需要一个页面的全部内容( 使用刮去); 当您没有寻找特定的结构化数据时 。
+**论点：**
+- urls: 从中提取信息的 URL 阵列
+- 提示： LLM 提取自定义提示
+- 结构数据提取的 JSON 系统
+- 允许外部 链接： 允许从外部链接提取
+- 启用 WebSearch: 启用网页搜索附加上下文
+- 包含子域： 在提取中包含子域
+**Prompt 示例：**"从这些产品页面中摘录出产品名称，价格，和描述".
+**用户示例：**
 ```json
 {
   "name": "firecrawl_extract",
@@ -181,10 +182,11 @@ Extract structured information from web pages using LLM capabilities. Supports b
   }
 }
 ```
-**Returns:** Extracted structured data as defined by your schema.
+**返回：** 提取出您计划定义的结构化数据 。
 
 
-## Usage
+<a id="usage"></a>
+## 使用量
 
 ```python
 from servers.firecrawl import firecrawl_scrape
@@ -193,4 +195,4 @@ from servers.firecrawl import firecrawl_scrape
 result = await firecrawl_scrape(params)
 ```
 
-**Note**: This file is auto-generated. Do not edit manually.
+**说明**: 此文件是自动生成的 。 不手工编辑。

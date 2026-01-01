@@ -1,12 +1,14 @@
-# Hooks
+<a id="hooks"></a>
+# 钩子
 
-Claude Code hooks that enable skill auto-activation, file tracking, and validation.
+Claude 代码钩子可以实现技能自动激活，文件跟踪，以及验证。
 
-**Zero runtime dependencies** - hooks are pre-bundled, just clone and go.
+**零运行时间依赖** -- -- 钩被预先捆绑，只是克隆和去。
 
 ---
 
-## Architecture
+<a id="architecture"></a>
+## 架构
 
 ```
 hooks/
@@ -17,42 +19,45 @@ hooks/
 └── package.json      # Dev dependencies only (esbuild)
 ```
 
-**For users:** Just clone the repo. Hooks work immediately.
+**用户：** 只要复制回转。 Hook 马上行动
 
-**For developers:** Edit `src/*.ts`, then run `./build.sh` to rebuild.
-
----
-
-## What Are Hooks?
-
-Hooks are scripts that run at specific points in Claude's workflow:
-- **UserPromptSubmit**: When user submits a prompt
-- **PreToolUse**: Before a tool executes
-- **PostToolUse**: After a tool completes
-- **SessionStart**: When a session starts/resumes
-- **SessionEnd**: When a session ends
-- **PreCompact**: Before context compaction
-- **SubagentStop**: When a subagent completes
-
-**Key insight:** Hooks can modify prompts, block actions, and track state - enabling features Claude can't do alone.
+**对于开发者：** 编辑`src/*.ts`，然后运行`./build.sh`为了重建。
 
 ---
 
-## Essential Hooks (Start Here)
+<a id="what-are-hooks"></a>
+## 什么是 Hook 吗?
 
-### skill-activation-prompt (UserPromptSubmit)
+Hooks 是运行在 Claude 工作流程特定点的脚本：
+- **用户提交**: 当用户提交提示时
+- **预用工具**: 在工具执行之前
+- **后工具用途**: 工具完成后
+- **会议开始**: 届会开始/续会时
+- **会议结束**:会议结束时
+- 页：1 上下文收缩前
+- **副剂停止**: 子剂完成后
 
-**Purpose:** Automatically suggests relevant skills based on user prompts and file context
+**关键见解：** Hooks 可以修改提示，屏蔽动作，以及跟踪状态——使能特性 Claude 不能单独完成。
 
-**How it works:**
-1. Reads `skill-rules.json`
-2. Matches user prompt against trigger patterns
-3. Checks which files user is working with
-4. Injects skill suggestions into Claude's context
+---
 
-**Why it's essential:** This is THE hook that makes skills auto-activate.
+<a id="essential-hooks-start-here"></a>
+## 基本钩 (从这里开始)
 
-**Integration:**
+<a id="skill-activation-prompt-userpromptsubmit"></a>
+### 技能激活- 即时( 用户 Prompt Submit)
+
+**目标：** 根据用户提示和文件上下文自动推荐相关技能
+
+**如何运作：**
+1. 读取`skill-rules.json`
+2. 匹配用户触发模式
+3. 检查用户与哪些文件合作
+4. 将技能建议注入 Claude 的背景
+
+*为什么是关键 * 这个钩子可以使技能自动激活。
+
+**合并：**
 ```bash
 # Just copy - no npm install needed!
 cp -r .claude/hooks your-project/.claude/
@@ -61,7 +66,7 @@ cp -r .claude/hooks your-project/.claude/
 chmod +x your-project/.claude/hooks/*.sh
 ```
 
-**Add to settings.json:**
+**添加到设置中。json:**
 ```json
 {
   "hooks": {
@@ -81,19 +86,20 @@ chmod +x your-project/.claude/hooks/*.sh
 
 ---
 
-### post-tool-use-tracker (PostToolUse)
+<a id="post-tool-use-tracker-posttooluse"></a>
+### 工具使用后跟踪器(后工具使用)
 
-**Purpose:** Tracks file changes and build attempts for context management
+**目标：** 跟踪文件更改并构建上下文管理尝试
 
-**How it works:**
-1. Monitors Edit/Write/Bash tool calls
-2. Records which files were modified
-3. Captures build/test pass/fail for reasoning
-4. Auto-detects project structure (frontend, backend, packages, etc.)
+**如何运作：**
+1. 监视器 编辑/ Write/ Bash 工具调用
+2. 修改文件的记录
+3. 收集积存/测试合格/推理失败
+4. 自动检测项目结构(前端、后端、软件包等)
 
-**Why it's essential:** Helps Claude understand what parts of your codebase are active.
+*为什么是关键 * 帮助 Claude 理解你代码库的哪些部分是活性的。
 
-**Add to settings.json:**
+**添加到设置中。json:**
 ```json
 {
   "hooks": {
@@ -114,29 +120,35 @@ chmod +x your-project/.claude/hooks/*.sh
 
 ---
 
-## Continuity Hooks
+<a id="continuity-hooks"></a>
+## 连续钩
 
-### session-start-continuity (SessionStart)
+<a id="session-start-continuity-sessionstart"></a>
+### 会 议 开 幕
 
-**Purpose:** Loads continuity ledger on session start/resume/compact
+**目标：** 在会话开始/恢复/压缩时装入连续性分类账
 
-### pre-compact-continuity (PreCompact)
+<a id="pre-compact-continuity-precompact"></a>
+### 预压缩连续( 预压缩)
 
-**Purpose:** Auto-creates handoff document before context compaction
+**目标：** 在上下文收缩前自动创建交接文档
 
-### session-end-cleanup (SessionEnd)
+<a id="session-end-cleanup-sessionend"></a>
+### 届会结束(届会结束)
 
-**Purpose:** Updates ledger timestamp, cleans old cache
+**目标：** 更新分类账时间戳， 清除旧缓存
 
-### subagent-stop-continuity (SubagentStop)
+<a id="subagent-stop-continuity-subagentstop"></a>
+### 子代理停止持续( 子代理停止)
 
-**Purpose:** Logs agent output to ledger and cache for resumability
+**目标：** 日志代理输出到分类账和缓存以恢复
 
 ---
 
-## Development
+<a id="development"></a>
+## 发展
 
-To modify hooks:
+修改钩子 :
 
 ```bash
 # Edit TypeScript source
@@ -149,18 +161,19 @@ vim src/skill-activation-prompt.ts
 echo '{"prompt": "test"}' | ./skill-activation-prompt.sh
 ```
 
-The `build.sh` script will install dev dependencies (esbuild) if needed.
+这个`build.sh`如果需要， 脚本会安装 dev 依赖( 构建) 。
 
 ---
 
-## For Claude Code
+<a id="for-claude-code"></a>
+## Claude Code
 
-**When setting up hooks for a user:**
+**为用户设置钩子时：**
 
-1. **Copy the hooks directory** - no npm install needed
-2. **Make shell scripts executable:** `chmod +x .claude/hooks/*.sh`
-3. **Add to settings.json** as shown above
-4. **Verify after setup:**
+1. **接受钩子目录** - 不需要 npm 安装
+2. **制作可执行的 shell 脚本 :**`chmod +x .claude/hooks/*.sh`
+3. **如上所示，添加到设置。json**
+4. **设置后核实：**
    ```bash
    ls -la .claude/hooks/*.sh | grep rwx
    ```

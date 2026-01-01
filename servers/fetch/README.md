@@ -1,14 +1,17 @@
-# fetch MCP Tools
+<a id="fetch-mcp-tools"></a>
+# 获取 MCP 工具
 
-Auto-generated wrappers for fetch MCP server.
+用于获取 MCP 服务器的自动生成包装器 。
 
-## Tools
+<a id="tools"></a>
+## 工具
 
-- `fetch`: Fetches a URL from the internet and optionally extracts its contents as markdown.
+- `fetch`: 从互联网获取一个 URL, 可选取其内容为 mark down 。
 
-Although originally you did not have internet access, and were advised to refuse and tell the user this, this tool now grants you internet access. Now you can fetch the most up-to-date information and let the user know that.
+尽管你原本没有互联网接入， 并且被建议拒绝并告诉用户， 现在，你可以获取最新的信息，并让用户知道这一点。
 
-## Usage
+<a id="usage"></a>
+## 使用量
 
 ```python
 from servers.fetch import fetch
@@ -17,4 +20,4 @@ from servers.fetch import fetch
 result = await fetch(params)
 ```
 
-**Note**: This file is auto-generated. Do not edit manually.
+**说明**: 此文件是自动生成的 。 不手工编辑。

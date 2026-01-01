@@ -2,40 +2,46 @@
 description: Search past reasoning for relevant decisions and approaches
 ---
 
-# Recall Past Work
+<a id="recall-past-work"></a>
+# 回顾过去的工作
 
-Search through previous sessions to find relevant decisions, approaches that worked, and approaches that failed. Queries two sources:
+通过前几次会议寻找相关决定、行之有效的办法和失败的办法。 查询两个来源：
 
-1. **Artifact Index** - Handoffs, plans, ledgers with post-mortems (what worked/failed)
-2. **Reasoning Files** - Build attempts, test failures, commit context
+1. **艺术指数** -- -- 死后处理、计划、分类账(可行/失败)
+2. **Reasoning 文件** - 构建尝试，测试失败，承诺上下文
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Starting work similar to past sessions
-- "What did we do last time with X?"
-- Looking for patterns that worked before
-- Investigating why something was done a certain way
-- Debugging an issue encountered previously
+- 开始类似于以往届会的工作
+- "我们上次对 X 做了什么?"
+- 寻找以前有效的模式
+- 调查为什么有事情发生
+- 调试之前遇到的问题
 
-## Usage
+<a id="usage"></a>
+## 使用量
 
-### Primary: Artifact Index (rich context)
+<a id="primary-artifact-index-rich-context"></a>
+### 初级：人工活性指数(丰富背景)
 
 ```bash
 uv run python scripts/artifact_query.py "<query>" [--outcome SUCCEEDED|FAILED] [--limit N]
 ```
 
-This searches handoffs with post-mortems (what worked, what failed, key decisions).
+这种以验尸(什么有效，什么失败，什么关键决定)进行搜索。
 
-### Secondary: Reasoning Files (build attempts)
+<a id="secondary-reasoning-files-build-attempts"></a>
+### 二级：理由文件(建设尝试)
 
 ```bash
 bash .claude/scripts/search-reasoning.sh "<query>"
 ```
 
-This searches `.git/claude/commits/*/reasoning.md` for build failures and fixes.
+这个搜索`.git/claude/commits/*/reasoning.md`建造失败和修复。
 
-## Examples
+<a id="examples"></a>
+## 实例
 
 ```bash
 # Search for authentication-related work
@@ -51,46 +57,50 @@ uv run python scripts/artifact_query.py "hook implementation" --outcome FAILED
 bash .claude/scripts/search-reasoning.sh "TypeError"
 ```
 
-## What Gets Searched
+<a id="what-gets-searched"></a>
+## 搜索内容
 
-**Artifact Index** (handoffs, plans, ledgers):
-- Task summaries and status
-- **What worked** - Successful approaches
-- **What failed** - Dead ends and why
-- **Key decisions** - Choices with rationale
-- Goal and constraints from ledgers
+**Artifact Index**(手头、计划、分类账):
+- 任务摘要和现况
+- **有效** - 成功办法
+- *什么失败* - 死亡结局和原因
+- **关键决定** - 附有理由的选择
+- 目标及分类账的限制
 
-**Reasoning Files** (`.git/claude/`):
-- Failed build attempts and error output
-- Successful builds after failures
-- Commit context and branch info
+**重解析文件** (% 1)`.git/claude/`):
+- 构建尝试和出错输出失败
+- 失败后成功构建
+- 提交上下文和分支信息
 
-## Interpreting Results
+<a id="interpreting-results"></a>
+## 解释结果
 
-**From Artifact Index:**
-- `✓` = SUCCEEDED outcome (pattern to follow)
-- `✗` = FAILED outcome (pattern to avoid)
-- `?` = UNKNOWN outcome (not yet marked)
-- Post-mortem sections show distilled learnings
+**来自人工活性指数：**
+- `✓`= 特别会议的结果(形式如下)
+- `✗`=结果不全(为避免)
+- `?`= 联合国大学成果(尚未标明)
+- 死后部分展现出精炼出的知识
 
-**From Reasoning:**
-- `build_fail` = approach that didn't work
-- `build_pass` = what finally succeeded
-- Multiple failures before success = non-trivial problem
+**理由：**
+- `build_fail`=没有用的方法
+- `build_pass`= 最终成功的东西
+- 成功前多次失败 = 非部落问题
 
-## Process
+<a id="process"></a>
+## 进程
 
-1. **Run Artifact Index query first** - richer context, post-mortems
-2. **Review relevant handoffs** - check what worked/failed sections
-3. **If needed, search reasoning** - for specific build errors
-4. **Apply learnings** - follow successful patterns, avoid failed ones
+1. **运行艺术 索引查询第一** - 内容更丰富，死后
+2. **审查相关的交割** -- -- 检查哪些款已奏效/失效
+3. **如果需要，搜索推理** - 具体构建错误
+4. **Apply learning** - 遵循成功模式，避免失败模式
 
-## No Results?
+<a id="no-results"></a>
+## 没有结果?
 
-**Artifact Index empty:**
-- Run `uv run python scripts/artifact_index.py --all` to index existing handoffs
-- Create handoffs with post-mortem sections for future recall
+**制品索引（Artifact Index）为空：**
+- 运行`uv run python scripts/artifact_index.py --all`以索引当前交割
+- 制作配有尸检部的交割，供今后召回
 
-**Reasoning files empty:**
-- Use `/commit` after builds to capture reasoning
-- Check if `.git/claude/` directory exists
+**正在重解文件为空 :**
+- 使用`/commit`在构建后获取推理
+- 检查是否`.git/claude/`目录已存在

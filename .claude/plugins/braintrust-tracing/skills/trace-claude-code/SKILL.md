@@ -6,11 +6,13 @@ description: |
 version: 1.1.0
 ---
 
-# Trace Claude Code to Braintrust
+<a id="trace-claude-code-to-braintrust"></a>
+# 追踪 Claude Code 到大 Braintrust 任
 
-Automatically send Claude Code conversations to Braintrust for tracing and observability. Get full visibility into your AI coding sessions with hierarchical traces showing sessions, turns, and every tool call.
+自动向 Braintrust 发送 Claude 代码对话，用于追踪和可观察性。 在您的 AI 编码会话中获得全能可见度， 并带有显示会话、 转弯和每个工具呼叫的分级痕迹 。
 
-## What you get
+<a id="what-you-get"></a>
+## 你得到的东西
 
 ```
 Claude Code Session (root trace)
@@ -27,38 +29,43 @@ Claude Code Session (root trace)
     └── Response: "Changes committed..."
 ```
 
-## How it works
+<a id="how-it-works"></a>
+## 如何运作
 
-Four hooks capture the complete workflow:
+四通钩捕捉到完整的工作流程：
 
-| Hook | What it captures |
+| 钩子 | 它捕捉到的东西 |
 |------|------------------|
-| **SessionStart** | Creates root trace when you start Claude Code |
-| **PostToolUse** | Captures every tool call (file reads, edits, terminal commands) |
-| **Stop** | Captures conversation turns (your message + Claude's response) |
-| **SessionEnd** | Logs session summary when you exit |
+| **会议开始** | 启动 Claude 代码时创建根跟踪 |
+| **后工具的使用** | 抓取每个工具调用( 文件读取、 编辑、 终端命令) |
+| **停车** | 抓取对话转动( 您的消息 + Claude 的答复) |
+| **会议结束** | 退出时日志会话摘要 |
 
-## Quick setup
+<a id="quick-setup"></a>
+## 快速设置
 
-Run the setup script in any project directory where you want tracing:
+在任何项目目录中运行要跟踪的设置脚本 :
 
 ```bash
 bash /path/to/skills/trace-claude-code/setup.sh
 ```
 
-The script prompts for your API key and project name, then configures all hooks automatically.
+您的 API 密钥和工程名称的脚本提示， 然后自动配置所有钩子 。
 
-## Manual setup
+<a id="manual-setup"></a>
+## 手动设置
 
-### Prerequisites
+<a id="prerequisites"></a>
+### 先决条件
 
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) installed
-- [Braintrust API key](https://www.braintrust.dev/app/settings/api-keys)
-- `jq` command-line tool (`brew install jq` on macOS)
+- [Claude 代码 CLI](https://docs.anthropic.com/en/docs/claude-code)已安装
+- [大 Braintrust 任 API 密钥](https://www.braintrust.dev/app/settings/api-keys)
+- `jq`命令行工具( R)`brew install jq`在 macOS 上).
 
-### Configuration
+<a id="configuration"></a>
+### 配置
 
-Create `.claude/settings.local.json` in your project directory:
+创建`.claude/settings.local.json`在您的工程目录中 :
 
 ```json
 {
@@ -113,65 +120,70 @@ Create `.claude/settings.local.json` in your project directory:
 }
 ```
 
-Replace `/path/to/hooks/` with the actual path to this skill's hooks directory.
+替换`/path/to/hooks/`与本技能的钩子目录的实际路径相通。
 
-### Environment variables
+<a id="environment-variables"></a>
+### 环境变量
 
-| Variable | Required | Description |
+| 变量 | 需求 | 说明 |
 |----------|----------|-------------|
-| `TRACE_TO_BRAINTRUST` | Yes | Set to `"true"` to enable tracing |
-| `BRAINTRUST_API_KEY` | Yes | Your Braintrust API key |
-| `BRAINTRUST_CC_PROJECT` | No | Project name (default: `claude-code`) |
-| `BRAINTRUST_CC_DEBUG` | No | Set to `"true"` for verbose logging |
+| `TRACE_TO_BRAINTRUST` | 对 | 设定为`"true"`追踪 |
+| `BRAINTRUST_API_KEY` | 对 | 您的大 Braintrust 任 API 密钥 |
+| `BRAINTRUST_CC_PROJECT` | No | 项目名称( 默认 ):`claude-code`) |
+| `BRAINTRUST_CC_DEBUG` | No | 设定为`"true"`用于动词记录 |
 
-## Viewing traces
+<a id="viewing-traces"></a>
+## 查看痕迹
 
-After running Claude Code with tracing enabled:
+运行 Claude 代码并启用追踪后 :
 
-1. Go to [braintrust.dev](https://www.braintrust.dev)
-2. Navigate to your project (e.g., `claude-code`)
-3. Click **Logs** to see all traced sessions
+1. 转到[大 Braintrust 任。dev](https://www.braintrust.dev)
+2. 导航您的项目( 例如 )`claude-code`)
+3. 点击 **日志** 查看所有可追溯到的会话
 
-Each trace shows:
-- **Session root**: The overall Claude Code session
-- **Turns**: Each conversation exchange (user input → assistant response)
-- **Tool calls**: Individual operations (file reads, edits, terminal commands)
+每个痕迹都显示：
+- **会议根**: Claude 代码会议
+- **转接**:每次对话交流(用户输入 = 助理响应)
+- ** 电话： 单个操作( 文件读取、 编辑、 终端命令)
 
-## Trace structure
+<a id="trace-structure"></a>
+## 跟踪结构
 
-Traces are hierarchical:
+追踪有等级：
 
-- **Session** (root span)
+- **会议**(根相间)
   - `span_attributes.type`: `"task"`
-  - `metadata.session_id`: Unique session identifier
-  - `metadata.workspace`: Project directory
+  - `metadata.session_id`: 独特的会话标识符
+  - `metadata.workspace`: 项目目录
 
-- **Turn** (child of session)
+- **转会**(届会子女)
   - `span_attributes.type`: `"llm"`
-  - `input`: User message
-  - `output`: Assistant response
-  - `metadata.turn_number`: Sequential turn number
+  - `input`: 用户消息
+  - `output`助理答复
+  - `metadata.turn_number`: 顺序转号
 
-- **Tool call** (child of turn or session)
+- **调用工具**(轮班或会议子女)
   - `span_attributes.type`: `"tool"`
-  - `input`: Tool input (file path, command, etc.)
-  - `output`: Tool result
-  - `metadata.tool_name`: Name of the tool used
+  - `input`: 工具输入(文件路径，命令等)
+  - `output`: 工具结果
+  - `metadata.tool_name`: 所使用的工具名称
 
-## Troubleshooting
+<a id="troubleshooting"></a>
+## 解决问题
 
-### No traces appearing
+<a id="no-traces-appearing"></a>
+### 没有痕迹
 
-1. **Check hooks are running:**
+1. **检查钩正在运行：**
    ```bash
    tail -f ~/.claude/state/braintrust_hook.log
    ```
 
-2. **Verify environment variables** in `.claude/settings.local.json`:
-   - `TRACE_TO_BRAINTRUST` must be `"true"`
-   - `BRAINTRUST_API_KEY` must be valid
+2. **验证环境变量**`.claude/settings.local.json`:
+   - `TRACE_TO_BRAINTRUST`必须是`"true"`
+   - `BRAINTRUST_API_KEY`必须是有效的
 
-3. **Enable debug mode:**
+3. **可启用调试模式 :**
    ```json
    {
      "env": {
@@ -180,31 +192,35 @@ Traces are hierarchical:
    }
    ```
 
-### Permission errors
+<a id="permission-errors"></a>
+### 权限错误
 
-Make hook scripts executable:
+使钩脚本可执行 :
 
 ```bash
 chmod +x /path/to/hooks/*.sh
 ```
 
-### Missing jq command
+<a id="missing-jq-command"></a>
+### 缺少 jq 命令
 
-Install jq:
-- **macOS**: `brew install jq`
-- **Ubuntu/Debian**: `sudo apt-get install jq`
+安装 jq :
+- **macOS**:`brew install jq`
+- **Ubuntu/Debian**:`sudo apt-get install jq`
 
-### State issues
+<a id="state-issues"></a>
+### 国家问题
 
-Reset the tracing state:
+重置追踪状态 :
 
 ```bash
 rm ~/.claude/state/braintrust_state.json
 ```
 
-### Hook logs
+<a id="hook-logs"></a>
+### 钩子日志
 
-View detailed hook execution logs:
+查看详细的钩子执行日志 :
 
 ```bash
 # Follow logs in real-time
@@ -217,7 +233,8 @@ tail -50 ~/.claude/state/braintrust_hook.log
 > ~/.claude/state/braintrust_hook.log
 ```
 
-## File structure
+<a id="file-structure"></a>
+## 文件结构
 
 ```
 hooks/
@@ -228,9 +245,10 @@ hooks/
 └── session_end.sh     # Finalizes trace
 ```
 
-## Alternative: SDK integration
+<a id="alternative-sdk-integration"></a>
+## 替代品：SDK 集成
 
-For programmatic use with the Claude Agent SDK, use the native Braintrust integration:
+为了与 Claude Agent SDK 一起进行方案使用，使用本地 Braintrust 整合：
 
 ```typescript
 import { initLogger, wrapClaudeAgentSDK } from "braintrust";
@@ -244,4 +262,4 @@ initLogger({
 const { query, tool } = wrapClaudeAgentSDK(claudeSDK);
 ```
 
-See [Braintrust Claude Agent SDK docs](https://www.braintrust.dev/docs/integrations/sdk-integrations/claude-agent-sdk) for details.
+见[Claude Agent SDK 文件](https://www.braintrust.dev/docs/integrations/sdk-integrations/claude-agent-sdk)详细情况。

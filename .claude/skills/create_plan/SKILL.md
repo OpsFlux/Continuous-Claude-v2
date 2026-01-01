@@ -3,20 +3,22 @@ description: Create detailed implementation plans through interactive research a
 model: opus
 ---
 
-# Implementation Plan
+<a id="implementation-plan"></a>
+# 实施计划
 
-You are tasked with creating detailed implementation plans through an interactive, iterative process. You should be skeptical, thorough, and work collaboratively with the user to produce high-quality technical specifications.
+您的任务是通过互动、迭接进程制定详细的实施计划。 您应该持怀疑态度，彻底，并与用户合作，制作高质量的技术规格。
 
-## Initial Response
+<a id="initial-response"></a>
+## 初步反应
 
-When this command is invoked:
+当引用此命令时 :
 
-1. **Check if parameters were provided**:
-   - If a file path or ticket reference was provided as a parameter, skip the default message
-   - Immediately read any provided files FULLY
-   - Begin the research process
+1. **检查是否提供了参数**:
+   - 如果提供了文件路径或票证引用作为参数， 请跳过默认信件
+   - 立即完全读取任何已提供的文件
+   - 开始研究进程
 
-2. **If no parameters provided**, respond with:
+2. **如果没有提供参数**，请回答：
 ```
 I'll help you create a detailed implementation plan. Let me start by understanding what we're building.
 
@@ -31,47 +33,49 @@ Tip: You can also invoke this command with a ticket file directly: `/create_plan
 For deeper analysis, try: `/create_plan think deeply about thoughts/allison/tickets/eng_1234.md`
 ```
 
-Then wait for the user's input.
+然后等待用户的输入。
 
-## Process Steps
+<a id="process-steps"></a>
+## 步骤
 
-### Step 1: Context Gathering & Initial Analysis
+<a id="step-1-context-gathering-initial-analysis"></a>
+### 步骤 1:背景收集与初步分析
 
-1. **Read all mentioned files immediately and FULLY**:
-   - Ticket files (e.g., `thoughts/allison/tickets/eng_1234.md`)
-   - Research documents
-   - Related implementation plans
-   - Any JSON/data files mentioned
-   - **IMPORTANT**: Use the Read tool WITHOUT limit/offset parameters to read entire files
-   - **CRITICAL**: DO NOT spawn sub-tasks before reading these files yourself in the main context
-   - **NEVER** read files partially - if a file is mentioned, read it completely
+1. **立即全面读取所有提到的文件**:
+   - 车票文件(例如，`thoughts/allison/tickets/eng_1234.md`)
+   - 研究文件
+   - 相关实施计划
+   - 提及的任何 JSON/数据文件
+   - **重要**:使用无限制/抵销参数的读取工具来读取整个文件
+   - **CRITICAL**:在自己阅读这些文件的主要背景之前，不要提出子任务
+   - **NEVER** 部分读取文件 - 如果提到文件，请完全读取
 
-2. **Spawn initial research tasks to gather context**:
-   Before asking the user any questions, use specialized agents to research in parallel:
+2. **收集背景的初步研究任务**:
+在向用户询问任何问题之前，使用专门的代理进行平行研究：
 
-   - Use the **codebase-locator** agent to find all files related to the ticket/task
-   - Use the **codebase-analyzer** agent to understand how the current implementation works
-   - If relevant, use the **thoughts-locator** agent to find any existing thoughts documents about this feature
-   - If a Linear ticket is mentioned, use the **linear-ticket-reader** agent to get full details
+   - 使用**codebase- locator** 代理查找所有与票/ 任务相关的文件
+   - 使用**codebase-analyzer** 代理来了解当前执行的运作方式
+   - 如果相关， 请使用**想法定位器** 代理查找任何关于此特性的现有想法文件
+   - 如果提到线性罚单，请使用**线性-ticket-reader**代理以获得全部细节
 
-   These agents will:
-   - Find relevant source files, configs, and tests
-   - Identify the specific directories to focus on (e.g., if WUI is mentioned, they'll focus on humanlayer-wui/)
-   - Trace data flow and key functions
-   - Return detailed explanations with file:line references
+这些代理人将：
+   - 查找相关的源文件、配置和测试
+   - 确定需要关注的具体目录(例如，如果提及 WUI，它们将侧重于人-wui/).
+   - 跟踪数据流和关键函数
+   - 以文件返回详细解释：行引用
 
-3. **Read all files identified by research tasks**:
-   - After research tasks complete, read ALL files they identified as relevant
-   - Read them FULLY into the main context
-   - This ensures you have complete understanding before proceeding
+3. **读取根据研究任务确定的所有文件**:
+   - 研究任务完成后， 读取所有文件
+   - 在主要背景下充分阅读
+   - 这保证了您在行动前完全理解
 
-4. **Analyze and verify understanding**:
-   - Cross-reference the ticket requirements with actual code
-   - Identify any discrepancies or misunderstandings
-   - Note assumptions that need verification
-   - Determine true scope based on codebase reality
+4. **分析和核实理解**:
+   - 将票价要求与实际代码相参照
+   - 查明任何出入或误解
+   - 需要核查的假设
+   - 根据代码库现实确定真实范围
 
-5. **Present informed understanding and focused questions**:
+5. **知情理解和重点突出的问题**:
    ```
    Based on the ticket and my research of the codebase, I understand we need to [accurate summary].
 
@@ -86,51 +90,52 @@ Then wait for the user's input.
    - [Design preference that affects implementation]
    ```
 
-   Only ask questions that you genuinely cannot answer through code investigation.
+只是问一些你无法真正通过密码调查回答的问题。
 
-### Step 2: Research & Discovery
+<a id="step-2-research-discovery"></a>
+### 第 2 步：研究和发现
 
-After getting initial clarifications:
+在得到初步澄清后：
 
-1. **If the user corrects any misunderstanding**:
-   - DO NOT just accept the correction
-   - Spawn new research tasks to verify the correct information
-   - Read the specific files/directories they mention
-   - Only proceed once you've verified the facts yourself
+1. **如果用户更正任何误解**:
+   - 不要只接受更正
+   - 出现新的研究任务，以核实正确信息
+   - 阅读他们提到的具体文件/目录
+   - 你只要自己查过事实 就可以继续
 
-2. **Create a research todo list** using TodoWrite to track exploration tasks
+2. **创建研究待办事宜列表** 使用 TodoWrite 来跟踪勘探任务
 
-3. **Spawn parallel sub-tasks for comprehensive research**:
-   - Create multiple Task agents to research different aspects concurrently
-   - Use the right agent for each type of research:
+3. **综合研究的平行次级任务**:
+   - 创建多个任务代理以同时研究不同方面
+   - 每种研究使用正确的代理 :
 
-   **For deeper investigation:**
-   - **codebase-locator** - To find more specific files (e.g., "find all files that handle [specific component]")
-   - **codebase-analyzer** - To understand implementation details (e.g., "analyze how [system] works")
-   - **codebase-pattern-finder** - To find similar features we can model after
+**进行更深入的调查：**
+   - **codebase-locator** - 要找到更具体的文件(例如"查找所有处理[特定组件]的文件")
+   - **Codebase-analyzer** - 理解执行细节(例如"分析[系统]如何运作").
+   - - 为了找到类似的特性，我们可以在后面模拟
 
-   **For historical context:**
-   - **thoughts-locator** - To find any research, plans, or decisions about this area
-   - **thoughts-analyzer** - To extract key insights from the most relevant documents
+**关于历史背景：**
+   - ** 寻找这方面的任何研究、计划或决定。
+   - 思想分析师** 从最相关的文件中获取关键见解
 
-   **For related tickets:**
-   - **linear-searcher** - To find similar issues or past implementations
+**有关机票：**
+   - **线性搜索器** - 寻找类似问题或过去的执行情况
 
-   **For external documentation (if needed during planning):**
-   - You can use WebSearch directly for quick lookups during planning
-   - Full research validation happens AFTER the plan via implement_plan's research-validation step
-   - Don't block planning on extensive research - the validation step catches issues before implementation
+**外部文件(如规划期间需要):**
+   - 您可以在规划中直接使用 WebSearch 进行快速搜索
+   - 通过执行 Plan 的研究-验证步骤，在计划实施后进行充分的研究验证
+   - 不要阻碍对广泛研究的规划 - 验证步骤在执行前抓住问题
 
-   Each agent knows how to:
-   - Find the right files and code patterns
-   - Identify conventions and patterns to follow
-   - Look for integration points and dependencies
-   - Return specific file:line references
-   - Find tests and examples
+每个代理都知道如何：
+   - 查找正确的文件和代码模式
+   - 确定将遵循的公约和模式
+   - 寻找集成点和依赖
+   - 返回特定文件：行引用
+   - 查找测试和实例
 
-3. **Wait for ALL sub-tasks to complete** before proceeding
+3. **在所有次级任务完成之前等待**
 
-4. **Present findings and design options**:
+4. **现有调查结果和设计备选方案**:
    ```
    Based on my research, here's what I found:
 
@@ -149,11 +154,12 @@ After getting initial clarifications:
    Which approach aligns best with your vision?
    ```
 
-### Step 3: Plan Structure Development
+<a id="step-3-plan-structure-development"></a>
+### 步骤 3:计划结构发展
 
-Once aligned on approach:
+一旦与方法保持一致：
 
-1. **Create initial plan outline**:
+1. **拟订初步计划大纲**:
    ```
    Here's my proposed plan structure:
 
@@ -168,22 +174,23 @@ Once aligned on approach:
    Does this phasing make sense? Should I adjust the order or granularity?
    ```
 
-2. **Get feedback on structure** before writing details
+2. **在撰写细节之前获得结构反馈**
 
-### Step 4: Detailed Plan Writing
+<a id="step-4-detailed-plan-writing"></a>
+### 第 4 步：详细计划编写
 
-After structure approval:
+结构批准后：
 
-1. **Ensure directory exists**: Run `mkdir -p thoughts/shared/plans`
-2. **Write the plan** to `thoughts/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
-   - Format: `YYYY-MM-DD-ENG-XXXX-description.md` where:
+1. **确保存在目录** : 运行`mkdir -p thoughts/shared/plans`
+2. **拟订计划**`thoughts/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
+   - 格式 :`YYYY-MM-DD-ENG-XXXX-description.md`其中：
      - YYYY-MM-DD is today's date
      - ENG-XXXX is the ticket number (omit if no ticket)
      - description is a brief kebab-case description
-   - Examples:
+   - 实例：
      - With ticket: `2025-01-08-ENG-1478-parent-child-tracking.md`
      - Without ticket: `2025-01-08-improve-error-handling.md`
-2. **Use this template structure**:
+2. **使用本模板结构**:
 
 ````markdown
 # [Feature/Task Name] Implementation Plan
@@ -225,7 +232,7 @@ After structure approval:
 **Changes**: [Summary of changes]
 
 ```[language]
-// Specific code to add/modify
+//添加/修改的特定代码
 ```
 
 ### Success Criteria:
@@ -282,9 +289,10 @@ After structure approval:
 - Similar implementation: `[file:line]`
 ````
 
-### Step 5: Review
+<a id="step-5-review"></a>
+### 步骤 5:审查
 
-1. **Present the draft plan location**:
+1. **提出计划草案地点**:
    ```
    I've created the initial implementation plan at:
    `thoughts/shared/plans/YYYY-MM-DD-ENG-XXXX-description.md`
@@ -296,70 +304,72 @@ After structure approval:
    - Missing edge cases or considerations?
    ```
 
-3. **Iterate based on feedback** - be ready to:
-   - Add missing phases
-   - Adjust technical approach
-   - Clarify success criteria (both automated and manual)
-   - Add/remove scope items
+3. **基于反馈的计算** - 准备：
+   - 添加缺失的相片
+   - 调整技术办法
+   - 明确成功标准(自动化和人工)
+   - 增加/删除范围项目
 
-4. **Continue refining** until the user is satisfied
+4. **继续提炼**直至用户满意
 
-## Important Guidelines
+<a id="important-guidelines"></a>
+## 重要准则
 
-1. **Be Skeptical**:
-   - Question vague requirements
-   - Identify potential issues early
-   - Ask "why" and "what about"
-   - Don't assume - verify with code
+1. **持怀疑态度**:
+   - 问题模糊的要求
+   - 及早查明潜在的问题
+   - 问"为什么"和"关于"
+   - 不要假设 - 用密码验证
 
-2. **Be Interactive**:
-   - Don't write the full plan in one shot
-   - Get buy-in at each major step
-   - Allow course corrections
-   - Work collaboratively
+2. **互动**:
+   - 不要把计划写成一枪
+   - 每一步都买入
+   - 允许校正课程
+   - 协作
 
-3. **Be Thorough**:
-   - Read all context files COMPLETELY before planning
-   - Research actual code patterns using parallel sub-tasks
-   - Include specific file paths and line numbers
-   - Write measurable success criteria with clear automated vs manual distinction
-   - automated steps should use `make` whenever possible - for example `make -C humanlayer-wui check` instead of `cd humanlayer-wui && bun run fmt`
+3. * 彻底**:
+   - 在规划前读取全部上下文文件
+   - 使用平行子任务研究实际代码模式
+   - 包含特定文件路径和行号
+   - 使用清晰的自动比对手动区分来写入可衡量的成功标准
+   - 自动步骤应使用`make`尽可能 -- -- 例如`make -C humanlayer-wui check`改为`cd humanlayer-wui && bun run fmt`
 
-4. **Be Practical**:
-   - Focus on incremental, testable changes
-   - Consider migration and rollback
-   - Think about edge cases
-   - Include "what we're NOT doing"
+4. **实用**:
+   - 注重递增的、可验证的变化
+   - 考虑迁移和回滚
+   - 想一想边缘的情况
+   - 包括"我们不做的事"
 
-5. **Track Progress**:
-   - Use TodoWrite to track planning tasks
-   - Update todos as you complete research
-   - Mark planning tasks complete when done
+5. **跟踪进展**:
+   - 使用 todoWrite 来跟踪规划任务
+   - 完成研究时更新待办事宜
+   - 完成标记规划任务
 
-6. **No Open Questions in Final Plan**:
-   - If you encounter open questions during planning, STOP
-   - Research or ask for clarification immediately
-   - Do NOT write the plan with unresolved questions
-   - The implementation plan must be complete and actionable
-   - Every decision must be made before finalizing the plan
+6. **最后计划中没有公开的问题**:
+   - 如果在规划过程中遇到未决问题，请停止
+   - 立即进行研究或要求澄清
+   - 不要将未解决的问题写入计划
+   - 实施计划必须完整且可操作
+   - 在最后确定计划之前，必须作出每一项决定
 
-## Success Criteria Guidelines
+<a id="success-criteria-guidelines"></a>
+## 成功标准准则
 
-**Always separate success criteria into two categories:**
+**将成功标准分为两类：**
 
-1. **Automated Verification** (can be run by execution agents):
-   - Commands that can be run: `make test`, `npm run lint`, etc.
-   - Specific files that should exist
-   - Code compilation/type checking
-   - Automated test suites
+1. **自动核查**(可由执行人员进行):
+   - 可运行的命令 :`make test`, `npm run lint`等 (中文(简体) ).
+   - 应存在的具体文件
+   - 代码汇编/类型检查
+   - 自动测试套房
 
-2. **Manual Verification** (requires human testing):
-   - UI/UX functionality
-   - Performance under real conditions
-   - Edge cases that are hard to automate
-   - User acceptance criteria
+2. **人工核查**(需要人体试验):
+   - UI/UX 函数
+   - 实际条件下的业绩
+   - 难以自动化的边框
+   - 用户接受标准
 
-**Format example:**
+**实例：**
 ```markdown
 ### Success Criteria:
 
@@ -376,53 +386,58 @@ After structure approval:
 - [ ] Feature works correctly on mobile devices
 ```
 
-## Common Patterns
+<a id="common-patterns"></a>
+## 常见模式
 
-### For Database Changes:
-- Start with schema/migration
-- Add store methods
-- Update business logic
-- Expose via API
-- Update clients
+<a id="for-database-changes"></a>
+### 数据库更改：
+- 从计划/移民开始
+- 添加存储方法
+- 更新业务逻辑
+- 通过 API 曝光
+- 更新客户端
 
-### For New Features:
-- Research existing patterns first
-- Start with data model
-- Build backend logic
-- Add API endpoints
-- Implement UI last
+<a id="for-new-features"></a>
+### 新特性 :
+- 首先研究现有模式
+- 从数据模型开始
+- 构建后端逻辑
+- 添加 API 端点
+- 最后一个执行 UI
 
-### For Refactoring:
-- Document current behavior
-- Plan incremental changes
-- Maintain backwards compatibility
-- Include migration strategy
+<a id="for-refactoring"></a>
+### 用于重构 :
+- 记录当前行为
+- 计划增量变化
+- 保持后向兼容性
+- 纳入移徙战略
 
-## Sub-task Spawning Best Practices
+<a id="sub-task-spawning-best-practices"></a>
+## 推广最佳做法
 
-When spawning research sub-tasks:
+产入研究子任务时：
 
-1. **Spawn multiple tasks in parallel** for efficiency
-2. **Each task should be focused** on a specific area
-3. **Provide detailed instructions** including:
-   - Exactly what to search for
-   - Which directories to focus on
-   - What information to extract
-   - Expected output format
-4. **Be EXTREMELY specific about directories**:
-   - If the ticket mentions "WUI", specify `humanlayer-wui/` directory
-   - If it mentions "daemon", specify `hld/` directory
-   - Never use generic terms like "UI" when you mean "WUI"
-   - Include the full path context in your prompts
-5. **Specify read-only tools** to use
-6. **Request specific file:line references** in responses
-7. **Wait for all tasks to complete** before synthesizing
-8. **Verify sub-task results**:
-   - If a sub-task returns unexpected results, spawn follow-up tasks
-   - Cross-check findings against the actual codebase
-   - Don't accept results that seem incorrect
+1. **为提高效率，同时开展多项任务**
+2. ** 每项任务应侧重于某一具体领域。
+3. **提供详细指示**，包括：
+   - 到底该找什么
+   - 要关注的目录
+   - 什么信息可以提取
+   - 预期产出格式
+4. **关于目录要非常具体**:
+   - 如果票中提到"WUI"，请具体说明`humanlayer-wui/`目录
+   - 如果提到"恶魔"，请说明`hld/`目录
+   - 永远不要用"UI"这样的通称 当你指"WUI"
+   - 在提示中包含完整路径上下文
+5. **指定只读工具** 用于
+6. **在答复中请求具体文件：行参考**
+7. **等待所有任务完成** 才能合成
+8. **核实次级任务成果**:
+   - 如果子任务返回出乎意料的结果， 则产入后续任务
+   - 对照实际密码库进行交叉核对
+   - 不要接受看似不对的结果
 
-Example of spawning multiple tasks:
+产入多个任务的例子 :
 ```python
 # Spawn these tasks concurrently:
 tasks = [
@@ -433,7 +448,7 @@ tasks = [
 ]
 ```
 
-Example of spawning research-agent for external docs:
+外部文献的产卵研究剂实例：
 ```
 Task(
   subagent_type="general-purpose",
@@ -465,9 +480,10 @@ Task(
 )
 ```
 
-After research-agent returns, read its handoff before finalizing your plan.
+在研究代理返回后 在完成计划前先读一下
 
-## Example Interaction Flow
+<a id="example-interaction-flow"></a>
+## 互动流动示例
 
 ```
 User: /create_plan

@@ -4,20 +4,23 @@ description: Meta-skill for creating and managing Claude Code skills
 allowed-tools: [Bash, Read, Write, Edit]
 ---
 
-# Skill Developer
+<a id="skill-developer"></a>
+# 技能开发者
 
-Meta-skill for creating new Claude Code skills, including skills that wrap MCP pipelines.
+用于创造 Claude 密码新技能的元技能，包括包接 MCP 管线的技能。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- "Create a skill for X"
-- "Help me make a new skill"
-- "Turn this script into a skill"
-- "How do I create a skill?"
+- "为 X 创造技能"
+- "帮我做个新技能"
+- "把这个剧本变成技巧"
+- "我怎样创造技能?"
 
-## Skill Structure
+<a id="skill-structure"></a>
+## 技能结构
 
-Skills live in `.claude/skills/<skill-name>/`:
+技能生活在`.claude/skills/<skill-name>/`:
 
 ```
 .claude/skills/my-skill/
@@ -26,7 +29,8 @@ Skills live in `.claude/skills/<skill-name>/`:
 └── templates/        # Optional: Templates, examples
 ```
 
-### SKILL.md Format
+<a id="skillmd-format"></a>
+### SKILL.md 格式
 
 ```yaml
 ---
@@ -47,28 +51,31 @@ allowed-tools: [Bash, Read, Write]  # Optional: restrict tools
 [Usage examples]
 ```
 
-## Creating an MCP Pipeline Skill
+<a id="creating-an-mcp-pipeline-skill"></a>
+## 创建 MCP 管道技能
 
-To create a new MCP chain script and wrap it as a skill:
+要创建新的 MCP 链脚本并把它包装成一种技能：
 
-### Step 1: Use the Template
+<a id="step-1-use-the-template"></a>
+### 步骤 1:使用模板
 
-Copy the multi-tool-pipeline template:
+复制多工具管模板 :
 
 ```bash
 cp $CLAUDE_PROJECT_DIR/scripts/multi_tool_pipeline.py $CLAUDE_PROJECT_DIR/scripts/my_pipeline.py
 ```
 
-Reference the template pattern:
+引用模板模式 :
 
 ```bash
 cat $CLAUDE_PROJECT_DIR/.claude/skills/multi-tool-pipeline/SKILL.md
 cat $CLAUDE_PROJECT_DIR/scripts/multi_tool_pipeline.py
 ```
 
-### Step 2: Customize the Script
+<a id="step-2-customize-the-script"></a>
+### 步骤 2: 自定义脚本
 
-Edit your new script to chain the MCP tools you need:
+编辑您的新脚本以链接您需要的 MCP 工具 :
 
 ```python
 async def main():
@@ -82,9 +89,10 @@ async def main():
     print(result2)
 ```
 
-### Step 2: Create the Skill
+<a id="step-2-create-the-skill"></a>
+### 第 2 步： 创建技能
 
-Create `.claude/skills/my-pipeline/SKILL.md`:
+创建`.claude/skills/my-pipeline/SKILL.md`:
 
 ```markdown
 ---
@@ -114,9 +122,10 @@ uv run python -m runtime.harness scripts/my_pipeline.py --arg1 "value"
 - server2: For tool2
 ```
 
-### Step 3: Add Triggers (Optional)
+<a id="step-3-add-triggers-optional"></a>
+### 第 3 步：添加触发器(可选)
 
-Add to `.claude/skills/skill-rules.json`:
+添加为`.claude/skills/skill-rules.json`:
 
 ```json
 {
@@ -135,26 +144,29 @@ Add to `.claude/skills/skill-rules.json`:
 }
 ```
 
-## Reference Files
+<a id="reference-files"></a>
+## 参考文件
 
-For full details, read:
+将所有细节改为：
 
 ```bash
 cat $CLAUDE_PROJECT_DIR/.claude/rules/skill-development.md
 cat $CLAUDE_PROJECT_DIR/.claude/rules/mcp-scripts.md
 ```
 
-## Quick Checklist
+<a id="quick-checklist"></a>
+## 快速核对列表
 
-- [ ] SKILL.md has frontmatter (name, description)
-- [ ] "When to Use" section is clear
-- [ ] Instructions are copy-paste ready
-- [ ] MCP servers documented if needed
-- [ ] Triggers added to skill-rules.json (optional)
+- [ ] SKILL.md 有前题(名称，描述)
+- [ ] "何时使用"一节很清晰
+- [ ] 指令已经准备好
+- [ ] 必要时记录 MCP 服务器
+- [ ] 触发器添加到技能规则。 json (可选)
 
-## Examples in This Repo
+<a id="examples-in-this-repo"></a>
+## 本 Repo 中的例子
 
-Look at existing skills for patterns:
+审视模式的现有技能：
 
 ```bash
 ls $CLAUDE_PROJECT_DIR/.claude/skills/

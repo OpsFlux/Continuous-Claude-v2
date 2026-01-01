@@ -1,33 +1,36 @@
-# Continuous Claude
+<a id="continuous-claude"></a>
+# 连续 Claude
 
-Session continuity, token-efficient MCP execution, and agentic workflows for Claude Code.
-
----
-
-## Table of Contents
-
-- [Architecture Overview](#architecture-overview)
-- [The Problem](#the-problem) / [The Solution](#the-solution)
-- [Quick Start](#quick-start) (project or global install)
-- [How to Talk to Claude](#how-to-talk-to-claude)
-- [Skills vs Agents](#skills-vs-agents)
-- [MCP Code Execution](#mcp-code-execution)
-- [Continuity System](#continuity-system)
-- [Hooks System](#hooks-system)
-- [Reasoning History](#reasoning-history)
-- [Braintrust Session Tracing](#braintrust-session-tracing-optional) + [Compound Learnings](#compound-learnings)
-- [Artifact Index](#artifact-index) (handoff search, outcome tracking)
-- [TDD Workflow](#tdd-workflow)
-- [Code Quality (qlty)](#code-quality-qlty)
-- [Directory Structure](#directory-structure)
-- [Environment Variables](#environment-variables)
-- [Glossary](#glossary)
-- [Troubleshooting](#troubleshooting)
-- [Acknowledgments](#acknowledgments)
+会话连续性，高 token 效率的 MCP 执行，以及 Claude Code 的代理工作流程。
 
 ---
 
-## Architecture Overview
+<a id="table-of-contents"></a>
+## 目录
+
+- [结构概览](#architecture-overview)
+- [问题](#the-problem) / [解决办法](#the-solution)
+- [快速启动](#quick-start)(项目或全局安装)
+- [如何和 Claude 说话](#how-to-talk-to-claude)
+- [技能对代理人](#skills-vs-agents)
+- [MCP 代码执行](#mcp-code-execution)
+- [连续性系统](#continuity-system)
+- [钩子系统](#hooks-system)
+- [推理历史](#reasoning-history)
+- [Braintrust 会话](#braintrust-session-tracing-optional) + [复合学习](#compound-learnings)
+- [制品索引（Artifact Index）](#artifact-index)(手动搜索，结果跟踪)
+- [TDD 工作流量](#tdd-workflow)
+- [代码质量( Qlty)](#code-quality-qlty)
+- [目录结构](#directory-structure)
+- [环境变量](#environment-variables)
+- [词汇表](#glossary)
+- [解决问题](#troubleshooting)
+- [承认](#acknowledgments)
+
+---
+
+<a id="architecture-overview"></a>
+## 结构概览
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -127,7 +130,8 @@ Session continuity, token-efficient MCP execution, and agentic workflows for Cla
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Data Flow: Session Lifecycle
+<a id="data-flow-session-lifecycle"></a>
+### 数据流： 会话周期
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -167,7 +171,8 @@ Session continuity, token-efficient MCP execution, and agentic workflows for Cla
                           Fresh context + state preserved
 ```
 
-### The 3-Step Agent Flow
+<a id="the-3-step-agent-flow"></a>
+### "三步走"代理的流出
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -192,9 +197,10 @@ Session continuity, token-efficient MCP execution, and agentic workflows for Cla
 
 ---
 
-## The Problem
+<a id="the-problem"></a>
+## 问题
 
-When Claude Code runs low on context, it compacts (summarizes) the conversation. Each compaction is lossy. After several, you're working with a summary of a summary of a summary. Signal degrades into noise.
+当 Claude Code 在上下文上低调时，它会压缩(概括)对话。 每个收缩都是损失。 数后出作一总结。 信号降解成噪音。
 
 ```
 Session Start: Full context, high signal
@@ -207,9 +213,10 @@ Compaction 3: Now working with compressed noise
     ↓ Claude starts hallucinating context
 ```
 
-## The Solution
+<a id="the-solution"></a>
+## 解决办法
 
-**Clear, don't compact.** Save state to a ledger, wipe context, resume fresh.
+别紧，别紧 保存状态到分类账， 擦去上下文， 恢复新内容 。
 
 ```
 Session Start: Fresh context + ledger loaded
@@ -220,20 +227,22 @@ Fresh context + ledger loaded
     ↓ continue with full signal
 ```
 
-**Why this works:**
-- Ledgers are lossless - you control what's saved
-- Fresh context = full signal
-- Agents spawn with clean context, not degraded summaries
+**为什么这样做：**
+- 脱衣舞女无所失 -- 你控制着拯救的东西
+- 新鲜上下文 = 完整信号
+- 产物环境干净，不退化
 
 ---
 
-## Quick Start
+<a id="quick-start"></a>
+## 快速启动
 
-**Which option?**
-- Just trying it on ONE project? → Start with Option 1
-- Want it on ALL your projects? → Do Option 2 (global), then Option 3 (per-project)
+**哪一种选择?**
+- 刚刚在 One 项目上试? − 从备选案文 1 开始
+- 想要你所有的项目吗? □ 做备选案文 2(全球)，然后做备选案文 3(按项目)
 
-### Option 1: Use in This Project
+<a id="option-1-use-in-this-project"></a>
+### 备选方案 1:在本项目中使用
 
 ```bash
 # Clone
@@ -250,16 +259,17 @@ cp .env.example .env
 claude
 ```
 
-**Works immediately** - hooks are pre-bundled, no `npm install` needed.
+**立即工作** -- -- 钩被预先捆绑，没有`npm install`需要帮助。
 
-### Option 2: Install Globally (Use in Any Project)
+<a id="option-2-install-globally-use-in-any-project"></a>
+### 备选方案 2:全局安装(用于任何项目)
 
 ```bash
 # After cloning and syncing
 ./install-global.sh
 ```
 
-**What it does:**
+**它的作用：**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -306,9 +316,9 @@ Creating .env template...
 Installation complete!
 ```
 
-**Global MCP cleanup (optional):**
+**全球多边协商进程清理(可选):**
 
-If you have MCP servers defined globally in `~/.claude.json`, the script detects them:
+如果您在全球定义了 MCP 服务器`~/.claude.json`，脚本检测到它们：
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -336,18 +346,19 @@ Backup created: ~/.claude.json.backup.<timestamp>
 To restore: cp ~/.claude.json.backup.<timestamp> ~/.claude.json
 ```
 
-**Why remove global MCP?** Global MCP servers are inherited by ALL projects. This can cause unexpected behavior where skills use random tools instead of following their instructions. Best practice: configure MCP servers per-project in `.mcp.json`.
+**为什么删除全球多氯乙烯?** 全球 MCP 服务器由 All 项目继承。 这会导致在技能使用随机工具而不是遵循其指示时出现出乎意料的行为。 最佳做法：每个项目配置 MCP 服务器`.mcp.json`.
 
-### Option 3: Initialize a New Project
+<a id="option-3-initialize-a-new-project"></a>
+### 备选办法 3:启动一个新项目
 
-After global install, set up any project for full continuity support:
+在全局安装后，设置任何项目，以提供完整的连续性支持：
 
 ```bash
 cd your-project
 ~/.claude/scripts/init-project.sh
 ```
 
-**What it does:**
+**它的作用：**
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -381,57 +392,61 @@ Project initialized! You can now:
   • Use /onboard to analyze the codebase
 ```
 
-This creates:
-- `thoughts/` - Plans, handoffs, ledgers (gitignored)
-- `.claude/cache/artifact-index/` - Local search database (SQLite + FTS5)
-- Adds `.claude/cache/` to `.gitignore`
+这就产生了：
+- `thoughts/`- 计划、交割、分类账(恶意)
+- `.claude/cache/artifact-index/`- 本地搜索数据库(SQLite + FTS5)
+- 添加数`.claude/cache/` to `.gitignore`
 
-**For brownfield projects**, run `/onboard` after initialization to analyze the codebase and create an initial ledger.
+**棕地项目**，运行`/onboard`初始化后分析代码库并创建初始分类账。
 
-### What's Optional?
+<a id="whats-optional"></a>
+### 何为可选?
 
-All external services are optional. Without API keys:
-- **Continuity system**: Works (no external deps)
-- **TDD workflow**: Works (no external deps)
-- **Session tracing**: Disabled (needs BRAINTRUST_API_KEY)
-- **Web search**: Disabled (needs PERPLEXITY_API_KEY)
-- **Code search**: Falls back to grep (MORPH_API_KEY speeds it up)
+所有外部服务都是可选的。 没有 API 密钥 :
+- **连续性系统**:工程(无外部隔道)
+- **TDD 工作流程**: 工程( 无外部道具)
+- **会议跟踪**:已禁用(需要 BRAINTRUST API KEY)
+- **网页搜索**:已禁用(需要 PERPLEXITY API KEY)
+- **代码搜索**: 掉回 grep(MORPH API KEY 加快速度).
 
-See `.env.example` for the full list of optional services.
+见`.env.example`关于可选服务的完整清单。
 
 ---
 
-## How to Talk to Claude
+<a id="how-to-talk-to-claude"></a>
+## 如何和 Claude 说话
 
-This kit responds to natural language triggers. Say certain phrases and Claude activates the right skill or spawns an agent.
+这个套件是针对自然语言触发的。 说出某些短语，Claude 激活了正确的技能或者培养出一个代理。
 
-### Session Management
+<a id="session-management"></a>
+### 会话管理
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "save state", "update ledger", "before clear" | Updates continuity ledger, preserves state for `/clear` |
-| "done for today", "wrap up", "create handoff" | Creates detailed handoff doc for next session |
-| "resume work", "continue from handoff", "pick up where" | Loads handoff, analyzes context, continues |
+| "保存状态","更新分类账","未明" | 更新连续性分类账，保留状态`/clear` |
+| "今天做","包装","创造" | 为下个会话创建详细的交接文件 |
+| 继续工作 继续工作 继续工作 继续工作 | 装入交接、分析上下文、继续 |
 
-### Onboarding (New Projects)
+<a id="onboarding-new-projects"></a>
+### 入职(新项目)
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "onboard", "get familiar", "analyze this project" | Runs **/onboard** skill - analyzes codebase, creates initial ledger |
-| "explore codebase", "understand the code", "what does this do" | Spawns **rp-explorer** for token-efficient exploration |
+| "上","熟悉","分析这个项目" | 运行**/onboard** 技能 - 分析代码库，创建初始分类账 |
+| 密码库 密码库 密码库 密码库 | 喷出物**rp-Explorer**用于象征性高效勘探 |
 
-**The `/onboard` skill** is designed for brownfield projects (existing codebases). It:
+页：1`/onboard`技能** 是为 Brownfield 项目(现有代码库)设计的。 它会：
 
-1. **Checks prerequisites** - Verifies `thoughts/` structure exists (run `init-project.sh` first)
-2. **Analyzes codebase** - Uses RepoPrompt if available, falls back to bash commands:
-   - `rp-cli -e 'tree'` - Directory structure
-   - `rp-cli -e 'builder "understand the codebase"'` - AI-powered file selection
-   - `rp-cli -e 'structure .'` - Code signatures (token-efficient)
-3. **Detects tech stack** - Language, framework, database, testing, CI/CD
-4. **Asks your goal** - Feature work, bug fixes, refactoring, or learning
-5. **Creates continuity ledger** - At `thoughts/ledgers/CONTINUITY_CLAUDE-<project>.md`
+1. **检查先决条件** - 核实`thoughts/`结构存在( 运行)`init-project.sh`(第一个)
+2. **分析代码库** - 如果可用， 回击命令 :
+   - `rp-cli -e 'tree'`- 目录结构
+   - `rp-cli -e 'builder "understand the codebase"'`- AI 驱动文件选择
+   - `rp-cli -e 'structure .'`- 代码签名(收件效率)
+3. **检测技术堆栈** - 语言、框架、数据库、测试、CI/CD
+4. **询问目标** - 特性工作、错误修正、重构或学习
+5. **创建连续性分类账** -`thoughts/ledgers/CONTINUITY_CLAUDE-<project>.md`
 
-**Example workflow:**
+**工作流程实例：**
 ```bash
 # 1. Initialize project structure
 ~/.claude/scripts/init-project.sh
@@ -441,123 +456,135 @@ claude
 > /onboard
 ```
 
-### Planning & Implementation
+<a id="planning-implementation"></a>
+### 规划和执行
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "create plan", "design", "architect", "greenfield" | Spawns **plan-agent** to create implementation plan |
-| "validate plan", "before implementing", "ready to implement" | Spawns **validate-agent** (RAG-judge + WebSearch) |
-| "implement plan", "execute plan", "run the plan" | Spawns **implement_plan** with agent orchestration |
-| "verify implementation", "did it work", "check code" | Runs **validate_plan** to verify against plan |
+| "创造计划","设计","建筑","绿地" | 制定实施计划的计划代理人** |
+| "验证计划","实施前","准备实施". | 孙子**验证代理**(RAG-judge + WebSearch) |
+| "执行计划","执行计划","运行计划" | 配有代理管弦乐的外生子**执行 计划** |
+| "核实执行","是否奏效","检查代码" | 运行**验证 计划** 以对照计划进行验证 |
 
-**The 3-step flow:**
+**三步流：**
 ```
 1. plan-agent     → Creates plan in thoughts/shared/plans/
 2. validate-agent → RAG-judge (past precedent) + WebSearch (best practices)
 3. implement_plan → Executes with task agents, creates handoffs
 ```
 
-### Code Quality
+<a id="code-quality"></a>
+### 代码质量
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "implement", "add feature", "fix bug", "refactor" | **TDD workflow** activates - write failing test first |
-| "lint", "code quality", "auto-fix", "check code" | Runs **qlty-check** (70+ linters, auto-fix) |
-| "commit", "push", "save changes" | Runs **commit** skill (removes Claude attribution) |
-| "describe pr", "create pr" | Generates PR description from changes |
+| "执行","添加特性","固定错误","重构" | **TDD 工作流程** 激活 - 先写入失败测试 |
+| "lint","代码质量","自动固定","检查代码" | 运行**qlty 检查**(70+linters，自定义) |
+| "承诺","推","拯救" | 运行**承诺**技能(删除 Claude 归属) |
+| "描述 pr","创建 pr" | 从更改中生成 PR 描述 |
 
-### Codebase Exploration
+<a id="codebase-exploration"></a>
+### 密码库勘探
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "brownfield", "existing codebase", "repoprompt" | Spawns **rp-explorer** - uses RepoPrompt for token-efficient exploration |
-| "how does X work", "trace", "data flow", "deep dive" | Spawns **codebase-analyzer** for detailed analysis |
-| "find files", "where are", "which files handle" | Spawns **codebase-locator** (super grep/glob) |
-| "find examples", "similar pattern", "how do we do X" | Spawns **codebase-pattern-finder** |
-| "explore", "get familiar", "overview" | Spawns **explore** agent with configurable depth |
+| 布朗菲尔德 现存密码库 RepoPrompt | Spawns **rp-Explorer** - 使用 RepoPrompt 进行象征性高效勘探 |
+| "X 如何工作","追踪","数据流","深潜" | 用于详细分析的喷出物**码基-分析器** |
+| "找到文件" "在哪里" "哪个文件处理" | 喷出物**编码基位定位器**(超级克/克) |
+| "找到例子","类似模式","我们如何做 X" | 喷出物**密码基-平面-喷出物** |
+| "探索","熟悉","综观" | 有可配置深度的外生剂** |
 
-**rp-explorer uses RepoPrompt tools** (requires Pro license - $14.99/mo or $349 lifetime):
-- **Context Builder** - Deep AI-powered exploration (async, 30s-5min)
-- **Codemaps** - Function/class signatures without full file content (10x fewer tokens)
-- **Slices** - Read specific line ranges, not whole files
-- **Search** - Pattern matching with context lines
-- **Workspaces** - Switch between projects
+**rp-Explorer 使用 RepoPrompt 工具**(需要 Pro 许可证 -- -- 14.99 美元/莫美元或 349 美元寿命):
+- **Context Builder** - 深度人工智能动力探索(Aync, 30s-5min)
+- **Codemaps** - 没有完整文件内容的函数/类签名(减少 10 个令牌)
+- **切片** - 读取特定行范围，而非整个文件
+- **搜索** - 与上下文行匹配的模式
+- **工作空间** -- -- 项目之间的切换
 
-*Free tier available with basic features (32k token limit, no MCP server)*
+* 具有基本特性的自由级(32k 个令牌限制，没有 MCP 服务器)*
 
-### Research
+<a id="research"></a>
+### 研究
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "research", "investigate", "find out", "best practices" | Spawns **research-agent** (uses MCP tools) |
-| "research repo", "analyze this repo", "clone and analyze" | Spawns **repo-research-analyst** |
-| "docs", "documentation", "library docs", "API reference" | Runs **nia-docs** for library documentation |
-| "web search", "look up", "latest", "current info" | Runs **perplexity-search** for web research |
+| "研究","调查","发现","最佳做法" | 喷出物**研究剂**(使用 MCP 工具) |
+| 研究回波 分析回波 分析回波 | 子孙**repo-研究-分析** |
+| "docs","文件","文献","文献","API 参考" | 图书馆文件运行**nia-docs** |
+| "网络搜索","抬头","最新","当前信息" | 运行**复杂度-搜索** 用于网络研究 |
 
-### Debugging
+<a id="debugging"></a>
+### 调试
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "debug", "investigate issue", "why is it broken" | Spawns **debug-agent** (logs, code search, git history) |
-| "not working", "error", "failing", "what's wrong" | Same - triggers debug-agent |
+| "调试","调查问题","为什么坏了" | Spawns **debug-agent** (日志，代码搜索，git 历史) |
+| "不工作","不工作","发作","什么是错" | 同样 - 触发调试代理 |
 
-### Code Search
+<a id="code-search"></a>
+### 代码搜索
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "search code", "grep", "find in code", "find text" | Runs **morph-search** (20x faster than grep) |
-| "ast", "find all calls", "refactor", "codemod" | Runs **ast-grep-find** (structural search) |
-| "search github", "find repo", "github issue" | Runs **github-search** |
+| "搜索码","grep","查找码","查找文本" | 运行**形态-搜索**(20x 快于 grep) |
+| "Ast","Find all calls","Refactor","codemod"(英语：Codemod) | 运行**ast-grep-find**(结构搜索) |
+| "搜索"(search github),"find repo","github issub" (中文(简体) ). | 运行**github-搜索** |
 
-### Learning & Insights
+<a id="learning-insights"></a>
+### 学习和透视
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "compound learnings", "turn learnings into rules" | Runs **compound-learnings** - transforms session learnings into skills/rules |
-| "analyze session", "what happened", "session insights" | Runs **braintrust-analyze** to review traces |
-| "recall", "what was tried", "past reasoning" | Searches **reasoning history** |
+| "综合学习","把学习变成规则" | 运行**compound-learnings** - 将课程学习转化为技能/规则 |
+| "分析会话" "发生了什么事" "会议见解" | 运行**大 Braintrust 任分析** 以审查痕迹 |
+| "回顾","被试","过去的推理" | 搜查**合理历史** |
 
-### Hook Development
+<a id="hook-development"></a>
+### Hook 开发
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "create hook", "write hook", "hook for" | Loads **hook-developer** skill - complete reference for all 10 hook types |
-| "hook schema", "hook input", "hook output" | Same - shows input/output schemas, matchers, testing patterns |
-| "debug hook", "hook not working", "hook failing" | Runs **debug-hooks** skill - systematic debugging workflow |
+| "创造钩","写钩","寻找" | 装入**hook-developer**技能-所有 10 个钩型的完整参考 |
+| "hook schema","hook 输入","hook 输出" | 同样 - 显示输入/输出计划、匹配者、测试模式 |
+| "调试钩","不工作","失败" | 运行**debug-hooks** 技能 - 系统调试工作流程 |
 
-**The `/hook-developer` skill** is a comprehensive reference covering:
-- All 10 Claude Code hook types (PreToolUse, PostToolUse, SessionStart, etc.)
-- Input/output JSON schemas for each hook
-- Matcher patterns and registration in settings.json
-- Shell wrapper → TypeScript handler pattern
-- Testing commands for manual hook validation
+页：1`/hook-developer`技能** 是一个全面参考，涵盖：
+- 所有 10 个 Claude 代码钩子类型( PreTools Use, PostTools Use, SessionStart 等) 。
+- 每个钩子的输入/输出 JSON 方案
+- 匹配模式和设置中的注册。 json
+- 外壳包件 — TypeScript 处理器模式
+- 手动悬钩验证的测试命令
 
-### Other
+<a id="other"></a>
+### 其它
 
-| Say This | What Happens |
+| 说这个 | 发生了什么事 |
 |----------|--------------|
-| "scrape", "fetch url", "crawl" | Runs **firecrawl-scrape** |
-| "create skill", "skill triggers", "skill system" | Runs **skill-developer** meta-skill |
-| "codebase structure", "file tree", "signatures" | Runs **repoprompt** for code maps |
+| "scrape","fetch url","爬行","爬行" | 运行 **firecrawl-scrape** |
+| "创造技能","技能触发","技能系统" | 运行**技能-开发者**元技能 |
+| “代码库结构”、“文件树”、“签名” | 运行**repoprompt** 代码地图 |
 
 ---
 
-## Skills vs Agents
+<a id="skills-vs-agents"></a>
+## 技能对代理人
 
-**Skills** run in current context. Quick, focused, minimal token overhead.
+**技能** 在当前情况下运行。 快速，专注，最小的象征性的间接费用。
 
-**Agents** spawn with fresh context. Use for complex tasks that would degrade in a compacted context. They return a summary and optionally create handoffs.
+**具有新背景的代理人** 产卵。 用于在紧凑的上下文中降解的复杂任务。 他们退回一个摘要，并可以选择地产生交割。
 
-### When to Use Agents
+<a id="when-to-use-agents"></a>
+### 何时使用代理
 
-- Brownfield exploration → `rp-explorer` first
-- Multi-step research → `research-agent`
-- Complex debugging → `debug-agent`
-- Implementation with handoffs → `implement_plan`
+- 布朗菲尔德勘探`rp-explorer`第一个
+- 多步骤研究 `research-agent`
+- 复杂的调试 `debug-agent`
+- 交割后的执行`implement_plan`
 
-### Agent Orchestration
+<a id="agent-orchestration"></a>
+### 代理乐团
 
-For large implementations, `implement_plan` spawns task agents:
+对于大规模实施，`implement_plan`产卵任务剂：
 
 ```
 implement_plan (orchestrator)
@@ -566,17 +593,18 @@ implement_plan (orchestrator)
     └── task-agent (task 3) → handoff-03.md
 ```
 
-Each task agent:
-1. Reads previous handoff
-2. Does its work with TDD
-3. Creates handoff for next agent
-4. Returns summary to orchestrator
+每个任务代理：
+1. 读取先前的交接
+2. 它是否与 TDD 合作
+3. 为下一个代理创建交接
+4. 向管弦乐器返回摘要
 
 ---
 
-## MCP Code Execution
+<a id="mcp-code-execution"></a>
+## MCP 代码执行
 
-Tools are executed via scripts, not loaded into context. This saves tokens.
+工具通过脚本执行，而不是装入上下文。 这可以保存符文。
 
 ```bash
 # Example: run a script
@@ -586,11 +614,12 @@ uv run python -m runtime.harness scripts/qlty_check.py --fix
 ls scripts/
 ```
 
-### Adding MCP Servers
+<a id="adding-mcp-servers"></a>
+### 添加 MCP 服务器
 
-1. Edit `mcp_config.json` (or `.mcp.json`)
-2. Add API keys to `.env`
-3. Run `uv run mcp-generate`
+1. 编辑`mcp_config.json` (or `.mcp.json`)
+2. 添加 API 密钥到`.env`
+3. 运行`uv run mcp-generate`
 
 ```json
 {
@@ -605,9 +634,10 @@ ls scripts/
 }
 ```
 
-### Developing Custom MCP Scripts
+<a id="developing-custom-mcp-scripts"></a>
+### 开发自定义 MCP 脚本
 
-After running `install-global.sh`, you can create and run MCP scripts from any project:
+运行后`install-global.sh`，您可以从任何项目创建和运行 MCP 脚本 :
 
 ```bash
 # Global commands available everywhere
@@ -615,9 +645,9 @@ mcp-exec scripts/my_script.py      # Run a script
 mcp-generate                        # Generate wrappers for configured servers
 ```
 
-**Config Merging:** Global config (`~/.claude/mcp_config.json`) is merged with project config (`.mcp.json` or `mcp_config.json`). Project settings override global for same-named servers.
+**合并：** 全球配置(`~/.claude/mcp_config.json`)与项目配置合并(`.mcp.json` or `mcp_config.json`) (中文(简体) ). 同名服务器的项目设置覆盖全局 。
 
-**Creating a new script:**
+**创建新剧本：**
 
 ```python
 # scripts/my_tool.py
@@ -641,7 +671,7 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-**Creating a skill wrapper:**
+**创建技能包装器：**
 
 ```bash
 mkdir -p .claude/skills/my-tool
@@ -653,12 +683,12 @@ description: Search with my tool
 # My Tool
 
 ```bash
-uv run python -m runtime.harness scripts/my_tool.py --query "your query"
+uv 运行 python - m 运行时。 harness 脚本/ my tool.py --query "你的查询"
 ```
 EOF
 ```
 
-**Adding skill triggers for auto-activation:**
+**增加自动激活的技能触发器：**
 
 ```json
 // .claude/skills/skill-rules.json
@@ -678,48 +708,53 @@ EOF
 }
 ```
 
-**Enforcement levels:**
-- `suggest` - Skill appears as suggestion (most common)
-- `block` - Requires skill before proceeding (guardrail)
-- `warn` - Shows warning but allows proceeding
+**执行水平：**
+- `suggest`- 技能作为建议出现(最常见的)
+- `block`- 在进行前需要技能(护栏)
+- `warn`- 显示警告但允许程序
 
-**Priority levels:** `critical` > `high` > `medium` > `low`
+**优先级：**`critical` > `high` > `medium` > `low`
 
-#### Agent Integration
+<a id="agent-integration"></a>
+#### 代理整合
 
-Agents can reference your scripts for complex workflows. Example from `.claude/agents/research-agent.md`:
+代理可以参考您的脚本进行复杂的工作流程。 示例`.claude/agents/research-agent.md`:
 
 ```markdown
 ## Step 3: Research with MCP Tools
 
 ### For External Knowledge
 ```bash
-# Documentation search (Nia)
-uv run python -m runtime.harness scripts/nia_docs.py --query "your query"
+<a id="documentation-search-nia"></a>
+# 文件搜索(尼亚)
+uv 运行 python - m runtime.harness 脚本/nia docs.py --query "你的查询"
 
-# Web research (Perplexity)
-uv run python -m runtime.harness scripts/perplexity_search.py --query "your query"
+<a id="web-research-perplexity"></a>
+# 网络研究(复杂)
+uv 运行 python - m 运行时间。 harness 脚本/ 复杂度  search.py -- query "你的查询"
 ```
 
 ### For Codebase Knowledge
 ```bash
-# Fast code search (Morph)
-uv run python -m runtime.harness scripts/morph_search.py --query "pattern" --path "."
+<a id="fast-code-search-morph"></a>
+# 快码搜索( Morph)
+uv 运行 python - m runtime.harness 脚本/morph search.py --query "pattern" --path".
 ```
 \```
 ```
 
-Agents use MCP scripts to:
-- Perform research across multiple sources
-- Investigate issues with codebase search
-- Apply fixes using fast editing tools
-- Gather information for analysis
+代理使用 MCP 脚本 :
+- 开展多种来源的研究
+- 用密码库搜索问题
+- 使用快速编辑工具应用修正
+- 收集资料进行分析
 
-See `.claude/agents/research-agent.md` and `.claude/agents/debug-agent.md` for complete examples.
+见`.claude/agents/research-agent.md`和`.claude/agents/debug-agent.md`仅供参考。
 
-#### Full Pattern: MCP Server → Scripts → Skills → Agents
+<a id="full-pattern-mcp-server-scripts-skills-agents"></a>
+#### 完整模式：MCP 服务器 → 脚本 → 技能 → 代理
 
-The complete integration flow:
+完整的整合流程：
 
 ```
 1. MCP Server Configuration
@@ -741,67 +776,72 @@ The complete integration flow:
    → User types trigger keyword → Skill suggests → Script executes
 ```
 
-**Real-world example:** `morph-search`
+**真实世界的例子：**`morph-search`
 
-1. **Server:** `morph` MCP server in `mcp_config.json`
-2. **Script:** `scripts/morph_search.py` with `--query`, `--path` args
-3. **Skill:** `.claude/skills/morph-search/SKILL.md` documents usage
-4. **Triggers:** `.claude/skills/skill-rules.json` activates on "search code", "fast search"
-5. **Agents:** `research-agent.md` and `debug-agent.md` use for codebase search
-6. **Activation:** User says "search code for error handling" → auto-suggests
+1. **公务员：**`morph`MCP 服务器在`mcp_config.json`
+2. **脚本：**`scripts/morph_search.py`与`--query`, `--path`参数
+3. **技能：**`.claude/skills/morph-search/SKILL.md`文档使用
+4. **驾驶员：**`.claude/skills/skill-rules.json`激活“ 搜索代码” 、 “ 快速搜索 ”
+5. **代理人：**`research-agent.md`和`debug-agent.md`用于代码库搜索
+6. **活动：** 用户表示"错误处理搜索代码" 自动建议
 
-**Key benefits:**
-- **Progressive disclosure:** 110 tokens (99.6% reduction) vs full tool schemas
-- **Reusability:** Scripts work for agents, skills, and direct execution
-- **Auto-discovery:** skill-rules.json enables context-aware suggestions
-- **Flexibility:** Change parameters via CLI, no code edits needed
+**主要福利：**
+- **渐进披露：** 110 个令牌(减少 99.6%)与完整的工具计划
+- **可行性：** 脚本为代理人、技能和直接执行工作
+- **自动发现：** 技能规则。
+- **灵活性：** 通过 CLI 更改参数， 不需要代码编辑
 
 ---
 
-## Continuity System
+<a id="continuity-system"></a>
+## 连续性系统
 
-### Ledger (within session)
+<a id="ledger-within-session"></a>
+### 编审(会议期间)
 
-Before running `/clear`:
+运行前`/clear`:
 ```
 "Update the ledger, I'm about to clear"
 ```
 
-Creates/updates `CONTINUITY_CLAUDE-<session>.md` with:
-- Goal and constraints
-- What's done, what's next
-- Key decisions
-- Working files
+创建/更新`CONTINUITY_CLAUDE-<session>.md`改为：
+- 目标和制约因素
+- 做什么，接下来做什么
+- 主要决定
+- 工作档案
 
-After `/clear`, the ledger loads automatically.
+之后`/clear`，分类账自动加载。
 
-### Handoff (between sessions)
+<a id="handoff-between-sessions"></a>
+### 交接(会间)
 
-When done for the day:
+当一天完成时：
 ```
 "Create a handoff, I'm done for today"
 ```
 
-Creates `thoughts/handoffs/<session>/handoff-<timestamp>.md` with:
-- Detailed context
-- Recent changes with file:line references
-- Learnings and patterns
-- Next steps
+创建`thoughts/handoffs/<session>/handoff-<timestamp>.md`改为：
+- 详细背景
+- 文件最近更改：行引用
+- 学习和模式
+- 今后的步骤
 
-Next session:
+下届会议：
 ```
 "Resume from handoff"
 ```
 
 ---
 
-## Hooks System
+<a id="hooks-system"></a>
+## 钩子系统
 
-Hooks are the backbone of continuity. They intercept Claude Code lifecycle events and automate state preservation.
+Hook 是连续性的支柱。 他们拦截了 Claude Code 的生命周期事件，并实现了国家保护自动化。
 
-### StatusLine (Context Indicator)
+<a id="statusline-context-indicator"></a>
+### 状态行( 联系符)
 
-The colored status bar shows context usage in real-time:
+颜色状态栏显示上下文在实时中的用法 :
 
 ```
 45.2K 23% | main U:3 | ✓ Fixed auth → Add tests
@@ -814,66 +854,70 @@ The colored status bar shows context usage in real-time:
  └── Token count
 ```
 
-**Color coding:**
+**颜色编码：**
 
-| Color | Range | Meaning |
+| 颜色 | 范围 | 含义 |
 |-------|-------|---------|
-| 🟢 Green | < 60% | Normal - full continuity info shown |
-| 🟡 Yellow | 60-79% | Warning - consider creating handoff soon |
-| 🔴 Red | ≥ 80% | Critical - shows `⚠` icon, prompts handoff |
+| 绿色 | < 60% | 正常 - 显示完整的连续性信息 |
+| 黄色 | 60-79% | 警告 - 考虑尽快创建交接程序 |
+| 红色 | ≥ 80% | 关键 - 显示`⚠`图标，提示交接 |
 
-The StatusLine writes context % to `/tmp/claude-context-pct-{SESSION_ID}.txt` (per-session to avoid multi-instance conflicts).
+状态行写上下文% to`/tmp/claude-context-pct-{SESSION_ID}.txt`(每次会议一次，以避免多事件冲突)。
 
-### Hook Events
+<a id="hook-events"></a>
+### 钩子事件
 
-| Event | When | What This Kit Does |
+| 活动 | 何时 | 这个套件做什么 |
 |-------|------|-------------------|
-| **SessionStart** | New session, `/clear`, compact | Loads ledger + latest handoff into context |
-| **PreToolUse** | Before tool execution | **TypeScript preflight** - catches type errors before Edit/Write on .ts files |
-| **PreCompact** | Before context compaction | Creates auto-handoff, blocks manual compact |
-| **UserPromptSubmit** | Before processing user message | Shows skill suggestions, context warnings |
-| **PostToolUse** | After Edit/Write/Bash | Tracks modified files for auto-summary |
-| **SubagentStop** | Agent finishes | Logs agent completion |
-| **SessionEnd** | Session closes | Cleanup temp files |
+| **会议开始** | 新会议，`/clear`，紧凑 | 将分类账 + 最新交割输入上下文 |
+| **预用工具** | 工具执行前 | **TypeScript 预飞** - 在编辑/写入。ts 文件前捕获类型错误 |
+| **预编** | 上下文收缩前 | 创建自动手接， 块手动压缩 |
+| **用户提交** | 处理用户信件前 | 显示技能建议， 上下文警告 |
+| **后工具的使用** | 编辑/ Write/ Bash 后 | 自动摘要的音轨修改文件 |
+| **副剂停止** | 代理结束 | 日志代理补全 |
+| **会议结束** | 会话结束 | 清理临时文件 |
 
-### SessionStart Hook
+<a id="sessionstart-hook"></a>
+### 会话启动钩
 
-Runs on: `resume`, `clear`, `compact`
+运行于 :`resume`, `clear`, `compact`
 
-**What it does:**
-1. Finds most recent `CONTINUITY_CLAUDE-*.md` ledger
-2. Extracts Goal and current focus ("Now:")
-3. Finds latest handoff (task-*.md or auto-handoff-*.md)
-4. Injects ledger + handoff into system context
+**它的作用：**
+1. 查找最新数据`CONTINUITY_CLAUDE-*.md`分类账
+2. 摘录目标与当前焦点("现在：").
+3. 查找最新交接方式( 任务 - *. md 或自动交接 - *. md)
+4. 输入分类账+向系统上下文移交
 
-**Result:** After `/clear`, Claude immediately knows:
-- What you're working on
-- What's done vs pending
-- Recent decisions and learnings
+**结果：** 之后`/clear`Claude 马上知道：
+- 你在忙什麽?
+- 已经做什么了?
+- 最近的决定和学习
 
-### PreCompact Hook
+<a id="precompact-hook"></a>
+### 预切钩
 
-Runs: Before any compaction
+运行： 在任何压缩之前
 
-**Auto-compact (trigger: auto):**
-1. Parses transcript to extract tool calls and responses
-2. Generates detailed `auto-handoff-<timestamp>.md` with:
-   - Files modified
-   - Recent tool outputs
-   - Current work state
-3. Saves to `thoughts/handoffs/<session>/`
+**自动协议(触发：自动):**
+1. 解析记录以提取工具呼叫和回复
+2. 生成细节`auto-handoff-<timestamp>.md`改为：
+   - 已修改的文件
+   - 最近的工具产出
+   - 当前工作状态
+3. 保存到`thoughts/handoffs/<session>/`
 
-**Manual compact (trigger: manual):**
-- Blocks compaction
-- Prompts you to run `/continuity_ledger` first
+**手册紧凑(触发：手册):**
+- 块压缩
+- 提示您运行`/continuity_ledger`第一个
 
-### UserPromptSubmit Hook
+<a id="userpromptsubmit-hook"></a>
+### 用户 Prompt 下潜钩
 
-Runs: Every message you send
+运行： 每一封信件
 
-**Two functions:**
+**两个职能：**
 
-1. **Skill activation** - Scans your message for keywords defined in `skill-rules.json`. Shows relevant skills:
+1. **技能活化** - 扫描您信件中定义的关键字`skill-rules.json`显示相关技能：
    ```
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    🎯 SKILL ACTIVATION CHECK
@@ -887,32 +931,34 @@ Runs: Every message you send
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ```
 
-2. **Context warnings** - Reads context % and shows tiered warnings:
+2. **上下文警告** - 读取上下文%并显示分级警告：
    - 70%: `Consider handoff when you reach a stopping point.`
    - 80%: `Recommend: /create_handoff then /clear soon`
    - 90%: `CONTEXT CRITICAL: Run /create_handoff NOW!`
 
-### TypeScript Preflight Hook (PreToolUse)
+<a id="typescript-preflight-hook-pretooluse"></a>
+### TypeScript 飞行前钩( PreTooll 用途)
 
-Runs: Before Edit/Write on `.ts` or `.tsx` files
+运行： 在编辑/写入之前`.ts` or `.tsx`文件
 
-**What it does:**
-1. Runs `tsc --noEmit` on the file being edited
-2. If type errors exist, blocks the edit and shows errors to Claude
-3. Claude fixes the issues before proceeding
+**它的作用：**
+1. 运行`tsc --noEmit`正在编辑的文件
+2. 如果存在类型错误， 请封锁编辑并向 Claude 显示错误
+3. Claude 先解决问题再继续
 
-**Why this matters:** Catches type errors early, before they compound across multiple edits. Claude sees the errors in context and can fix them immediately.
+**这有什么关系：** 提前捕捉到类型错误，在它们复合到多个编辑之前。 Claude 从上下文中看出错误，可以立即加以纠正。
 
-**Example output when blocked:**
+**阻塞时的输出示例：**
 ```
 TypeScript errors in src/hooks/my-hook.ts:
   Line 15: Property 'result' does not exist on type 'HookOutput'
   Line 23: Argument of type 'string' is not assignable to parameter of type 'number'
 ```
 
-### How Hooks Work
+<a id="how-hooks-work"></a>
+### Hook 怎样工作
 
-Hooks are **pre-bundled** - no runtime dependencies needed. Shell wrappers call bundled JS:
+Hook 是**预先捆绑** - 不需要运行时间依赖。 果壳包装工呼叫捆绑的 JS:
 
 ```bash
 # .claude/hooks/session-start-continuity.sh
@@ -922,16 +968,16 @@ cd "$CLAUDE_PROJECT_DIR/.claude/hooks"
 cat | node dist/session-start-continuity.mjs
 ```
 
-**For developers** who want to modify hooks:
+**对于想要修改钩子的开发者**:
 ```bash
 cd .claude/hooks
 vim src/session-start-continuity.ts  # Edit source
 ./build.sh                            # Rebuild dist/
 ```
 
-**Note on latency:** Some hooks (especially `SessionEnd` and `Stop`) may add 1-3 seconds of latency as they finalize traces and extract learnings. This is expected - the hooks run fire-and-forget processes that don't block the next session.
+**关于延迟的说明：** 一些钩子(特别是)`SessionEnd`和`Stop`)在完成痕迹并取出学习时会增加 1-3 秒的耐久性。 这是预期的——钩子运行起火和被遗忘的过程，不会阻断下个会话。
 
-Hooks receive JSON input and return JSON output:
+Hooks 接收了 JSON 输入并返回了 JSON 输出：
 
 ```typescript
 // Input varies by event type
@@ -951,9 +997,10 @@ interface HookOutput {
 }
 ```
 
-### Registering Hooks
+<a id="registering-hooks"></a>
+### 注册钩
 
-Hooks are configured in `.claude/settings.json`:
+钩被配置在`.claude/settings.json`:
 
 ```json
 {
@@ -973,51 +1020,55 @@ Hooks are configured in `.claude/settings.json`:
 }
 ```
 
-**Matcher patterns:** Use `|` for multiple triggers: `"Edit|Write|Bash"`
+**马彻模式：** 使用“|` for multiple triggers: `编辑|写入|巴许"".
 
 ---
 
-## Reasoning History
+<a id="reasoning-history"></a>
+## 推理历史
 
-The system captures what was tried during development - build failures, fixes, experiments. This creates searchable memory across sessions.
+系统捕捉在开发过程中尝试过的东西——构建故障，修复，实验。 这就创造了跨会话的可搜索内存。
 
-**How it works:**
+**如何运作：**
 
-1. **During work** - The `/commit` skill tracks what was attempted
-2. **On commit** - `generate-reasoning.sh` saves attempts to `.git/claude/commits/<hash>/reasoning.md`
-3. **Later** - "recall what was tried" searches past reasoning for similar problems
+1. **工作期间**`/commit`所尝试的技巧轨迹
+2. **关于承诺** -`generate-reasoning.sh`保存尝试`.git/claude/commits/<hash>/reasoning.md`
+3. **稍后** - “回顾曾经尝试过的东西”搜索过去类似的问题的理由
 
-**Scripts in `.claude/scripts/`:**
+** 脚本在`.claude/scripts/`:**
 
-| Script | Purpose |
+| 脚本 | 目的 |
 |--------|---------|
-| `generate-reasoning.sh` | Captures attempts after each commit |
-| `search-reasoning.sh` | Finds past solutions to similar problems |
-| `aggregate-reasoning.sh` | Combines reasoning across commits |
-| `status.sh` | StatusLine - shows context %, git status, focus |
+| `generate-reasoning.sh` | 每次犯罪后抓获未遂 |
+| `search-reasoning.sh` | 寻找过去类似问题的解决办法 |
+| `aggregate-reasoning.sh` | 将各种承诺的推理结合起来 |
+| `status.sh` | 状态行 - 显示上下文%, git 状态， 焦点 |
 
-**Example:**
+**实例：**
 ```
 "recall what was tried for authentication bugs"
 → Searches .git/claude/commits/*/reasoning.md
 → Returns: "In commit abc123, tried X but failed because Y, fixed with Z"
 ```
 
-This is why `/commit` matters - it's not just git, it's building Claude's memory.
+这就是为什么`/commit`不只是 Git 而是 Claude 的记忆
 
 ---
 
-## Braintrust Session Tracing (Optional)
+<a id="braintrust-session-tracing-optional"></a>
+## 追踪(备选)
 
-Track every session with Braintrust for learning from past work.
+追踪每个学习过去工作的脑力托管课
 
-### What It Provides
+<a id="what-it-provides"></a>
+### 它提供什么
 
-1. **Session traces** - Every turn, tool call, and LLM response logged
-2. **Automatic learnings** - At session end, extracts "What Worked/Failed/Patterns"
-3. **Artifact Index integration** - Handoffs linked to trace IDs for correlation
+1. **会议记录** - 每转弯、工具呼叫和 LLM 响应记录
+2. **自动学习** - 在会场结束时，摘录"What Works / Fault/Patters".
+3. **Artifact Index 集成** - 与痕量 ID 相链接的处理关联
 
-### Architecture
+<a id="architecture"></a>
+### 架构
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -1126,59 +1177,63 @@ Track every session with Braintrust for learning from past work.
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-### Built on braintrust-claude-plugin
+<a id="built-on-braintrust-claude-plugin"></a>
+### 建于大 Braintrust 任-Claude-plugin 之上
 
-This kit extends the [official Braintrust Claude plugin](https://github.com/braintrustdata/braintrust-claude-plugin), which provides a single `stop_hook.sh` for basic session tracing. We've enhanced it with:
+这个工具箱扩展了[正式的 Braintust Claude 插件](https://github.com/braintrustdata/braintrust-claude-plugin)，它提供了一个单`stop_hook.sh`基本会议跟踪。 我们用：
 
-| Original Plugin | Our Enhancements |
+| 原始插件 | 我们的加强 |
 |-----------------|------------------|
-| `stop_hook.sh` only | Full hook suite (6 hooks) |
-| Basic session logging | Hierarchical span structure |
-| No learning extraction | Auto-extracts learnings at session end |
-| No cross-session memory | Surfaces learnings at session start |
-| No handoff correlation | Links handoffs to trace IDs |
+| `stop_hook.sh`仅限 | 全钩套房(6 个钩子) |
+| 基本会议记录 | 等级跨度结构 |
+| 没有学习提取 | 会话结束自动摘录学习 |
+| 没有跨会话记忆 | 课会开始时的表面学习 |
+| 无交接关联 | 链接到追踪身份 |
 
-**Our additions:**
+**我们的补充：**
 
-| Hook | Purpose |
+| 钩子 | 目的 |
 |------|---------|
-| `common.sh` | Shared utilities (UUID, timestamps, state management) |
-| `session_start.sh` | Creates root span for the session |
-| `user_prompt_submit.sh` | Creates turn spans, reconciles interrupted sessions |
-| `post_tool_use.sh` | Logs tool spans with input/output |
-| `stop_hook.sh` | Enhanced - creates LLM spans with full conversation context |
-| `session_end.sh` | Triggers `braintrust_analyze.py --learn` for auto-learning |
+| `common.sh` | 共享公用事业(UUID、时间戳、国家管理) |
+| `session_start.sh` | 为会话创建根跨度 |
+| `user_prompt_submit.sh` | 创建回合、 调和中断的会话 |
+| `post_tool_use.sh` | 带有输入/输出的日志工具跨度 |
+| `stop_hook.sh` | 增强 - 创建有完整对话背景的 LLM 跨度 |
+| `session_end.sh` | 触发器`braintrust_analyze.py --learn`自动学习 |
 
-**Key improvements:**
+**关键改进：**
 
-1. **Hierarchical tracing** - Session → Turn → Tool/LLM spans (not flat logs)
-2. **Cross-session learning** - Extracts patterns from past sessions
-3. **Artifact correlation** - Handoffs linked to traces via `root_span_id`
-4. **Multi-project support** - Each project gets its own trace namespace
-5. **Fix for large content** - Uses temp files to avoid shell argument limits
+1. **等级追踪** -- -- 会话 -- -- 转会 -- -- 工具/LLM 跨度(不是平面日志)
+2. **交叉会期学习** -- -- 过去会议的模式摘录
+3. **艺术相关性** - 通过`root_span_id`
+4. **多项目支助** - 每个项目都有自己的微量命名空间
+5. **大内容的 Fix** - 使用临时文件来避免外壳参数限制
 
-### Enabling Braintrust
+<a id="enabling-braintrust"></a>
+### 扶持 Braintrust
 
-1. **Get API key** from [braintrust.dev](https://braintrust.dev)
+1. **获取 API 密钥** from[大 Braintrust 任。dev](https://braintrust.dev)
 
-2. **Add to environment:**
+2. **环境部分：**
    ```bash
    echo 'BRAINTRUST_API_KEY="sk-..."' >> ~/.claude/.env
    ```
 
-3. **Hooks are pre-configured** - The plugin is bundled in `.claude/plugins/braintrust-tracing/`
+3. 胡克是预设的** - 插件捆绑在`.claude/plugins/braintrust-tracing/`
 
-### How It Works
+<a id="how-it-works"></a>
+### 如何运作
 
-| Hook | What It Does |
+| 钩子 | 它会做什么 |
 |------|--------------|
-| **SessionStart** | Creates root span for the session trace |
-| **UserPromptSubmit** | Creates turn span, reconciles interrupted turns |
-| **PostToolUse** | Logs tool spans with input/output |
-| **Stop** | Finalizes current turn span |
-| **SessionEnd** | Closes session trace, triggers `--learn` |
+| **会议开始** | 为会话跟踪创建根跨度 |
+| **用户提交** | 创建转弯跨度， 调和中断的转弯 |
+| **后工具的使用** | 带有输入/输出的日志工具跨度 |
+| **停车** | 最后确定当前转弯跨度 |
+| **会议结束** | 关闭会话跟踪， 触发`--learn` |
 
-### The Learning Loop
+<a id="the-learning-loop"></a>
+### 学习循环
 
 ```
 1. You work → Braintrust traces every interaction
@@ -1188,9 +1243,10 @@ This kit extends the [official Braintrust Claude plugin](https://github.com/brai
 5. Next session → SessionStart surfaces learnings from last 48h
 ```
 
-### Artifact Index + Braintrust
+<a id="artifact-index-braintrust"></a>
+### 人工活性指数+大 Braintrust 任
 
-Handoffs are automatically linked to Braintrust traces:
+交易自动链接到大 Braintrust 任的痕迹：
 
 ```yaml
 # Handoff frontmatter (auto-injected by PostToolUse hook)
@@ -1199,14 +1255,15 @@ turn_span_id: def-456-turn    # Span that created this handoff
 session_id: abc-123-main      # Claude session ID
 ```
 
-This enables:
-- **Trace → Handoff** correlation (what work produced this handoff?)
-- **Session family queries** (all handoffs from session X)
-- **RAG-enhanced judging** (Artifact Index precedent for plan validation)
+这使得：
+- **Trace → Handoff** 关联性(是什么工作导致这一交接的?
+- **家庭问题会议** (第 10 次会议的所有分发)
+- **RAG-加强判断**(用于计划验证的艺术指数先例)
 
-### Disabling Braintrust
+<a id="disabling-braintrust"></a>
+### 破坏大 Braintrust 任
 
-Remove or comment out the Braintrust hooks in `.claude/settings.json`:
+删除或评论大 Braintrust 任钩`.claude/settings.json`:
 ```json
 {
   "hooks": {
@@ -1217,18 +1274,20 @@ Remove or comment out the Braintrust hooks in `.claude/settings.json`:
 }
 ```
 
-### Scripts
+<a id="scripts"></a>
+### 脚本
 
-| Script | Purpose |
+| 脚本 | 目的 |
 |--------|---------|
-| `braintrust_analyze.py --sessions N` | List recent sessions |
-| `braintrust_analyze.py --replay <id>` | View session trace |
-| `braintrust_analyze.py --learn` | Extract learnings from last session |
-| `braintrust_analyze.py --learn --session-id <id>` | Learn from specific session |
+| `braintrust_analyze.py --sessions N` | 最近会议一览表 |
+| `braintrust_analyze.py --replay <id>` | 查看会话跟踪 |
+| `braintrust_analyze.py --learn` | 从上一个会话中摘录学习 |
+| `braintrust_analyze.py --learn --session-id <id>` | 从特定会话中学习 |
 
-### Compound Learnings
+<a id="compound-learnings"></a>
+### 复合学习
 
-After several sessions, you accumulate learnings in `.claude/cache/learnings/`. Run the `/compound-learnings` skill to transform these into permanent rules:
+几会后，你积累学习`.claude/cache/learnings/`运行`/compound-learnings`将这些规则转化为永久规则的技能：
 
 ```
 "compound my learnings"
@@ -1238,22 +1297,25 @@ After several sessions, you accumulate learnings in `.claude/cache/learnings/`. 
 → Archives processed learnings
 ```
 
-This closes the loop: **sessions → learnings → rules → better sessions**.
+这就结束了循环：**会议 学习 规则 更好会议**。
 
 ---
 
-## Artifact Index
+<a id="artifact-index"></a>
+## 制品索引（Artifact Index）
 
-A local SQLite database that indexes handoffs and plans for fast search.
+一个本地的 SQLite 数据库，用于索引交割和快速搜索计划。
 
-### What It Does
+<a id="what-it-does"></a>
+### 它会做什么
 
-- **Indexes handoffs** with full-text search (FTS5)
-- **Tracks session outcomes** (SUCCEEDED, PARTIAL, FAILED)
-- **Links to Braintrust traces** for correlation
-- **Surfaces unmarked handoffs** at session start
+- **分发** 全文搜索(FTS5)
+- **轨迹会议结果** (SUCEED,Partial, filed)
+- **与大 Braintrust 任的关联**
+- **会话开始时未加标记的现款**
 
-### How It Works
+<a id="how-it-works-1"></a>
+### 如何运作
 
 ```
 1. Create handoff → PostToolUse hook indexes it immediately
@@ -1262,9 +1324,10 @@ A local SQLite database that indexes handoffs and plans for fast search.
 4. Mark outcomes → Improves future session recommendations
 ```
 
-### Marking Outcomes
+<a id="marking-outcomes"></a>
+### 标记结果
 
-After completing work, mark the outcome:
+在完成工作后，标出成果：
 
 ```bash
 # List unmarked handoffs
@@ -1276,9 +1339,10 @@ uv run python scripts/artifact_mark.py \
   --outcome SUCCEEDED
 ```
 
-**Outcomes:** SUCCEEDED | PARTIAL_PLUS | PARTIAL_MINUS | FAILED
+**结果：** | 部分语句 | 部分内容 | 失败
 
-### Querying the Index
+<a id="querying-the-index"></a>
+### 查询索引
 
 ```bash
 # Search handoffs by content
@@ -1290,9 +1354,10 @@ uv run python scripts/artifact_query.py --session open-source-release
 
 ---
 
-## TDD Workflow
+<a id="tdd-workflow"></a>
+## TDD 工作流量
 
-When you say "implement", "add feature", or "fix bug", TDD activates:
+当你说"执行","添加特性"，或"固定错误"时，TDD 激活：
 
 ```
 1. RED    - Write failing test first
@@ -1300,29 +1365,30 @@ When you say "implement", "add feature", or "fix bug", TDD activates:
 3. REFACTOR - Clean up, tests stay green
 ```
 
-**The rule:** No production code without a failing test.
+**规则：** 没有失败的测试， 没有生产代码 。
 
-If you write code first, the skill prompts you to delete it and start with a test.
+如果先写出代码，技能提示您删除并开始测试。
 
 ---
 
-## Code Quality (qlty)
+<a id="code-quality-qlty"></a>
+## 代码质量( Qlty)
 
-**Automatically installed** by `install-global.sh`. The `.qlty/` config is included in this repo, so no `qlty init` needed.
+**自动安装**`install-global.sh`编辑`.qlty/`配置包含在这个 repo 中， 因此没有`qlty init`需要帮助。
 
-Manual install (if needed):
+手动安装( 如果需要) :
 ```bash
 curl -fsSL https://qlty.sh/install.sh | bash
 ```
 
-Use it:
+用它来：
 ```
 "lint my code"
 "check code quality"
 "auto-fix issues"
 ```
 
-Or directly:
+或直接：
 ```bash
 qlty check --fix
 qlty fmt
@@ -1331,7 +1397,8 @@ qlty metrics
 
 ---
 
-## Directory Structure
+<a id="directory-structure"></a>
+## 目录结构
 
 ```
 .claude/
@@ -1349,9 +1416,10 @@ src/runtime/         # MCP execution runtime
 
 ---
 
-## Environment Variables
+<a id="environment-variables"></a>
+## 环境变量
 
-Add to `.env`:
+添加为`.env`:
 
 ```bash
 # Required for paid services
@@ -1362,73 +1430,80 @@ MORPH_API_KEY="sk-..."
 NIA_API_KEY="nk_..."
 ```
 
-Services without API keys still work:
-- `git` - local git operations
-- `ast-grep` - structural code search
-- `qlty` - code quality (auto-installed by `install-global.sh`)
+没有 API 密钥的服务仍然有效 :
+- `git`- 当地基特业务
+- `ast-grep`- 结构代码搜索
+- `qlty`- 代码质量(由`install-global.sh`)
 
-License-based (no API key, requires purchase):
-- `repoprompt` - codebase maps (Free tier: basic features; Pro: MCP tools, CodeMaps)
+基于许可证( 无 API 密钥， 需要购买 ) :
+- `repoprompt`- 代码基图(自由级：基本特征;Pro:MCP 工具;代码 Maps)
 
 ---
 
-## Glossary
+<a id="glossary"></a>
+## 词汇表
 
-| Term | Definition |
+| 任期 | 定义 |
 |------|------------|
-| Session | A single Claude Code conversation (from start to /clear or exit) |
-| Ledger | In-session state file (`CONTINUITY_CLAUDE-*.md`) that survives /clear |
-| Handoff | End-of-session document for transferring work to a new session |
-| Outcome | Session result marker: SUCCEEDED, PARTIAL_PLUS, PARTIAL_MINUS, FAILED |
-| Span | Braintrust trace unit - a turn or tool call within a session |
-| Artifact Index | SQLite database indexing handoffs, plans, and ledgers for RAG queries |
+| 会议 | 单一的 Claude Code 对话(从开始到/clear 或退出) |
+| 编辑器 | 会期状态文件( A)`CONTINUITY_CLAUDE-*.md`活下来的/clear |
+| 发牌 | 将工作移交给新届会的会后文件 |
+| 结果 | 会话结果标记：SUCEED,PartIAL PLUS,PartIAL MINS，故障 |
+| 宽度 | 大 Braintrust 任追踪股 -- -- 会话中的转弯或工具呼叫 |
+| 制品索引（Artifact Index） | SQLite 数据库，为 RAG 查询编制分发、计划和分类账索引 |
 
 ---
 
-## Troubleshooting
+<a id="troubleshooting"></a>
+## 解决问题
 
-**"MCP server not configured"**
-- Check `mcp_config.json` exists
-- Run `uv run mcp-generate`
-- Verify `.env` has required keys
+**“未配置 MCP 服务器”**
+- 检查`mcp_config.json`已存在
+- 运行`uv run mcp-generate`
+- 校验`.env`有需要的密钥
 
-**Skills not working**
-- Run via harness: `uv run python -m runtime.harness scripts/...`
-- Not directly: `python scripts/...`
+**技能不起作用**
+- 通过带子运行 :`uv run python -m runtime.harness scripts/...`
+- 不直接 :`python scripts/...`
 
-**Ledger not loading**
-- Check `CONTINUITY_CLAUDE-*.md` exists
-- Verify hooks are registered in `.claude/settings.json`
-- Make hooks executable: `chmod +x .claude/hooks/*.sh`
-
----
-
-## Acknowledgments
-
-### Patterns & Architecture
-- **[@numman-ali](https://github.com/numman-ali)** - Continuity ledger pattern
-- **[Anthropic](https://anthropic.com)** - [Code Execution with MCP](https://www.anthropic.com/engineering/code-execution-with-mcp)
-- **[obra/superpowers](https://github.com/obra/superpowers)** - Agent orchestration patterns
-- **[EveryInc/compound-engineering-plugin](https://github.com/EveryInc/compound-engineering-plugin)** - Compound engineering workflow
-- **[yoloshii/mcp-code-execution-enhanced](https://github.com/yoloshii/mcp-code-execution-enhanced)** - Enhanced MCP execution
-- **[HumanLayer](https://github.com/humanlayer/humanlayer)** - Agent patterns
-
-### Tools & Services
-- **[Braintrust](https://braintrust.dev)** - LLM evaluation, logging, and session tracing
-- **[qlty](https://github.com/qltysh/qlty)** - Universal code quality CLI (70+ linters)
-- **[ast-grep](https://github.com/ast-grep/ast-grep)** - AST-based code search and refactoring
-- **[Nia](https://trynia.ai)** - Library documentation search
-- **[Morph](https://www.morphllm.com)** - WarpGrep fast code search
-- **[Firecrawl](https://www.firecrawl.dev)** - Web scraping API
-- **[RepoPrompt](https://repoprompt.com)** - Token-efficient codebase maps (Pro license for MCP tools)
+**未装入的编目机**
+- 检查`CONTINUITY_CLAUDE-*.md`已存在
+- 校验钩子注册于`.claude/settings.json`
+- 使钩可执行文件 :`chmod +x .claude/hooks/*.sh`
 
 ---
 
-## License
+<a id="acknowledgments"></a>
+## 承认
 
-MIT License - see [LICENSE](LICENSE) for details.
+<a id="patterns-architecture"></a>
+### 模式和结构
+- **[@numman-ali (英语).](https://github.com/numman-ali)** 连续性分类账模式
+- **[安东尼](https://anthropic.com)** - [用 MCP 执行代码](https://www.anthropic.com/engineering/code-execution-with-mcp)
+- **[obra/超能力](https://github.com/obra/superpowers)** 代理指挥模式
+- **[EveryInc/compound-工程-插件](https://github.com/EveryInc/compound-engineering-plugin)** 复合工程工作流程
+- **[yoloshii/mcp-代码-执行-增强](https://github.com/yoloshii/mcp-code-execution-enhanced)** 强化多方案执行
+- **[人类图书馆](https://github.com/humanlayer/humanlayer)** 代理模式
+
+<a id="tools-services"></a>
+### 工具与服务
+- **[大 Braintrust 任](https://braintrust.dev)**- LLM 评价、伐木和会议跟踪
+- **[QLTY (英语).](https://github.com/qltysh/qlty)** 通用代码质量 CLI(70+linters)
+- **[Ast- grep 图像](https://github.com/ast-grep/ast-grep)** - 基于 AST 的代码搜索和重构
+- **[尼亚](https://trynia.ai)** 图书馆文件查询
+- **[墨菲语](https://www.morphllm.com)** - WarpGrep 快码搜索
+- **[纵火](https://www.firecrawl.dev)** 网络刮取 API
+- **[重现 Prompt](https://repoprompt.com)** - 托肯高效密码库地图(MCP 工具 Pro 许可证)
+
+---
+
+<a id="license"></a>
+## 许可证
+
+麻省理工学院执照 - 看[自由主义](LICENSE)详细情况。
 
 
-## Star History
+<a id="star-history"></a>
+## 恒星历史
 
-[![Star History Chart](https://api.star-history.com/svg?repos=parcadei/Continuous-Claude-v2&type=timeline&legend=top-left)](https://www.star-history.com/#parcadei/Continuous-Claude-v2&type=timeline&legend=top-left)
+[[星际历史图]](https://api.star-history.com/svg?repos=parcadei/Continuous-Claude-v2&type=timeline&legend=top-left)](https://www.star-history.com/#parcadei/Continuous-Claude-v2&type=timeline&legend=top-left)

@@ -2,33 +2,35 @@
 description: Resume work from handoff document with context analysis and validation
 ---
 
-# Resume work from a handoff document
+<a id="resume-work-from-a-handoff-document"></a>
+# 从交接文件中恢复工作
 
-You are tasked with resuming work from a handoff document through an interactive process. These handoffs contain critical context, learnings, and next steps from previous work sessions that need to be understood and continued.
+您的任务是通过互动进程从交接文件中恢复工作。 这些交割包含关键的背景、学习以及需要理解和继续的前几届工作会议的下一步。
 
-## Initial Response
+<a id="initial-response"></a>
+## 初步反应
 
-When this command is invoked:
+当引用此命令时 :
 
-1. **If the path to a handoff document was provided**:
-   - If a handoff document path was provided as a parameter, skip the default message
-   - Immediately read the handoff document FULLY
-   - Immediately read any research or plan documents that it links to under `thoughts/shared/plans` or `thoughts/shared/research`. do NOT use a sub-agent to read these critical files.
-   - Begin the analysis process by ingesting relevant context from the handoff document, reading additional files it mentions
-   - Then propose a course of action to the user and confirm, or ask for clarification on direction.
+1. **如果提供了发放文件的路径**:
+   - 如果提供了作为参数的交接文档路径， 请跳过默认消息
+   - 立即充分阅读交接文件
+   - 立即阅读其链接到以下系统的任何研究或计划文件：`thoughts/shared/plans` or `thoughts/shared/research`。不要使用子代理读取这些关键文件。
+   - 开始分析过程，从交接文件中取出相关上下文，阅读该文件提及的更多文件
+   - 然后向用户提出行动方针，确认或要求澄清方向。
 
-2. **If a ticket number (like ENG-XXXX) was provided**:
-   - locate the most recent handoff document for the ticket. Tickets will be located in `thoughts/shared/handoffs/ENG-XXXX` where `ENG-XXXX` is the ticket number. e.g. for `ENG-2124` the handoffs would be in `thoughts/shared/handoffs/ENG-2124/`. **List this directory's contents.**
-   - There may be zero, one or multiple files in the directory.
-   - **If there are zero files in the directory, or the directory does not exist**: tell the user: "I'm sorry, I can't seem to find that handoff document. Can you please provide me with a path to it?"
-   - **If there is only one file in the directory**: proceed with that handoff
-   - **If there are multiple files in the directory**: using the date and time specified in the file name (it will be in the format `YYYY-MM-DD_HH-MM-SS` in 24-hour time format), proceed with the _most recent_ handoff document.
-   - Immediately read the handoff document FULLY
-   - Immediately read any research or plan documents that it links to under `thoughts/shared/plans` or `thoughts/shared/research`; do NOT use a sub-agent to read these critical files.
-   - Begin the analysis process by ingesting relevant context from the handoff document, reading additional files it mentions
-   - Then propose a course of action to the user and confirm, or ask for clarification on direction.
+2. **如果提供票号(如 ENG-X)**:
+   - 找到最新的售票文件。 车票将在`thoughts/shared/handoffs/ENG-XXXX`地点`ENG-XXXX`是车票号码。 例如，用于`ENG-2124`交易将会在`thoughts/shared/handoffs/ENG-2124/`。 **列出此目录的内容。**
+   - 目录中可能存在零， 1 或多文件。
+   - **如果目录中有零文件，或者目录不存在**:告诉用户："对不起，我似乎找不到交接文件。 你能给我一条路吗?"
+   - **如果目录中只有一个文件**:继续移交
+   - **如果目录中有多个文件**:使用文件名称中指定的日期和时间(将使用格式)`YYYY-MM-DD_HH-MM-SS`以 24 小时为格式)，继续使用  最近 交接文档。
+   - 立即充分阅读交接文件
+   - 立即阅读其链接到以下系统的任何研究或计划文件：`thoughts/shared/plans` or `thoughts/shared/research`; 不要使用子代理读取这些关键文件。
+   - 开始分析过程，从交接文件中取出相关上下文，阅读该文件提及的更多文件
+   - 然后向用户提出行动方针，确认或要求澄清方向。
 
-3. **If no parameters provided**, respond with:
+3. **如果没有提供参数**，请回答：
 ```
 I'll help you resume work from a handoff document. Let me find the available handoffs.
 
@@ -39,15 +41,17 @@ Tip: You can invoke this command directly with a handoff path: `/resume_handoff 
 or using a ticket number to resume from the most recent handoff for that ticket: `/resume_handoff ENG-XXXX`
 ```
 
-Then wait for the user's input.
+然后等待用户的输入。
 
-## Process Steps
+<a id="process-steps"></a>
+## 步骤
 
-### Step 1: Read and Analyze Handoff
+<a id="step-1-read-and-analyze-handoff"></a>
+### 第 1 步：读取和分析取出
 
-1. **Read handoff document completely**:
-   - Use the Read tool WITHOUT limit/offset parameters
-   - Extract all sections:
+1. **完全读取移交文件**:
+   - 使用无限制/抵销参数的读取工具
+   - 提取所有区域 :
      - Task(s) and their statuses
      - Recent changes
      - Learnings
@@ -55,8 +59,8 @@ Then wait for the user's input.
      - Action items and next steps
      - Other notes
 
-2. **Spawn focused research tasks**:
-   Based on the handoff content, spawn parallel research tasks to verify current state:
+2. **重点研究任务**:
+根据交接内容，产生并行的研究任务，以验证当前状态：
 
    ```
    Task 1 - Gather artifact context:
@@ -69,16 +73,17 @@ Then wait for the user's input.
    Return: Summary of artifact contents and key decisions
    ```
 
-3. **Wait for ALL sub-tasks to complete** before proceeding
+3. **在所有次级任务完成之前等待**
 
-4. **Read critical files identified**:
-   - Read files from "Learnings" section completely
-   - Read files from "Recent changes" to understand modifications
-   - Read any new related files discovered during research
+4. **已查明的关键文件**:
+   - 从“ 学习” 部分完全读取文件
+   - 从“ 最近更改” 读取文件以理解修改
+   - 读取在研究中发现的任何新相关文件
 
-### Step 2: Synthesize and Present Analysis
+<a id="step-2-synthesize-and-present-analysis"></a>
+### 第 2 步：合成和现成分析
 
-1. **Present comprehensive analysis**:
+1. **现有综合分析**:
    ```
    I've analyzed the handoff from [date] by [researcher]. Here's the current situation:
 
@@ -111,16 +116,17 @@ Then wait for the user's input.
    Shall I proceed with [recommended action 1], or would you like to adjust the approach?
    ```
 
-2. **Get confirmation** before proceeding
+2. **在进行程序前获得确认**
 
-### Step 3: Create Action Plan
+<a id="step-3-create-action-plan"></a>
+### 步骤 3:制定行动计划
 
-1. **Use TodoWrite to create task list**:
-   - Convert action items from handoff into todos
-   - Add any new tasks discovered during analysis
-   - Prioritize based on dependencies and handoff guidance
+1. **使用 todoWrite 创建任务列表** :
+   - 将动作项目从移交转换为待办事宜
+   - 添加分析中发现的任何新任务
+   - 根据依赖和交接指导确定优先次序
 
-2. **Present the plan**:
+2. **提出计划**:
    ```
    I've created a task list based on the handoff and current analysis:
 
@@ -129,72 +135,80 @@ Then wait for the user's input.
    Ready to begin with the first task: [task description]?
    ```
 
-### Step 4: Begin Implementation
+<a id="step-4-begin-implementation"></a>
+### 步骤 4:开始执行
 
-1. **Start with the first approved task**
-2. **Reference learnings from handoff** throughout implementation
-3. **Apply patterns and approaches documented** in the handoff
-4. **Update progress** as tasks are completed
+1. **开始执行第一项已核准的任务**
+2. **在整个执行过程中从交割中吸取的参考**
+3. **交割中记录的典型做法**
+4. **任务完成后的最新进展**
 
-## Guidelines
+<a id="guidelines"></a>
+## 准则
 
-1. **Be Thorough in Analysis**:
-   - Read the entire handoff document first
-   - Verify ALL mentioned changes still exist
-   - Check for any regressions or conflicts
-   - Read all referenced artifacts
+1. **彻底分析**:
+   - 先读整个交接文档
+   - 校验所有提及更改仍然存在
+   - 检查任何回归或冲突
+   - 读取所有引用的文物
 
-2. **Be Interactive**:
-   - Present findings before starting work
-   - Get buy-in on the approach
-   - Allow for course corrections
-   - Adapt based on current state vs handoff state
+2. **互动**:
+   - 开始工作前提出调查结果
+   - 买入方法
+   - 允许校正课程
+   - 基于当前状态对交接状态的适应
 
-3. **Leverage Handoff Wisdom**:
-   - Pay special attention to "Learnings" section
-   - Apply documented patterns and approaches
-   - Avoid repeating mistakes mentioned
-   - Build on discovered solutions
+3. **自由手腕智慧**:
+   - 特别注意"学习"部分
+   - 应用已记录的模式和方法
+   - 避免重复提及的错误
+   - 利用已发现的解决方案
 
-4. **Track Continuity**:
-   - Use TodoWrite to maintain task continuity
-   - Reference the handoff document in commits
-   - Document any deviations from original plan
-   - Consider creating a new handoff when done
+4. **追踪连续性**:
+   - 使用 todoWrite 来保持任务连续性
+   - 引用交接文件
+   - 记录任何偏离原计划的情况
+   - 完成后考虑创建新的交接
 
-5. **Validate Before Acting**:
-   - Never assume handoff state matches current state
-   - Verify all file references still exist
-   - Check for breaking changes since handoff
-   - Confirm patterns are still valid
+5. **代理** 之前：
+   - 永远不要假设交接状态符合当前状态
+   - 验证所有文件引用仍然存在
+   - 检查交接后是否有更改
+   - 确认模式仍然有效
 
-## Common Scenarios
+<a id="common-scenarios"></a>
+## 常见情况
 
-### Scenario 1: Clean Continuation
-- All changes from handoff are present
-- No conflicts or regressions
-- Clear next steps in action items
-- Proceed with recommended actions
+<a id="scenario-1-clean-continuation"></a>
+### 设想 1:清洁延续
+- 交割后的所有更改都存在
+- 无冲突或倒退
+- 清除行动项目的下一步
+- 继续采取建议的行动
 
-### Scenario 2: Diverged Codebase
-- Some changes missing or modified
-- New related code added since handoff
-- Need to reconcile differences
-- Adapt plan based on current state
+<a id="scenario-2-diverged-codebase"></a>
+### 设想 2:多种编码基础
+- 缺少或修改了一些更改
+- 交接后新增相关代码
+- 需要调和分歧
+- 基于当前状况的适应计划
 
-### Scenario 3: Incomplete Handoff Work
-- Tasks marked as "in_progress" in handoff
-- Need to complete unfinished work first
-- May need to re-understand partial implementations
-- Focus on completing before new work
+<a id="scenario-3-incomplete-handoff-work"></a>
+### 设想 3:不完全的交接工作
+- 交接中标为“ 进行中” 的任务
+- 需要先完成未完成的工作
+- 可能需要重新理解部分执行
+- 注重在新工作之前完成
 
-### Scenario 4: Stale Handoff
-- Significant time has passed
-- Major refactoring has occurred
-- Original approach may no longer apply
-- Need to re-evaluate strategy
+<a id="scenario-4-stale-handoff"></a>
+### 设想 4:Stale Handoff
+- 已经过了很长时间
+- 进行了重大重构
+- 原有办法可能不再适用
+- 需要重新评估战略
 
-## Example Interaction Flow
+<a id="example-interaction-flow"></a>
+## 互动流动示例
 
 ```
 User: /resume_handoff specification/feature/handoffs/handoff-0.md

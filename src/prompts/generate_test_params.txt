@@ -1,18 +1,18 @@
-Generate minimal test parameters for this MCP tool.
+为该 MCP 工具生成最小测试参数。
 
-Tool: {tool_name}
-{description_line}
+工具 : {tool name}
+{描述 行}
 
-Input Schema:
+输入外观 :
 ```json
 {schema_json}
 ```
 
-Requirements:
-- Return ONLY valid JSON that satisfies the schema
-- Use minimal values: empty strings, 0, 1, [], {{}}
-- Be conservative: avoid URLs, file paths, or special values unless required
-- Ensure all required fields are present
-- For arrays/objects, use minimal examples (1-2 items)
+所需经费：
+- 返回符合计划的 JSON
+- 使用最小值： 空字符串， 0, 1, [], QQ
+- 保守： 避免 URL、 文件路径或特殊值， 除非需要
+- 确保提供所有所需字段
+- 对于数组/对象，使用最小示例(1-2 项)
 
-Return ONLY the JSON object, no explanation.
+只归还 JSON 物体，没有解释。

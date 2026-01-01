@@ -1,16 +1,18 @@
-# Agent Orchestration Rules
+<a id="agent-orchestration-rules"></a>
+# 代理管弦乐规则
 
-When the user asks to implement something, use implementation agents to preserve main context.
+当用户要求执行某事时，使用执行代理来保存主上下文。
 
-## The Pattern
+<a id="the-pattern"></a>
+## 图案
 
-**Wrong - burns context:**
+**错误----烧伤背景：**
 ```
 Main: Read files → Understand → Make edits → Report
       (2000+ tokens consumed in main context)
 ```
 
-**Right - preserves context:**
+**权利----保留上下文：**
 ```
 Main: Spawn agent("implement X per plan")
       ↓
@@ -19,21 +21,24 @@ Agent: Reads files → Understands → Edits → Tests
 Main: Gets summary (~200 tokens)
 ```
 
-## When to Use Agents
+<a id="when-to-use-agents"></a>
+## 何时使用代理
 
-| Task Type | Use Agent? | Reason |
+| 任务类型 | 用探员? | 原因 |
 |-----------|------------|--------|
-| Multi-file implementation | Yes | Agent handles complexity internally |
-| Following a plan phase | Yes | Agent reads plan, implements |
-| New feature with tests | Yes | Agent can run tests |
-| Single-line fix | No | Faster to do directly |
-| Quick config change | No | Overhead not worth it |
+| 多文件执行 | 对 | 代理处理内部复杂 |
+| 计划阶段之后 | 对 | 代理读取计划，工具 |
+| 有测试的新功能 | 对 | 代理可以运行测试 |
+| 单行固定 | No | 快点直接动手 |
+| 快速配置变化 | No | 超头不值得 |
 
-## Key Insight
+<a id="key-insight"></a>
+## 密钥透视
 
-Agents read their own context. Don't read files in main chat just to understand what to pass to an agent - give them the task and they figure it out.
+代理读了他们自己的背景 不要在主要聊天中读取文件，只是为了了解什么是传递给代理 - 给他们任务，让他们自己想清楚。
 
-## Example Prompt
+<a id="example-prompt"></a>
+## 示例提示
 
 ```
 Implement Phase 4: Outcome Marking Hook from the Artifact Index plan.
@@ -49,9 +54,10 @@ Implement Phase 4: Outcome Marking Hook from the Artifact Index plan.
 When done, provide a summary of files created and any issues.
 ```
 
-## Trigger Words
+<a id="trigger-words"></a>
+## 触发词
 
-When user says these, consider using an agent:
-- "implement", "build", "create feature"
-- "follow the plan", "do phase X"
-- "use implementation agents"
+当用户说这些时， 考虑使用代理 :
+- "执行","建设","创造特色"
+- "按照计划" "做第十阶段"
+- "使用执行代理人"

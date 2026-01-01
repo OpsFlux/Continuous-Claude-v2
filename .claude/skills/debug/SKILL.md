@@ -2,13 +2,15 @@
 description: Debug issues by investigating logs, database state, and git history
 ---
 
-# Debug
+<a id="debug"></a>
+# 调试
 
-You are tasked with helping debug issues during manual testing or implementation. This command allows you to investigate problems by examining logs, database state, and git history without editing files. Think of this as a way to bootstrap a debugging session without using the primary window's context.
+您的任务是在手动测试或执行过程中帮助调试问题 。 此命令允许您通过检查日志，数据库状态和 git 历史来调查问题，而不编辑文件 。 将它视为不使用主窗口的上下文来拖住调试会话的方法 。
 
-## Initial Response
+<a id="initial-response"></a>
+## 初步反应
 
-When invoked WITH a plan/ticket file:
+以计划/计数板文件引用时：
 ```
 I'll help debug issues with [file name]. Let me understand the current state.
 
@@ -20,7 +22,7 @@ What specific problem are you encountering?
 I'll investigate the logs, database, and git state to help figure out what's happening.
 ```
 
-When invoked WITHOUT parameters:
+当引用没有参数时：
 ```
 I'll help debug your current issue.
 
@@ -32,45 +34,49 @@ Please describe what's going wrong:
 I can investigate logs, database state, and recent changes to help identify the issue.
 ```
 
-## Environment Information
+<a id="environment-information"></a>
+## 环境信息
 
-You have access to these key locations and tools:
+您可以访问这些关键地点和工具：
 
-**Logs**:
-- Application logs (check project-specific locations)
-- Common locations: `./logs/`, `~/.local/share/{app}/`, `/var/log/`
+**记录**:
+- 应用程序日志(检查项目具体地点)
+- 共同地点：`./logs/`, `~/.local/share/{app}/`, `/var/log/`
 
-**Database** (if applicable):
-- SQLite databases can be queried with `sqlite3`
-- Check project config for database locations
+**数据库**(如果适用):
+- SQLite 数据库可以查询`sqlite3`
+- 检查数据库位置的工程配置
 
-**Git State**:
-- Check current branch, recent commits, uncommitted changes
-- Similar to how `commit` and `describe_pr` commands work
+**国籍国**:
+- 检查当前分支、 最近承诺、 未承诺的更改
+- 类似如何`commit`和`describe_pr`命令工作
 
-**Service Status**:
-- Check running processes: `ps aux | grep {service}`
-- Check listening ports: `lsof -i :{port}`
+**服务状况**:
+- 检查运行的过程 :`ps aux | grep {service}`
+- 检查监听端口 :`lsof -i :{port}`
 
-## Process Steps
+<a id="process-steps"></a>
+## 步骤
 
-### Step 1: Understand the Problem
+<a id="step-1-understand-the-problem"></a>
+### 步骤 1:了解问题
 
-After the user describes the issue:
+在用户描述问题后：
 
-1. **Read any provided context** (plan or ticket file):
-   - Understand what they're implementing/testing
-   - Note which phase or step they're on
-   - Identify expected vs actual behavior
+1. **阅读任何提供的上下文**(计划或票单文件):
+   - 了解他们执行/测试的内容
+   - 注意他们的哪个阶段或步骤
+   - 识别预期对实际行为
 
-2. **Quick state check**:
-   - Current git branch and recent commits
-   - Any uncommitted changes
-   - When the issue started occurring
+2. 快速状态检查**:
+   - 当前 git 分支和最近承诺
+   - 任何未承诺的更改
+   - 问题开始的时候
 
-### Step 2: Investigate the Issue
+<a id="step-2-investigate-the-issue"></a>
+### 步骤 2:调查问题
 
-Spawn parallel Task agents for efficient investigation:
+大量平行任务代理，以高效调查：
 
 ```
 Task 1 - Check Recent Logs:
@@ -104,9 +110,10 @@ Understand what changed recently:
 Return: Git state and any file issues
 ```
 
-### Step 3: Present Findings
+<a id="step-3-present-findings"></a>
+### 步骤 3:提出调查结果
 
-Based on the investigation, present a focused debug report:
+根据调查，提交重点调试报告：
 
 ```markdown
 ## Debug Report
@@ -122,8 +129,8 @@ Based on the investigation, present a focused debug report:
 
 **From Database** (if applicable):
 ```sql
--- Relevant query and result
-[Finding from database]
+-- 相关查询和结果
+[从数据库查找]
 ```
 
 **From Git/Files**:
@@ -137,7 +144,7 @@ Based on the investigation, present a focused debug report:
 
 1. **Try This First**:
    ```bash
-   [Specific command or action]
+[具体命令或行动]
    ```
 
 2. **If That Doesn't Work**:
@@ -154,41 +161,43 @@ Some issues might be outside my reach:
 Would you like me to investigate something specific further?
 ```
 
-## Important Notes
+<a id="important-notes"></a>
+## 重要说明
 
-- **Focus on manual testing scenarios** - This is for debugging during implementation
-- **Always require problem description** - Can't debug without knowing what's wrong
-- **Read files completely** - No limit/offset when reading context
-- **Think like `commit` or `describe_pr`** - Understand git state and changes
-- **Guide back to user** - Some issues (browser console, MCP internals) are outside reach
-- **No file editing** - Pure investigation only
+- **以人工测试情景为重点** - 用于执行时调试
+- **总是需要问题描述** - 不能在不知道出错的情况下调试
+- **完全读取文件** - 阅读上下文时没有限制/抵销
+- {\fn 黑体。s20\shad2\2aH82\3aH20\4aH33\fscx95\3cH592001\be1}想起来`commit` or `describe_pr`** - 了解基特状态和变化
+- **回向用户** - 某些问题(浏览器控制台，MCP 内部)是无法触及的
+- **不编辑文件** - 只调查
 
-## Quick Reference
+<a id="quick-reference"></a>
+## 快速引用
 
-**Find Latest Logs**:
+**找到最新记录**:
 ```bash
 ls -t ./logs/*.log | head -1
 # Or check project-specific log locations
 ```
 
-**Database Queries** (SQLite):
+**数据库查询**(SQLite):
 ```bash
 sqlite3 {database_path} ".tables"
 sqlite3 {database_path} ".schema {table}"
 sqlite3 {database_path} "SELECT * FROM {table} ORDER BY created_at DESC LIMIT 5;"
 ```
 
-**Service Check**:
+**服务检查**:
 ```bash
 ps aux | grep {service_name}
 lsof -i :{port}
 ```
 
-**Git State**:
+**国籍国**:
 ```bash
 git status
 git log --oneline -10
 git diff
 ```
 
-Remember: This command helps you investigate without burning the primary window's context. Perfect for when you hit an issue during manual testing and need to dig into logs, database, or git state.
+记住： 此命令可以帮助您在不刻录主窗口上下文的情况下进行调查 。 完全适合在人工测试中遇到问题时 需要挖掘日志、数据库或 git 状态

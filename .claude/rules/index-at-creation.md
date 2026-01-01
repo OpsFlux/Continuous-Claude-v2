@@ -1,21 +1,26 @@
-# Index at Creation Time
+<a id="index-at-creation-time"></a>
+# 创建时间索引
 
-Index artifacts when they're created, not at batch boundaries.
+创建时的索引文物，而非分批出界。
 
-## Pattern
+<a id="pattern"></a>
+## 图案
 
-If downstream logic depends on artifacts being queryable, index immediately at write time.
+如果下游逻辑依赖于文物的可查询性，那么在写作时立即索引。
 
+<a id="do"></a>
 ## DO
-- Index handoffs in PostToolUse Write hook (immediately after creation)
-- Use `--file` flag for fast single-file indexing
-- Trigger indexing from the same event that creates the artifact
+- 在 PostTooLus Write hook (创建后立即) 中的索引分发
+- 使用`--file`用于快速单文件索引的旗帜
+- 从创建文物的同一事件触发索引
 
-## DON'T
-- Wait for SessionEnd to batch-index
-- Rely on cron/scheduled jobs for time-sensitive data
-- Assume data will be available "soon enough"
+<a id="dont"></a>
+## 别
+- 等待会话结束到批次索引
+- 重用 cron/ 预定任务获取时间敏感数据
+- 假设数据将“很快”提供
 
-## Source Sessions
-- a541f08a: "Index at artifact creation time, not at SessionEnd"
-- 1c21e6c8: "If downstream logic depends on artifacts, index at the moment they're created"
+<a id="source-sessions"></a>
+## 源会话
+- a541f08a:"出品时间为出品时间，而非会场结束".
+- 1c21e6c8:"如果下游逻辑依赖于文物，那么在创造时的索引".

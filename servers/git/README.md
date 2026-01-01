@@ -1,23 +1,26 @@
-# git MCP Tools
+<a id="git-mcp-tools"></a>
+# git 磁共振 工具
 
-Auto-generated wrappers for git MCP server.
+git MCP 服务器自动生成的包装。
 
-## Tools
+<a id="tools"></a>
+## 工具
 
-- `git_status`: Shows the working tree status
-- `git_diff_unstaged`: Shows changes in the working directory that are not yet staged
-- `git_diff_staged`: Shows changes that are staged for commit
-- `git_diff`: Shows differences between branches or commits
-- `git_commit`: Records changes to the repository
-- `git_add`: Adds file contents to the staging area
-- `git_reset`: Unstages all staged changes
-- `git_log`: Shows the commit logs
-- `git_create_branch`: Creates a new branch from an optional base branch
-- `git_checkout`: Switches branches
-- `git_show`: Shows the contents of a commit
-- `git_branch`: List Git branches
+- `git_status`: 显示工作树状态
+- `git_diff_unstaged`: 显示工作目录中尚未设置的更改
+- `git_diff_staged`: 显示要执行的更改
+- `git_diff`: 显示分支之间的差异或承诺
+- `git_commit`: 对寄存器的记录更改
+- `git_add`: 将文件内容添加到中转区域
+- `git_reset`: 取消所有阶段的更改
+- `git_log`: 显示承诺日志
+- `git_create_branch`: 从可选的基础分支创建新分支
+- `git_checkout`: 切换分支
+- `git_show`: 显示一个承诺的内容
+- `git_branch`: 列表 Git 分支
 
-## Usage
+<a id="usage"></a>
+## 使用量
 
 ```python
 from servers.git import git_status
@@ -26,4 +29,4 @@ from servers.git import git_status
 result = await git_status(params)
 ```
 
-**Note**: This file is auto-generated. Do not edit manually.
+**说明**: 此文件是自动生成的 。 不手工编辑。

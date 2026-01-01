@@ -4,18 +4,21 @@ description: Code quality checks, formatting, and metrics via qlty CLI
 allowed-tools: [Bash, Read]
 ---
 
-# Qlty Code Quality
+<a id="qlty-code-quality"></a>
+# Qlty 代码质量
 
-Universal code quality tool supporting 70+ linters for 40+ languages via qlty CLI.
+通过 qlty CLI 支持 40+语言 70+linters 的通用代码质量工具。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Check code for linting issues before commit/handoff
-- Auto-fix formatting and style issues
-- Calculate code metrics (complexity, duplication)
-- Find code smells
+- 执行/移交前检查规则
+- 自动固定格式和样式问题
+- 计算代码度量(复杂、重复)
+- 查找有气味的代码
 
-## Quick Reference
+<a id="quick-reference"></a>
+## 快速引用
 
 ```bash
 # Check changed files with auto-fix
@@ -34,31 +37,35 @@ uv run python -m runtime.harness scripts/qlty_check.py --metrics
 uv run python -m runtime.harness scripts/qlty_check.py --smells
 ```
 
-## Parameters
+<a id="parameters"></a>
+## 参数
 
-| Parameter | Description |
+| 参数 | 说明 |
 |-----------|-------------|
-| `--check` | Run linters (default) |
-| `--fix` | Auto-fix issues |
-| `--all` | Process all files, not just changed |
-| `--fmt` | Format files instead |
-| `--metrics` | Calculate code metrics |
-| `--smells` | Find code smells |
-| `--paths` | Specific files/directories |
-| `--level` | Min issue level: note/low/medium/high |
-| `--cwd` | Working directory |
-| `--init` | Initialize qlty in a repo |
-| `--plugins` | List available plugins |
+| `--check` | 运行接口( 默认) |
+| `--fix` | 自动固定问题 |
+| `--all` | 处理所有文件， 而不仅仅是更改 |
+| `--fmt` | 替换为格式化文件 |
+| `--metrics` | 计算代码度量衡 |
+| `--smells` | 查找有气味的代码 |
+| `--paths` | 具体文件/目录 |
+| `--level` | 次要问题级别：说明/低/中/高 |
+| `--cwd` | 工作目录 |
+| `--init` | 在还原中初始化 qlty |
+| `--plugins` | 列出可用的插件 |
 
-## Common Workflows
+<a id="common-workflows"></a>
+## 共同工作流程
 
-### After Implementation
+<a id="after-implementation"></a>
+### 执行后
 ```bash
 # Auto-fix what's possible, see what remains
 uv run python -m runtime.harness scripts/qlty_check.py --fix
 ```
 
-### Quality Report
+<a id="quality-report"></a>
+### 质量报告
 ```bash
 # Get metrics for changed code
 uv run python -m runtime.harness scripts/qlty_check.py --metrics
@@ -67,12 +74,14 @@ uv run python -m runtime.harness scripts/qlty_check.py --metrics
 uv run python -m runtime.harness scripts/qlty_check.py --smells
 ```
 
-### Initialize in New Repo
+<a id="initialize-in-new-repo"></a>
+### 在新 Repo 中初始化
 ```bash
 uv run python -m runtime.harness scripts/qlty_check.py --init --cwd /path/to/repo
 ```
 
-## Direct CLI (if qlty installed)
+<a id="direct-cli-if-qlty-installed"></a>
+## 直接 CLI( 如果安装了 qlty)
 
 ```bash
 # Check changed files
@@ -88,16 +97,18 @@ qlty check --json
 qlty fmt
 ```
 
-## Requirements
+<a id="requirements"></a>
+## 所需资源
 
-- **qlty CLI**: https://github.com/qltysh/qlty
-- **MCP server**: `servers/qlty/server.py` wraps CLI
-- **Config**: `.qlty/qlty.toml` in repo (run `qlty init` first)
+- **qlty CLI**:https://github.com/qltysh/qlty
+- **MCP 服务器** :`servers/qlty/server.py`覆盖 CLI
+- **结 论**:`.qlty/qlty.toml`在重播( 运行)`qlty init`(第一个)
 
-## vs Other Tools
+<a id="vs-other-tools"></a>
+## vs 其他工具
 
-| Tool | Use Case |
+| 工具 | 使用大小写 |
 |------|----------|
-| **qlty** | Unified linting, formatting, metrics for any language |
-| **ast-grep** | Structural code patterns and refactoring |
-| **morph** | Fast text search |
+| (单位：千美元) | 任何语言的统一衬线、格式、衡量标准 |
+| (单位：千美元) | 结构代码模式和重构 |
+| **变型** | 快速文本搜索 |

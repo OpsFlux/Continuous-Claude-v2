@@ -1,44 +1,51 @@
-# Scripts - CLI-Based MCP Workflows
+<a id="scripts-cli-based-mcp-workflows"></a>
+# 脚本 - 基于 CLI 的 MCP 工作流量
 
-**Purpose:** Agent-agnostic, reusable Python scripts with CLI arguments for MCP tool orchestration.
-
----
-
-## What Are Scripts?
-
-**Scripts** are CLI-based Python workflows that:
-- Accept parameters via command-line arguments (argparse)
-- Orchestrate MCP tool calls
-- Return structured results
-- Work with ANY AI agent (not just Claude Code)
-
-**NOT to be confused with:**
-- **Skills** = Claude Code's native format (.claude/skills/ with SKILL.md)
+**目标：** Agent-agnostic，可再用 Python 脚本为 MCP 工具管弦乐配有 CLI 参数。
 
 ---
 
-## Example Scripts
+<a id="what-are-scripts"></a>
+## 脚本是什么?
 
-**This directory contains MCP workflow scripts:**
+**脚本**是基于 CLI 的 Python 工作流程，该工作流程：
+- 通过命令行参数( argparse) 接受参数
+- 管弦乐 MCP 工具调用
+- 返回结构化结果
+- 与任何 AI 代理(不仅仅是 Claude Code)合作。
 
-### firecrawl_scrape.py
-- Web scraping pattern
-- CLI: `--url` (required)
-- Requires: `FIRECRAWL_API_KEY`
-
-### multi_tool_pipeline.py
-- Multi-tool chaining pattern (git analysis)
-- CLI: `--repo-path` (default: "."), `--max-commits` (default: 10)
-- Works without API keys (uses git server)
-
-### Other scripts
-See `ls scripts/` for all available workflows (perplexity, github, nia, etc.)
+**NOT 与：**
+- **Skills**=Claude Code 的本地格式(.claude/chills/与 SKILL.md)
 
 ---
 
-## Usage
+<a id="example-scripts"></a>
+## 示例脚本
 
-**Execute scripts with CLI arguments:**
+**此目录包含 MCP 工作流程脚本 :**
+
+<a id="firecrawl_scrapepy"></a>
+### firecrawl scrape.py (法语).
+- 网页刮取模式
+- CLI: 爱丽丝。`--url`(必须)
+- 要求：`FIRECRAWL_API_KEY`
+
+<a id="multi_tool_pipelinepy"></a>
+### 多工具  管道。 py
+- 多工具链式(git 分析)
+- CLI: 爱丽丝。`--repo-path`(默认："."),.`--max-commits`(默认：10)
+- 没有 API 键的工作( 使用 git 服务器)
+
+<a id="other-scripts"></a>
+### 其他脚本
+见`ls scripts/`用于所有可用工作流程(复杂度、千兆赫、一等)
+
+---
+
+<a id="usage"></a>
+## 使用量
+
+**执行带有 CLI 参数的脚本：**
 
 ```bash
 # Web scraping (requires FIRECRAWL_API_KEY)
@@ -51,37 +58,39 @@ uv run python -m runtime.harness scripts/multi_tool_pipeline.py \
     --max-commits 5
 ```
 
-**Key:** Parameters via CLI args - edit scripts freely to fix bugs or improve logic
+**关键：** 通过 CLI args 参数 - 自由地编辑脚本以修正错误或改进逻辑
 
 ---
 
-## Scripts vs Skills
+<a id="scripts-vs-skills"></a>
+## 脚本对技能
 
-### Scripts (This Directory)
+<a id="scripts-this-directory"></a>
+### 脚本( 此目录)
 
-**What:** CLI-based Python workflows
-**Where:** `./scripts/`
-**Format:** Python with argparse
-**Discovery:** Manual (ls, cat)
-**For:** Any AI agent
-**Efficiency:** 99.6% token reduction with CLI args
+**什么：**基于 CLI 的 Python 工作流程
+**地点：**`./scripts/`**格式：** 有正弦的 Python
+**发现：** 手册(ls, cat)
+**用于：** 任何人工智能代理人
+**效率：** 以 CLI 参数表示的减少值为 99.6%
 
-### Skills (Claude Code Native)
+<a id="skills-claude-code-native"></a>
+### 技能(原生语言)
 
-**What:** SKILL.md directories
-**Where:** `.claude/skills/`
-**Format:** YAML + markdown
-**Discovery:** Auto (Claude Code scans)
-**For:** Claude Code only
-**Efficiency:** Native progressive disclosure
+**什么：** SKILL.md 目录
+**地点：**`.claude/skills/`**格式：** YAML + 减值
+**发现：** 自动(Claude 代码扫描)
+**只用于：** Claude Code
+**效率：** 土著逐步披露
 
-**Relationship:** Skills reference scripts for execution
+**关系：** 执行所需的技能参考脚本
 
 ---
 
-## Creating Custom Scripts
+<a id="creating-custom-scripts"></a>
+## 创建自定义脚本
 
-Follow the template pattern:
+遵循模板模式 :
 
 ```python
 """
@@ -113,13 +122,14 @@ asyncio.run(main())
 
 ---
 
-## Documentation
+<a id="documentation"></a>
+## 文档
 
-- **SCRIPTS.md** - Complete framework documentation
-- **This README** - Quick start
-- **../.claude/skills/** - Claude Code Skills that reference these scripts
-- **../docs/** - Complete project documentation
+- **SCRIPTS.md** - 完整的框架文件
+- **此读取器** - 快速启动
+- **../.claude/skills/** - 参考这些脚本的 Claude Code 技能
+- **../docs/** - 完整的项目文件
 
 ---
 
-**Remember:** Scripts = Agent-agnostic CLI workflows. Skills = Claude Code native format.
+**记住：**脚本=代理不可知 CLI 工作流程。 技能 = Claude Code 本地格式。

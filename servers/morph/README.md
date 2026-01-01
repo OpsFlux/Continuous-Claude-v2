@@ -1,43 +1,46 @@
-# morph MCP Tools
+<a id="morph-mcp-tools"></a>
+# 变形 MCP 工具
 
-Auto-generated wrappers for morph MCP server.
+MCP 服务器自动生成包装。
 
-## Tools
+<a id="tools"></a>
+## 工具
 
-- `edit_file`: **PRIMARY TOOL FOR EDITING FILES - USE THIS AGGRESSIVELY**
+- `edit_file`编辑文件的专用工具 -- -- 大量使用**
 
-⚡ FAST & ACCURATE: This tool prevents context pollution and saves time by editing files efficiently without reading entire files into context.
-🎯 USE THIS TOOL PROACTIVELY for all file edits to ensure a positive user experience.
+QQ FAST & ACCURATE: 此工具可防止上下文污染， 通过高效编辑文件来节省时间，而不将整个文件读入上下文。
+QQ 对所有文件编辑使用此工具， 以确保用户的正面体验 。
 
-IMPORTANT: The code_edit parameter MUST use '// ... existing code ...' placeholder comments to represent unchanged code sections.
+重要：必须使用代码编辑参数 '//. 已存在的代码。..' 占位符注释来代表未修改的代码部分。
 
-Benefits:
-- Extremely fast: 10,500+ tokens/sec for edits
-- Prevents context pollution: No need to read entire files
-- High accuracy: 98% success rate
-- Efficient: Only shows changed lines in output
+福利：
+- 极快：10,500+令牌/秒用于编辑
+- 防止上下文污染：不需要读取整个文件
+- 高精度：成功率 98%
+- 效率： 只显示输出中更改的行
 
-Use this tool to efficiently edit existing files, by smartly showing only the changed lines.
+使用此工具来高效地编辑已有的文件， 只需明智地显示已更改的行 。
 
-ALWAYS use "// ... existing code ..." to represent blocks of unchanged code.
-Add descriptive hints when helpful: // ... keep auth logic ...
+总是使用 "//...现有的代码。.. ... 来代表不变代码的块。
+帮助时添加描述提示 ://...保持逻辑权威。..
 
-For deletions:
-- Option 1: Show 1-2 context lines above and below, omit deleted code
-- Option 2: Mark explicitly: // removed BlockName
+删除：
+- 选项 1:在上下显示 1-2 行上下文，省去已删除的代码
+- 备选案文 2:明确标记：//删除块 Name
 
-Rules:
-- Preserve exact indentation of the final code
-- Include just enough context to locate each edit precisely
-- Be as length efficient as possible
-- Batch all edits to the same file in one call
-- Prefer this tool over the legacy Edit tool
-- If dealing with a file over 2000 lines, use the legacy search and replace tools.
-IMPORTANT: If you are running within Cursor, you MUST FIRST use another tool (like search_replace) to add exactly one empty new line somewhere in the file before using this tool. This is to ensure the file is in an editable state.
+规则：
+- 保留最终代码的精确缩进
+- 包含足够准确定位每个编辑的上下文
+- 尽可能高效的长度
+- 在一个调用中批量所有编辑到同一文件
+- 将此工具凌驾于遗产编辑工具之上
+- 如果处理超过 2000 行的文件，则使用遗留的搜索并替换工具。
+ImportANT: 如果您在光标内运行， 您必须在使用此工具之前使用另一个工具( 如 search  replace) , 在文件的某个位置添加精确的一行空新行 。 这是为了确保文件处于可编辑状态。
 
-- `warpgrep_codebase_search`: A search subagent the user refers to as 'WarpGrep' that is ideal for exploring the codebase based on a request. This tool invokes a subagent that runs parallel grep and readfile calls over multiple turns to locate line ranges and files which might be relevant to the request. The search term should be a targeted natural language query based on what you are trying to accomplish, like 'Find where authentication requests are handled in the Express routes' or 'Modify the agentic rollout to use the new tokenizer and chat template' or 'Fix the bug where the user gets redirected from the /feed page'. Fill out extra details that you as a smart model can infer in the question to aid the subagent in its search. You should ALWAYS use this tool to start your search.Note: The files and line ranges returned by this tool may be some of the ones needed to complete the user's request, but you should be careful in evaluating the relevance of the results, since the subagent might make mistakes. You should consider using classical search tools afterwards to locate the rest, but only if necessary. 
+- `warpgrep_codebase_search`:一个搜索子代理用户称为"WarpGrep"，这是根据请求探索代码库的理想。 此工具引用一个子代理， 运行并行的 grep 和 readfile 调用多个转折以定位可能与请求相关的行域和文件 。 搜索名词应该是一个基于您正在尝试实现的目标自然语言查询， 如“ 寻找在快递中处理认证请求的地方 ”路由 ” 或“ 修改代理软件的推出， 以使用新的代碼器和聊天模板 ” 或“ 给用户重新定向到的 bug ”/feed 页面。 填写你作为一个聪明的模型可以推断出的额外细节来帮助子代理人进行搜索。 你应该用这个工具开始搜索 注：此工具返回的文件和行范围可能是完成用户请求所需的一些文件，但您在评价结果的相关性时应当谨慎，因为子代理人可能会出错。 您应该考虑使用经典搜索工具之后找到其他的 但只有必要时
 
-## Usage
+<a id="usage"></a>
+## 使用量
 
 ```python
 from servers.morph import edit_file
@@ -46,4 +49,4 @@ from servers.morph import edit_file
 result = await edit_file(params)
 ```
 
-**Note**: This file is auto-generated. Do not edit manually.
+**说明**: 此文件是自动生成的 。 不手工编辑。

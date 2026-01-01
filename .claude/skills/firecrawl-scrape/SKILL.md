@@ -4,15 +4,18 @@ description: Scrape web pages and extract content via Firecrawl MCP
 allowed-tools: [Bash, Read]
 ---
 
-# Firecrawl Scrape Skill
+<a id="firecrawl-scrape-skill"></a>
+# Firecrawl Scrape 技能
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Scrape content from any URL
-- Extract structured data from web pages
-- Search the web and get content
+- 从任意 URL 中搜索内容
+- 从网页提取结构化数据
+- 搜索网络并获取内容
 
-## Instructions
+<a id="instructions"></a>
+## 说明
 
 ```bash
 uv run python -m runtime.harness scripts/firecrawl_scrape.py \
@@ -20,13 +23,15 @@ uv run python -m runtime.harness scripts/firecrawl_scrape.py \
     --format "markdown"
 ```
 
-### Parameters
+<a id="parameters"></a>
+### 参数
 
-- `--url`: URL to scrape
-- `--format`: Output format - `markdown`, `html`, `text` (default: markdown)
-- `--search`: (alternative) Search query instead of direct URL
+- `--url`: 要刮去的 URL
+- `--format`: 输出格式 -`markdown`, `html`, `text`(默认： 减记)
+- `--search`: (备选) 搜索查询而不是直接 URL
 
-### Examples
+<a id="examples"></a>
+### 实例
 
 ```bash
 # Scrape a page
@@ -38,6 +43,7 @@ uv run python -m runtime.harness scripts/firecrawl_scrape.py \
     --search "Python asyncio best practices 2024"
 ```
 
-## MCP Server Required
+<a id="mcp-server-required"></a>
+## 需要的 MCP 服务器
 
-Requires `firecrawl` server in mcp_config.json with FIRECRAWL_API_KEY.
+要求数`firecrawl`使用 FIRECRAWL API KEY 的服务器。

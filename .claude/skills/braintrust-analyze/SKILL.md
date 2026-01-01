@@ -3,21 +3,24 @@ name: braintrust-analyze
 description: Analyze Claude Code sessions via Braintrust
 ---
 
-# Braintrust Analysis
+<a id="braintrust-analysis"></a>
+# 大 Braintrust 任分析
 
-Analyze your Claude Code sessions for patterns, issues, and insights using Braintrust tracing data.
+利用 BrainTrust 追踪数据分析你的 Claude 代码课程的规律、问题和见解。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- After completing a complex task (retrospective)
-- When debugging why something failed
-- Weekly review of productivity patterns
-- Finding opportunities to create new skills
-- Understanding token usage trends
+- 完成复杂任务后( 回顾)
+- 当调试为何某事失败时
+- 每周审查生产率模式
+- 寻找创造新技能的机会
+- 理解象征性使用趋势
 
-## Commands
+<a id="commands"></a>
+## 图标
 
-Run from the project directory:
+从项目目录中运行 :
 
 ```bash
 # Analyze last session - summary with tool/agent/skill breakdown
@@ -45,38 +48,45 @@ uv run python -m runtime.harness scripts/braintrust_analyze.py --weekly-summary
 uv run python -m runtime.harness scripts/braintrust_analyze.py --token-trends
 ```
 
-## Options
+<a id="options"></a>
+## 选项
 
-- `--project NAME` - Braintrust project name (default: agentica)
+- `--project NAME`- Braintrust 项目名称(默认：代理)
 
-## What You'll Learn
+<a id="what-youll-learn"></a>
+## 你会学到什么
 
-### Session Analysis
-- Tool usage breakdown
-- Agent spawns (plan-agent, debug-agent, etc.)
-- Skill activations (/commit, /research, etc.)
-- Token consumption estimates
+<a id="session-analysis"></a>
+### 会话分析
+- 工具使用细目
+- 代理产卵(计划剂、调试剂等)
+- 技能活化(/commit, /research 页：1
+- 消费估计数
 
-### Loop Detection
-Find sessions where the same tool was called repeatedly, which may indicate:
-- Stuck in a search loop
-- Inefficient approach
-- Opportunity for better tooling
+<a id="loop-detection"></a>
+### 循环检测
+查找多次调用同一工具的会话，这可能表示：
+- 困入搜索循环
+- 效率低下的做法
+- 改进工具的机会
 
-### Usage Patterns
-- Which agents you use most
-- Which skills get activated
-- Daily/weekly activity trends
+<a id="usage-patterns"></a>
+### 用法模式
+- 你最常用的探员
+- 哪些技能被激活
+- 每日/每周活动趋势
 
-## Examples
+<a id="examples"></a>
+## 实例
 
-### Quick Retrospective
+<a id="quick-retrospective"></a>
+### 快速回顾
 ```bash
 # What happened in my last session?
 uv run python -m runtime.harness scripts/braintrust_analyze.py --last-session
 ```
 
-Output:
+输出 :
 ```
 ## Session Analysis
 **ID:** `92940b91...`
@@ -90,17 +100,20 @@ Output:
 ...
 ```
 
-### Find Loops
+<a id="find-loops"></a>
+### 查找循环
 ```bash
 uv run python -m runtime.harness scripts/braintrust_analyze.py --detect-loops
 ```
 
-### Weekly Review
+<a id="weekly-review"></a>
+### 每周评论
 ```bash
 uv run python -m runtime.harness scripts/braintrust_analyze.py --weekly-summary
 ```
 
-## Requirements
+<a id="requirements"></a>
+## 所需资源
 
-- BRAINTRUST_API_KEY in ~/.claude/.env or project .env
-- Braintrust tracing enabled (via braintrust-claude-plugin)
+- (巴西语)/.claude/.env 或项目。env
+- 能够追踪到大脑托拉斯(通过大脑托拉斯-Claude-plugin)

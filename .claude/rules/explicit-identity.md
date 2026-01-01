@@ -1,28 +1,33 @@
-# Explicit Identity Across Boundaries
+<a id="explicit-identity-across-boundaries"></a>
+# 跨越边界的明确身份
 
-Never rely on "latest" or "current" when crossing process or async boundaries.
+在跨越过程或合成边界时，永远不要依赖"最新"或"当前".
 
-## Pattern
+<a id="pattern"></a>
+## 图案
 
-Pass explicit identifiers through the entire pipeline. "Most recent" is a race condition.
+通过整个输油管传递明确的识别码。 "最近期"是一个种族条件。
 
+<a id="do"></a>
 ## DO
 
-- Pass `--session-id $ID` when spawning processes
-- Store IDs in state files for later correlation
-- Use full UUIDs, not partial matches
-- Keep different ID types separate (don't collapse concepts)
+- 过`--session-id $ID`当产卵过程
+- 将 ID 存储在状态文件中以供日后关联
+- 使用完整的 UUID, 而非部分匹配
+- 区分不同的 ID 类型( 不要崩溃概念)
 
-## DON'T
+<a id="dont"></a>
+## 别
 
-- Query for "most recent session" at execution time
-- Assume the current context will still be current after await/spawn
-- Collapse different ID types:
-  - `session_id` = Claude Code session (human-facing)
-  - `root_span_id` = Braintrust trace (query key)
-  - `turn_span_id` = Braintrust turn within session
+- 在执行时间查询“ 最近的会议”
+- 假设当前情况在等待/出现后仍将是时事
+- 折叠不同的 ID 类型 :
+  - `session_id`= Claude 代码会话(人体编程)
+  - `root_span_id`= 大 Braintrust 任追踪(密钥)
+  - `turn_span_id`= 大 Braintrust 任在会内转动
 
-## Example
+<a id="example"></a>
+## 示例
 
 ```typescript
 // BAD: race condition at session boundaries
@@ -32,8 +37,9 @@ spawn('analyzer', ['--learn'])  // defaults to "most recent"
 spawn('analyzer', ['--learn', '--session-id', input.session_id])
 ```
 
-## Source Sessions
+<a id="source-sessions"></a>
+## 源会话
 
-- 1c21e6c8: Defined session_id vs root_span_id distinction
-- 6a9f2d7a: Fixed wrong-session attribution via explicit passing
-- a541f08a: Confirmed pattern prevents race at session boundaries
+- 1c21e6c8:定义会话 id vs root span id 区分
+- 6a9f2d7a:通过明示方式确定错会归属
+- a541f08a:确认的模式在会话边界上防止比赛

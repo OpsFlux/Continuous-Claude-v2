@@ -4,20 +4,23 @@ description: Fast file editing via Morph Apply API (10,500 tokens/sec, 98% accur
 allowed-tools: [Bash, Read]
 ---
 
-# Morph Fast Apply
+<a id="morph-fast-apply"></a>
+# 墨菲快速应用
 
-Fast, AI-powered file editing using the Morph Apply API. Edit files without reading them first. Processes at 10,500 tokens/sec with 98% accuracy.
+Fast, AI- power 文件编辑， 使用 Morph 应用 API. 不先读就编辑文件 。 过程为 10 500 个令牌/秒，准确度为 98%。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Fast file edits without reading entire file first
-- Batch edits to a file (multiple changes in one operation)
-- When you know what to change but file is large
-- Large files where reading would consume too many tokens
+- 在不阅读整个文件的情况下快速编辑文件
+- 批次编辑到文件( 一个操作的多处更改)
+- 当你知道要改变什么，但文件很大
+- 读取会消耗太多符号的大文件
 
-## Key Pattern: Code Markers
+<a id="key-pattern-code-markers"></a>
+## 密钥模式： 代码标记
 
-Use `// ... existing code ...` (or language-appropriate comments) to mark where edits go:
+使用`// ... existing code ...`(或适合语言的评论)以标记编辑走向：
 
 ```python
 # ... existing code ...
@@ -28,11 +31,13 @@ except Exception as e:
 # ... existing code ...
 ```
 
-The API intelligently places your edit in the right location.
+API 将您的编辑智能放在正确的位置 。
 
-## Usage
+<a id="usage"></a>
+## 使用量
 
-### Add error handling
+<a id="add-error-handling"></a>
+### 添加错误处理
 ```bash
 uv run python -m runtime.harness scripts/morph_apply.py \
     --file "src/auth.py" \
@@ -46,7 +51,8 @@ except AuthError as e:
 # ... existing code ..."
 ```
 
-### Add logging
+<a id="add-logging"></a>
+### 添加日志
 ```bash
 uv run python -m runtime.harness scripts/morph_apply.py \
     --file "src/api.py" \
@@ -56,7 +62,8 @@ logger.debug(f'Processing request: {request.id}')
 # ... existing code ..."
 ```
 
-### TypeScript example
+<a id="typescript-example"></a>
+### 类型脚本示例
 ```bash
 uv run python -m runtime.harness scripts/morph_apply.py \
     --file "src/types.ts" \
@@ -67,38 +74,42 @@ if (!user.isActive) throw new Error('User inactive');
 // ... existing code ..."
 ```
 
-## Parameters
+<a id="parameters"></a>
+## 参数
 
-| Parameter | Description |
+| 参数 | 说明 |
 |-----------|-------------|
-| `--file` | File path to edit (required) |
-| `--instruction` | Human description of the change (required) |
-| `--code_edit` | Code snippet with markers showing where to place edit (required) |
+| `--file` | 要编辑的文件路径( 需要) |
+| `--instruction` | 人类对变化的描述(必需). |
+| `--code_edit` | 代码片段， 有显示编辑位置的标记( 需要) |
 
-## vs Claude's Edit Tool
+<a id="vs-claudes-edit-tool"></a>
+## vs Claude 编辑工具
 
-| Tool | Best For |
+| 工具 | 最佳服务 |
 |------|----------|
-| **morph-apply** | Fast edits, don't need to read file first, large files, batch edits |
-| **Claude Edit** | Small precise edits when file is already in context |
+| **形态适用** | 快速编辑， 不需要先读文件， 大文件， 批次编辑 |
+| **文稿编辑** | 文件已经上下文时的小精度编辑 |
 
-**Use morph-apply when:**
-- File is not in context and reading it would be expensive
-- File is very large (>500 lines)
-- Making multiple related edits at once
-- You know the context of the change (function name, class, etc.)
+**在下述情况下使用可变应用：**
+- 文件不是上下文，读起来会很贵
+- 文件非常大( > 500 行)
+- 立即进行多个相关的编辑
+- 您知道变化的背景( 函数名、 类等)
 
-**Use Claude Edit when:**
-- File is already in context from prior Read
-- Very precise edits requiring exact old/new string matching
-- Small files (<200 lines)
+**在下列时间使用 Claude 编辑：**
+- 文件已经存在上下文来自先前的 Read
+- 非常精确的编辑需要精确的旧/新字符串匹配
+- 小文件( < 200 行)
 
-## MCP Server Required
+<a id="mcp-server-required"></a>
+## 需要的 MCP 服务器
 
-Requires `morph` server in mcp_config.json with `MORPH_API_KEY`.
+要求数`morph`mcp config.json 中的服务器`MORPH_API_KEY`.
 
-## Performance
+<a id="performance"></a>
+## 业绩
 
-- **Speed**: 10,500 tokens/sec
-- **Accuracy**: 98% correct placement
-- **Token savings**: Don't need to read entire file first
+- **说明**:10 500 个令牌/秒
+- **准确性**:98%的正确安置
+- **节省的款项**: 不需要先读整个文件

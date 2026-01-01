@@ -1,58 +1,63 @@
-# Skills Framework Documentation
+<a id="skills-framework-documentation"></a>
+# 技能框架文档
 
-**Anthropic's Vision:** Agents build a toolbox of reusable capabilities that evolve over time.
+**Anthropic 的愿景：** 代理构建了一个随时间演变的可再利用能力工具箱。
 
-> **Claude Code Optimized:** This framework is designed for [Claude Code](https://docs.claude.com/en/docs/claude-code) (v2.0.20+). Claude Code's filesystem discovery and CLI-based execution enable the 99.6% token reduction. Other AI agents can use the core runtime but may not achieve the same efficiency.
+> **优化代码：** 本框架的目的是：[Claude Code](https://docs.claude.com/en/docs/claude-code)(v2.0.20+) (中文(简体) ). Claude Code 的文件系统发现和基于 CLI 的执行使得 99.6%的令牌减少成为可能。 其他 AI 代理可以使用核心运行时间，但可能不能达到同样的效率。
 
-## Philosophy
+<a id="philosophy"></a>
+## 哲学
 
-**DON'T:** Write scripts from scratch each time
-**DON'T:** Edit skill files to change parameters (use CLI args instead)
-**DO:** Discover and execute skills with CLI arguments
-**DO:** Edit skill files to fix bugs or improve logic
+别走，别走 每次从头写脚本
+别走，别走 编辑技能文件以更改参数( 使用 CLI args 代替)
+**DO:** 用 CLI 参数发现和执行技能
+**DO:** 编辑修复错误或改进逻辑的技能文件
 
-**Pattern:**
+**备选案文：**
 ```
 Discover (ls) → Read (cat) → Execute with CLI args (--query, --num-urls, etc.)
 ```
 
-## Agent Operational Intelligence
+<a id="agent-operational-intelligence"></a>
+## 行动情报代理
 
-**For simple tasks (1 tool call):**
-- Use Direct Access (call MCP tool directly)
+**对于简单的任务(1 个工具呼叫):**
+- 使用直接访问( 直接调用 MCP 工具)
 
-**For complex workflows (>2 tools, logic, processing):**
-1. `ls ./scripts/` - Discover available scripts
-2. `cat ./scripts/{script}.py` - Read script documentation and CLI arguments
-3. Execute with CLI args:
+**对于复杂的工作流程(>2 个工具、逻辑、处理):**
+1. `ls ./scripts/`- 发现可用的脚本
+2. `cat ./scripts/{script}.py`- 阅读脚本文档和 CLI 参数
+3. 用 CLI 参数执行 :
    ```bash
    uv run python -m runtime.harness scripts/firecrawl_scrape.py \
        --url "https://example.com"
    ```
 
-**For novel workflows:**
-1. Explore `./servers/` to discover tools
-2. Write NEW skill following CLI template
-3. Save to `./skills/` for future reuse
-4. Document CLI arguments in docstring
+**新工作流程：**
+1. 探索`./servers/`用于发现工具
+2. 使用 CLI 模板写入新技能
+3. 保存到`./skills/`未来再利用
+4. docstring 中的文档 CLI 参数
 
-## Efficiency Benefits
+<a id="efficiency-benefits"></a>
+## 效率福利
 
-**Token savings (for parameter changes):**
-- ❌ Writing from scratch: Load schemas + write code = ~5,000 tokens
-- ❌ Editing skill to change parameters: Read skill + edit + write = ~800 tokens
-- ✅ CLI execution with different args: Read skill + command = ~110 tokens
-- **Reduction: 98% (CLI approach)**
+**节省(用于参数变化):**
+- QQ 从零开始写入： 装入计程器 + 写入代码 = ~ 5,000 个令牌
+- QQ 编辑技能以改变参数：读取技能+编辑+写出=~800 个令牌
+- QQ 以不同的参数执行 CLI : 读取技能 + 命令 = ~ 110 个令牌
+- **减少：98%(国家综合倡议办法)**
 
-**Time savings (for parameter changes):**
-- ❌ Writing from scratch: ~2 min
-- ❌ Editing skill to change parameters: ~30 sec
-- ✅ CLI execution with different args: ~5 sec
-- **Reduction: 96% (CLI approach)**
+**时间节省(参数变化):**
+- 从零开始写：~2 分
+- 编辑修改参数的技能：~30 秒
+- 使用不同参数的 CLI 执行：~ 5 秒
+- **减少：96%(CLI 办法)**
 
-**Note:** Edit skills freely to fix bugs, improve logic, or add features. The efficiency benefit is about avoiding file edits for parameter changes.
+**说明：** 自由编辑技能来修正错误，改进逻辑，或添加特性。 效率的好处在于避免为参数变化编辑文件。
 
-## Skill Template (CLI-Based)
+<a id="skill-template-cli-based"></a>
+## 技能模板( 基于 CLI )
 
 ```python
 """
@@ -102,59 +107,63 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
-## Current Scripts Library
+<a id="current-scripts-library"></a>
+## 当前脚本库
 
-| Category | Script | CLI Arguments |
+| 类别 | 脚本 | CLI 参数 |
 |----------|--------|---------------|
-| **Web** | firecrawl_scrape.py | `--url` (required) |
-| **Pipeline** | multi_tool_pipeline.py | `--repo-path` (default: "."), `--max-commits` (default: 10) |
-| **Search** | perplexity_search.py | `--query` (required) |
-| **Docs** | nia_docs.py | `--package`, `--query` |
+| **网页** | firecrawl scrape.py (法语). | `--url`(必须) |
+| **管道** | 多工具  管道。 py | `--repo-path`(默认："."),.`--max-commits`(默认：10) |
+| **寻找** | 复杂度  search.py | `--query`(必须) |
+| 页：1 | nia docs.py 数据 | `--package`, `--query` |
 
-## Creating New Skills
+<a id="creating-new-skills"></a>
+## 创造新技能
 
-**When to create:**
-- Novel workflow not covered
-- Found better pattern
-- Specific use case needs
+**何时创建：**
+- 未覆盖的小说工作流程
+- 找到更好的图案
+- 具体使用需要
 
-**How to create:**
-1. Explore `./servers/` to find needed tools
-2. Write skill following CLI template above
-3. Add CLI argument parsing with argparse
-4. Document in docstring (DESCRIPTION, WHEN TO USE, CLI ARGUMENTS, USAGE)
-5. Test thoroughly
-6. Save to `./skills/`
+**如何创建：**
+1. 探索`./servers/`寻找所需的工具
+2. 遵循上面的 CLI 模板写入技能
+3. 以 argparse 添加 CLI 参数解析
+4. 说明文件(定义、何时使用、CLI 条款、使用)
+5. 彻底测试
+6. 保存到`./skills/`
 
-**Best practices:**
-- Use argparse for all configurable values
-- Document all CLI arguments in docstring with types and defaults
-- Include USAGE section with concrete example
-- Filter sys.argv to remove script path: `[arg for arg in sys.argv[1:] if not arg.endswith(".py")]`
-- Keep workflow logic generic/reusable
-- Include error handling and progress printing
-- Return structured result
+**最佳做法：**
+- 对所有可配置值使用参数
+- 在 docstring 中记录所有 CLI 参数，包括类型和默认
+- 包含带具体示例的 USAGE 部分
+- 过滤 sys.argv 以删除脚本路径 :`[arg for arg in sys.argv[1:] if not arg.endswith(".py")]`
+- 保持通用/可重复使用的工作流程逻辑
+- 包含错误处理和进度打印
+- 返回结构化结果
 
-## Skills vs Writing Scripts
+<a id="skills-vs-writing-scripts"></a>
+## 技能对写脚本
 
-**Skills (PREFERRED):**
-- ✅ Reusable workflow templates
-- ✅ CLI arguments for parameter changes (no file edits needed)
-- ✅ Edit-friendly for bug fixes and improvements
-- ✅ Pre-tested and documented
-- ✅ 110 tokens per use (when using CLI args)
-- ✅ 5 seconds execution time
-- ✅ Agent just reads and executes
+**技能：**
+- 重复使用的工作流程模板
+- 参数变化的 QQ CLI 参数( 不需要文件编辑)
+- QQ 为错误修正和改进编辑方便
+- * 预先测试和记录
+- 每用 110 个令牌(使用 CLI 参数时)
+- 执行时间为 5 秒
+- 代理刚读和执行
 
-**Writing Scripts (ALTERNATIVE):**
-- ⚠️ Custom code each time
-- ⚠️ Requires schema exploration
-- ⚠️ More tokens (~2,000)
-- ⚠️ More time (~2 min)
-- ⚠️ Agent must write from scratch
-- ✅ Good for: Novel workflows, learning, prototyping
+**书面文稿(备选案文):**
+- QQ 每次自定义代码
+- · 需要计划探索
+- +++ 更多纪念物(~2,000)
+- +++ 更多时间(~2 分钟)
+- 代理必须从零开始写
+- 适合：小说工作流程，学习，原型
 
-## Example Usage
+<a id="example-usage"></a>
+## 示例使用
 
 ```bash
 # Web scraping (requires FIRECRAWL_API_KEY)
@@ -167,19 +176,21 @@ uv run python -m runtime.harness scripts/multi_tool_pipeline.py \
     --max-commits 5
 ```
 
-## Key Principles
+<a id="key-principles"></a>
+## 关键原则
 
-1. **Parameter Immutability** - Change parameters via CLI args, not by editing the file
-2. **Logic Mutability** - Edit skills freely to fix bugs, improve logic, or add features
-3. **CLI Parameters** - All configuration via command-line arguments
-4. **Reusability** - Write once, use many times with different args
-5. **Documentation** - Every skill has USAGE section with example
-6. **Type Safety** - argparse provides validation and help text
-7. **Efficiency** - 98% token reduction for parameter changes via CLI vs file edits
+1. **Parameter Immutibility** - 通过 CLI 参数，而不是通过编辑文件更改参数
+2. **逻辑变异性** - 自由编辑技能来修复错误，改进逻辑，或添加特性
+3. **CLI 参数** - 通过命令行参数的所有配置
+4. **可续用性** - 写出一次，多次使用不同的参数
+5. **文件** - 每种技能都有 USAGE 部分，并附有实例
+6. **Type Security** - 参数提供了验证和帮助文本
+7. **效果** - 通过 CLI 对文件编辑的参数变化减少 98% 。
 
-## Help Text
+<a id="help-text"></a>
+## 帮助文本
 
-Every script supports `--help`:
+每个脚本都支持`--help`:
 
 ```bash
 python scripts/firecrawl_scrape.py --help
@@ -196,4 +207,4 @@ optional arguments:
 
 ---
 
-**Remember:** Pass parameters via CLI args, not by editing files. Edit skills freely to fix bugs or improve logic!
+**记得：** 通过 CLI args 传递参数，而不是编辑文件。 自由编辑技能来修正错误或改进逻辑!

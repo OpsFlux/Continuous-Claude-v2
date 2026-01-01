@@ -4,21 +4,25 @@ description: Transform session learnings into permanent capabilities (skills, ru
 allowed-tools: [Read, Glob, Grep, Write, Edit, Bash, AskUserQuestion]
 ---
 
-# Compound Learnings
+<a id="compound-learnings"></a>
+# 复合学习
 
-Transform ephemeral session learnings into permanent, compounding capabilities.
+将电子会话学习转化为永久的复合能力。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- "What should I learn from recent sessions?"
-- "Improve my setup based on recent work"
-- "Turn learnings into skills/rules"
-- "What patterns should become permanent?"
-- "Compound my learnings"
+- "我应该从最近的会议学到什么?"
+- "根据最近的工作改进我的设置"
+- "把学习变成技能/规则"
+- "什么模式应该成为永久的?"
+- "整理我的学习"
 
-## Process
+<a id="process"></a>
+## 进程
 
-### Step 1: Gather Learnings
+<a id="step-1-gather-learnings"></a>
+### 步骤 1:收集学习
 
 ```bash
 # List learnings (most recent first)
@@ -28,21 +32,22 @@ ls -t $CLAUDE_PROJECT_DIR/.claude/cache/learnings/*.md | head -20
 ls $CLAUDE_PROJECT_DIR/.claude/cache/learnings/*.md | wc -l
 ```
 
-Read the most recent 5-10 files (or specify a date range).
+读取最新的 5- 10 文件( 或指定日期范围) 。
 
-### Step 2: Extract Patterns (Structured)
+<a id="step-2-extract-patterns-structured"></a>
+### 步骤 2:取出模式(已定出)
 
-For each learnings file, extract entries from these specific sections:
+对于每个学习文件，请从这些具体章节中提取条目：
 
-| Section Header | What to Extract |
+| 区域标题 | 要提取什么 |
 |----------------|-----------------|
-| `## Patterns` or `Reusable techniques` | Direct candidates for rules |
-| `**Takeaway:**` or `**Actionable takeaway:**` | Decision heuristics |
-| `## What Worked` | Success patterns |
-| `## What Failed` | Anti-patterns (invert to rules) |
-| `## Key Decisions` | Design principles |
+| `## Patterns` or `Reusable techniques` | 规则的直接候选人 |
+| `**Takeaway:**` or `**Actionable takeaway:**` | 决定的弹性 |
+| `## What Worked` | 成功模式 |
+| `## What Failed` | 反标(倒置规则) |
+| `## Key Decisions` | 设计原则 |
 
-Build a frequency table as you go:
+创建频率表 :
 
 ```markdown
 | Pattern | Sessions | Category |
@@ -51,31 +56,34 @@ Build a frequency table as you go:
 | "Pass IDs explicitly" | abc, def, ghi, jkl | reliability |
 ```
 
-### Step 2b: Consolidate Similar Patterns
+<a id="step-2b-consolidate-similar-patterns"></a>
+### 步骤 2b:巩固类似模式
 
-Before counting, merge patterns that express the same principle:
+在计数前，合并表达相同原理的图案：
 
-**Example consolidation:**
-- "Artifact-first debugging"
-- "Verify hook output by inspecting files"
-- "Filesystem-first debugging"
-→ All express: **"Observe outputs before editing code"**
+**合并实例：**
+- "艺术第一调试"
+- “通过检查文件验证钩子输出”
+- "系统第一次调试"
+——全部表示：**"编辑代码前观察输出"**
 
-Use the most general formulation. Update the frequency table.
+采用最通俗的表述。 更新频率表 。
 
-### Step 3: Detect Meta-Patterns
+<a id="step-3-detect-meta-patterns"></a>
+### 步骤 3: 检测元数据
 
-**Critical step:** Look at what the learnings cluster around.
+**关键步骤：** 观所学相聚相。
 
-If >50% of patterns relate to one topic (e.g., "hooks", "tracing", "async"):
-→ That topic may need a **dedicated skill** rather than multiple rules
-→ One skill compounds better than five rules
+如果大于 50%的模式涉及一个主题(如"呼克","追踪","同步"):
+专题可能需要专门技能** 而不是多重规则
+- 一种技能比五项规则更好
 
-Ask yourself: *"Is there a skill that would make all these rules unnecessary?"*
+问自己："是否有一种技能可以使所有这些规则变得没有必要".
 
-### Step 4: Categorize (Decision Tree)
+<a id="step-4-categorize-decision-tree"></a>
+### 第 4 步：分类(决定树)
 
-For each pattern, determine artifact type:
+对于每种图案，确定文物类型：
 
 ```
 Is it a sequence of commands/steps?
@@ -95,27 +103,29 @@ Does it enhance an existing agent workflow?
   → NO → Skip (not worth capturing)
 ```
 
-**Artifact Type Examples:**
+**艺术类型示例：**
 
-| Pattern | Type | Why |
+| 图案 | 类型 | 为什么 |
 |---------|------|-----|
-| "Run linting before commit" | Hook (PreToolUse) | Automatic gate |
-| "Extract learnings on session end" | Hook (SessionEnd) | Automatic trigger |
-| "Debug hooks step by step" | Skill | Manual sequence |
-| "Always pass IDs explicitly" | Rule | Heuristic |
+| "行刑前逃跑" | Hook (预工具使用) | 自动闸门 |
+| “会话结束时的总结学习” | Hook(会议结束) | 自动触发 |
+| "除虫钩" | 技能 | 手动序列 |
+| "总是通过身份证明" | 规则 | 高压 |
 
-### Step 5: Apply Signal Thresholds
+<a id="step-5-apply-signal-thresholds"></a>
+### 第 5 步： 应用信号阈值
 
-| Occurrences | Action |
+| 发生情况 | 行动 |
 |-------------|--------|
-| 1 | Note but skip (unless critical failure) |
-| 2 | Consider - present to user |
-| 3+ | Strong signal - recommend creation |
-| 4+ | Definitely create |
+| 1 | 注但跳过( 除非关键失败) |
+| 2 | 考虑 - 提交用户 |
+| 3+ | 强信号 - 建议创建 |
+| 4+ | 绝对创建 |
 
-### Step 6: Propose Artifacts
+<a id="step-6-propose-artifacts"></a>
+### 第 6 步：提议人工制品
 
-Present each proposal in this format:
+以这种格式提出每项提案：
 
 ```markdown
 ---
@@ -140,11 +150,13 @@ Present each proposal in this format:
 ---
 ```
 
-Use `AskUserQuestion` to get approval for each artifact (or batch approval).
+使用`AskUserQuestion`为每个文物获得批准(或批次批准)。
 
-### Step 7: Create Approved Artifacts
+<a id="step-7-create-approved-artifacts"></a>
+### 步骤 7: 创建已核准的艺术
 
-#### For Rules:
+<a id="for-rules"></a>
+#### 规则：
 ```bash
 # Write to rules directory
 cat > $CLAUDE_PROJECT_DIR/.claude/rules/<name>.md << 'EOF'
@@ -167,17 +179,19 @@ cat > $CLAUDE_PROJECT_DIR/.claude/rules/<name>.md << 'EOF'
 EOF
 ```
 
-#### For Skills:
-Create `.claude/skills/<name>/SKILL.md` with:
-- Frontmatter (name, description, allowed-tools)
-- When to Use
-- Step-by-step instructions (executable)
-- Examples from the learnings
+<a id="for-skills"></a>
+#### 技能：
+创建`.claude/skills/<name>/SKILL.md`改为：
+- 前题( 名称、 描述、 允许的工具)
+- 何时使用
+- 分步指示(可执行)
+- 学习中的实例
 
-Add triggers to `skill-rules.json` if appropriate.
+添加触发到`skill-rules.json`酌情。
 
-#### For Hooks:
-Create shell wrapper + TypeScript handler:
+<a id="for-hooks"></a>
+#### 对于 Hook:
+创建外壳包装器 + TypeScript 处理器 :
 
 ```bash
 # Shell wrapper
@@ -190,7 +204,7 @@ EOF
 chmod +x $CLAUDE_PROJECT_DIR/.claude/hooks/<name>.sh
 ```
 
-Then create `src/<name>.ts`, build with esbuild, and register in `settings.json`:
+然后创建`src/<name>.ts`中，用 ebuild 建造，并在`settings.json`:
 
 ```json
 {
@@ -205,10 +219,12 @@ Then create `src/<name>.ts`, build with esbuild, and register in `settings.json`
 }
 ```
 
-#### For Agent Updates:
-Edit existing agent in `.claude/agents/<name>.md` to add the learned capability.
+<a id="for-agent-updates"></a>
+#### 对于代理更新 :
+在`.claude/agents/<name>.md`增加学习能力。
 
-### Step 8: Summary Report
+<a id="step-8-summary-report"></a>
+### 步骤 8:简要报告
 
 ```markdown
 ## Compounding Complete
@@ -227,21 +243,23 @@ Edit existing agent in `.claude/agents/<name>.md` to add the learned capability.
 **Your setup is now permanently improved.**
 ```
 
-## Quality Checks
+<a id="quality-checks"></a>
+## 质量检查
 
-Before creating any artifact:
+在创建任何文物之前：
 
-1. **Is it general enough?** Would it apply in other projects?
-2. **Is it specific enough?** Does it give concrete guidance?
-3. **Does it already exist?** Check `.claude/rules/` and `.claude/skills/` first
-4. **Is it the right type?** Sequences → skills, heuristics → rules
+1. **足够笼统吗?** 它是否适用于其他项目?
+2. 足够具体了吗? 它提供了具体指导吗?
+3. **是否已经存在?** 检查`.claude/rules/`和`.claude/skills/`第一个
+4. **类型合适吗?** 序列 技能 高压 规则
 
-## Files Reference
+<a id="files-reference"></a>
+## 文件参考
 
-- Learnings: `.claude/cache/learnings/*.md`
-- Skills: `.claude/skills/<name>/SKILL.md`
-- Rules: `.claude/rules/<name>.md`
-- Hooks: `.claude/hooks/<name>.sh` + `src/<name>.ts` + `dist/<name>.mjs`
-- Agents: `.claude/agents/<name>.md`
-- Skill triggers: `.claude/skills/skill-rules.json`
-- Hook registration: `.claude/settings.json` → `hooks` section
+- 学习：`.claude/cache/learnings/*.md`
+- 技能：`.claude/skills/<name>/SKILL.md`
+- 规则：`.claude/rules/<name>.md`
+- 钩子：`.claude/hooks/<name>.sh` + `src/<name>.ts` + `dist/<name>.mjs`
+- 探员：`.claude/agents/<name>.md`
+- 技能触发 :`.claude/skills/skill-rules.json`
+- 钩注册 :`.claude/settings.json` → `hooks`节

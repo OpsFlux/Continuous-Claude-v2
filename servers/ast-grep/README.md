@@ -1,12 +1,15 @@
-# ast-grep MCP Tools
+<a id="ast-grep-mcp-tools"></a>
+# 垃圾处理器 工具
 
-Auto-generated wrappers for ast-grep MCP server.
+为 ast-grep MCP 服务器自动生成的包装器。
 
-## Tools
+<a id="tools"></a>
+## 工具
 
-- `ast_grep`: A powerful AST-based code search and refactoring tool that understands code structure across 20+ programming languages. Performs syntax-aware pattern matching and transformations.
+- `ast_grep`:一个强大的基于 AST 的代码搜索和重构工具，能理解 20+编程语言的代码结构。 进行语法认知模式匹配和转换。
 
-## Usage
+<a id="usage"></a>
+## 使用量
 
 ```python
 from servers.ast-grep import ast_grep
@@ -15,4 +18,4 @@ from servers.ast-grep import ast_grep
 result = await ast_grep(params)
 ```
 
-**Note**: This file is auto-generated. Do not edit manually.
+**说明**: 此文件是自动生成的 。 不手工编辑。

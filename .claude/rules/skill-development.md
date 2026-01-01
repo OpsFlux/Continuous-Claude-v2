@@ -2,11 +2,13 @@
 globs: [".claude/skills/**/*"]
 ---
 
-# Skill Development Rules
+<a id="skill-development-rules"></a>
+# 技能发展规则
 
-When working with files in `.claude/skills/`:
+处理文件时`.claude/skills/`:
 
-## SKILL.md Structure
+<a id="skillmd-structure"></a>
+## SKILL.md 结构
 
 ```yaml
 ---
@@ -16,21 +18,24 @@ allowed-tools: [Bash, Read]  # Optional: restrict tools
 ---
 ```
 
+<a id="do"></a>
 ## DO
-- Keep SKILL.md concise (< 200 lines)
-- Include clear "When to Use" section
-- Provide copy-paste bash commands
-- Reference scripts/ for MCP operations
-- Add triggers to skill-rules.json
+- 保持 SKILL.md 简洁( < 200 行)
+- 包含清晰的“ 何时使用” 部分
+- 提供复制- 粘贴的 bash 命令
+- MCP 操作的参考脚本/ Name
+- 将触发器添加到技能规则。 json
 
-## DON'T
-- Include implementation details in SKILL.md
-- Duplicate content across skills
-- Create skills without corresponding trigger in skill-rules.json
-- Use allowed-tools that aren't needed
+<a id="dont"></a>
+## 别
+- 在 SKILL.md 中包含执行细节
+- 跨技能复制内容
+- 在技能规则中创建没有相应触发功能的技能。 json
+- 使用不需要的允许工具
 
-## MCP Wrapper Skills
-For skills that wrap MCP scripts:
-- Use `allowed-tools: [Bash, Read]` to restrict capabilities
-- Point to the script in scripts/ directory
-- Include parameter documentation
+<a id="mcp-wrapper-skills"></a>
+## MCP 包装技能
+对于包接 MCP 脚本的技能：
+- 使用`allowed-tools: [Bash, Read]`限制能力
+- 指向脚本/ 目录中的脚本
+- 包含参数文档

@@ -2,55 +2,60 @@
 description: Create handoff document for transferring work to another session
 ---
 
-# Create Handoff
+<a id="create-handoff"></a>
+# 创建交接
 
-You are tasked with writing a handoff document to hand off your work to another agent in a new session. You will create a handoff document that is thorough, but also **concise**. The goal is to compact and summarize your context without losing any of the key details of what you're working on.
+您负责在新的会话中将您的工作交给另一位代理人。 你将制作一份详尽的交接文件，但也要**简明**。 目标是压缩和总结你的背景，同时不丢失你正在研究的任何关键细节。
 
 
-## Process
-### 1. Filepath & Metadata
-Use the following information to understand how to create your document:
+<a id="process"></a>
+## 进程
+<a id="1-filepath-metadata"></a>
+### 1. 文件路径和元数据
+使用下列信息来了解如何创建文档：
 
-**First, determine the session name from the active ledger:**
+**首先，确定当前分类账中的会话名称：**
 ```bash
 ls thoughts/ledgers/CONTINUITY_CLAUDE-*.md 2>/dev/null | head -1 | sed 's/.*CONTINUITY_CLAUDE-\(.*\)\.md/\1/'
 ```
 
-This returns the active work stream name (e.g., `open-source-release`). Use this as the handoff folder name.
+这返回活动的工作流名称(例如，`open-source-release`) (中文(简体) ). 将此作为交接文件夹名称 。
 
-If no ledger exists, use `general` as the folder name.
+如果没有分类账，请使用`general`作为文件夹名称。
 
-**Create your file under:** `thoughts/shared/handoffs/{session-name}/YYYY-MM-DD_HH-MM-SS_description.md`, where:
-- `{session-name}` is from the ledger (e.g., `open-source-release`) or `general` if no ledger
-- `YYYY-MM-DD` is today's date
-- `HH-MM-SS` is the current time in 24-hour format
-- `description` is a brief kebab-case description
+**创建您的文件。**`thoughts/shared/handoffs/{session-name}/YYYY-MM-DD_HH-MM-SS_description.md`，其中：
+- `{session-name}`来源于分类账(例如，`open-source-release`) or `general`如果没有分类账
+- `YYYY-MM-DD`今天的日期
+- `HH-MM-SS`是当前 24 小时格式的
+- `description`是一个简单的 kebab 案例描述
 
-Run the `~/.claude/scripts/spec_metadata.sh` script to generate all relevant metadata
+运行`~/.claude/scripts/spec_metadata.sh`生成所有相关元数据的脚本
 
-### 1b. Braintrust Trace IDs (for Artifact Index)
-Read the Braintrust session state file to get trace IDs for linking this handoff to the session:
+<a id="1b-braintrust-trace-ids-for-artifact-index"></a>
+### 1b. 大 Braintrust 任追踪(用于人工活性指数)
+读取 Braintrust 会话状态文件以获取链接到会话的跟踪 ID :
 
 ```bash
 cat ~/.claude/state/braintrust_sessions/*.json | jq -s 'sort_by(.started) | last'
 ```
 
-This returns JSON with:
-- `root_span_id`: The Braintrust trace ID (use this)
-- `current_turn_span_id`: The current turn span ID (use this as turn_span_id)
+此返回 JSON 时使用 :
+- `root_span_id`: Braintust 追踪身份(使用此功能)
+- `current_turn_span_id`: 当前转弯横跨 ID( 以此为转弯  span  id)
 
-The `session_id` is the filename stem (same as root_span_id in most cases).
+这个`session_id`是文件名干(在大多数情况下与 root span id 相同)。
 
-If no state file exists (Braintrust not configured), leave these fields blank.
+如果没有状态文件( Brintrust 未配置) , 请留空这些字段 。
 
-**Examples:**
-- With ledger `open-source-release`: `thoughts/shared/handoffs/open-source-release/2025-01-08_13-55-22_create-context-compaction.md`
-- No ledger (general): `thoughts/shared/handoffs/general/2025-01-08_13-55-22_create-context-compaction.md`
+**实例：**
+- 有分类账`open-source-release`: `thoughts/shared/handoffs/open-source-release/2025-01-08_13-55-22_create-context-compaction.md`
+- 无分类账(一般):`thoughts/shared/handoffs/general/2025-01-08_13-55-22_create-context-compaction.md`
 
-### 2. Handoff writing.
-using the above conventions, write your document. use the defined filepath, and the following YAML frontmatter pattern. Use the metadata gathered in step 1, Structure the document with YAML frontmatter followed by content:
+<a id="2-handoff-writing"></a>
+### 2. 手稿写作。
+使用上述公约，写出您的文件。 使用定义的文件路径，并使用下面的 YAML 前题模式。 使用步骤 1 所收集的元数据 。
 
-Use the following template structure:
+使用以下模板结构：
 ```markdown
 ---
 date: [Current date and time with timezone in ISO format]
@@ -112,11 +117,12 @@ turn_span_id: [Current turn span ID - see step 1b]
 ```
 ---
 
-### 3. Mark Session Outcome (REQUIRED)
+<a id="3-mark-session-outcome-required"></a>
+### 3. 马克会议结果(REQUIRED)
 
-**IMPORTANT:** Before responding to the user, you MUST ask about the session outcome.
+**重要性：** 在回复用户之前， 您需要询问会话结果 。
 
-Use the AskUserQuestion tool with these exact options:
+使用带有这些精确选项的 AskUserQuestion 工具：
 
 ```
 Question: "How did this session go?"
@@ -127,7 +133,7 @@ Options:
   - FAILED: Task abandoned or blocked
 ```
 
-After the user responds, mark the outcome:
+在用户回复后，请标出结果：
 ```bash
 # Get the handoff ID (use the one just created)
 HANDOFF_ID=$(sqlite3 .claude/cache/artifact-index/context.db "SELECT id FROM handoffs ORDER BY indexed_at DESC LIMIT 1")
@@ -136,11 +142,12 @@ HANDOFF_ID=$(sqlite3 .claude/cache/artifact-index/context.db "SELECT id FROM han
 uv run python scripts/artifact_mark.py --handoff $HANDOFF_ID --outcome <USER_CHOICE>
 ```
 
-If the database doesn't exist yet (first handoff), skip the marking step but still ask the question.
+如果数据库还不存在(第一手)，则跳过标记步骤，但仍会提问。
 
-### 4. Confirm completion
+<a id="4-confirm-completion"></a>
+### 4. 确认完成
 
-After marking the outcome, respond to the user:
+在标出结果后，回复用户：
 
 ```
 Handoff created! Outcome marked as [OUTCOME].
@@ -149,8 +156,8 @@ Resume in a new session with:
 /resume_handoff path/to/handoff.md
 ```
 
----
-##.  Additional Notes & Instructions
-- **more information, not less**. This is a guideline that defines the minimum of what a handoff should be. Always feel free to include more information if necessary.
-- **be thorough and precise**. include both top-level objectives, and lower-level details as necessary.
-- **avoid excessive code snippets**. While a brief snippet to describe some key change is important, avoid large code blocks or diffs; do not include one unless it's necessary (e.g. pertains to an error you're debugging). Prefer using `/path/to/file.ext:line` references that an agent can follow later when it's ready, e.g. `packages/dashboard/src/app/dashboard/page.tsx:12-24`
+-- -- . . .
+□. 附加注释和指令
+- **更多信息，而不是更少**。 这是一条准则，界定了交割的最低限度。 如有必要，随时可以提供更多信息。
+- **彻底而精确**. 包括最高一级的目标，必要时包括低一级的细节。
+- **避免过多代码片段**. 虽然简短的片段来描述一些关键更改很重要，但避免大代码块或 diff;除非有必要，不包含一个(例如与您正在调试的错误有关). 优先使用`/path/to/file.ext:line`一个代理在准备就绪后可以遵循的参考文献，例如。`packages/dashboard/src/app/dashboard/page.tsx:12-24`

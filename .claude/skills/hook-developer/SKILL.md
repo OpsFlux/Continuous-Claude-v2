@@ -3,42 +3,47 @@ name: hook-developer
 description: Complete Claude Code hooks reference - input/output schemas, registration, testing patterns
 ---
 
-# Hook Developer
+<a id="hook-developer"></a>
+# Hook 开发者
 
-Complete reference for developing Claude Code hooks. Use this to write hooks with correct input/output schemas.
+开发 Claude 密码钩的完整参考文献。 使用此来写入带有正确输入/输出策略的钩子。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Creating a new hook
-- Debugging hook input/output format
-- Understanding what fields are available
-- Setting up hook registration in settings.json
-- Learning what hooks can block vs inject context
+- 创建新钩子
+- 调试钩子输入/输出格式
+- 了解现有领域
+- 在设置中设置钩注册。 json
+- 学习什么钩可以阻断 vs 注入语境
 
-## Quick Reference
+<a id="quick-reference"></a>
+## 快速引用
 
-| Hook | Fires When | Can Block? | Primary Use |
+| 钩子 | 火灾 何时 | 能挡住吗? | 主要用途 |
 |------|-----------|------------|-------------|
-| **PreToolUse** | Before tool executes | YES | Block/modify tool calls |
-| **PostToolUse** | After tool completes | Partial | React to tool results |
-| **UserPromptSubmit** | User sends prompt | YES | Validate/inject context |
-| **PermissionRequest** | Permission dialog shows | YES | Auto-approve/deny |
-| **SessionStart** | Session begins | NO | Load context |
-| **SessionEnd** | Session ends | NO | Cleanup/save state |
-| **Stop** | Agent finishes | YES | Force continuation |
-| **SubagentStop** | Subagent finishes | YES | Force continuation |
-| **PreCompact** | Before compaction | NO | Save state |
-| **Notification** | Notification sent | NO | Custom alerts |
+| **预用工具** | 工具执行前 | 对 | 块/修改工具呼叫 |
+| **后工具的使用** | 工具完成后 | 部分 | 对工具结果的反应 |
+| **用户提交** | 用户发送即时 | 对 | 验证/输入上下文 |
+| **豁免请求** | 权限对话框显示 | 对 | 自动核准/拒绝 |
+| **会议开始** | 会话开始 | NO | 装入上下文 |
+| **会议结束** | 会话结束 | NO | 清理/保存状态 |
+| **停车** | 代理结束 | 对 | 部队续设 |
+| **副剂停止** | 子剂完成 | 对 | 部队续设 |
+| **预编** | 收缩前 | NO | 保存状态 |
+| **通知** | 发出的通知 | NO | 自定义提醒 |
 
 ---
 
-## Hook Input/Output Schemas
+<a id="hook-inputoutput-schemas"></a>
+## Hook 输入/输出
 
-### PreToolUse
+<a id="pretooluse"></a>
+### 工具预用
 
-**Purpose:** Block or modify tool execution before it happens.
+**目标：** 在工具执行发生前设置或修改执行 。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -55,7 +60,7 @@ Complete reference for developing Claude Code hooks. Use this to write hooks wit
 }
 ```
 
-**Output (JSON):**
+**产出：**
 ```json
 {
   "hookSpecificOutput": {
@@ -71,17 +76,18 @@ Complete reference for developing Claude Code hooks. Use this to write hooks wit
 }
 ```
 
-**Exit code 2:** Blocks tool, stderr shown to Claude.
+**出行代码 2:** Blocks 工具， Stderr 向 Claude 展示。
 
-**Common matchers:** `Bash`, `Edit|Write`, `Read`, `Task`, `mcp__.*`
+**共同匹配者：**`Bash`, `Edit|Write`, `Read`, `Task`, `mcp__.*`
 
 ---
 
-### PostToolUse
+<a id="posttooluse"></a>
+### 后工具使用
 
-**Purpose:** React to tool execution results, provide feedback to Claude.
+**目标：** 对工具执行结果的反应，向 Claude 提供反馈。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -101,9 +107,9 @@ Complete reference for developing Claude Code hooks. Use this to write hooks wit
 }
 ```
 
-**CRITICAL:** The response field is `tool_response`, NOT `tool_result`.
+**国家：** 反应领域是`tool_response`，没有`tool_result`.
 
-**Output (JSON):**
+**产出：**
 ```json
 {
   "decision": "block",
@@ -118,17 +124,18 @@ Complete reference for developing Claude Code hooks. Use this to write hooks wit
 }
 ```
 
-**Blocking:** `"decision": "block"` with `"reason"` prompts Claude to address the issue.
+**锁定：**`"decision": "block"`与`"reason"`促使 Claude 解决这个问题。
 
-**Common matchers:** `Edit|Write`, `Bash`
+**共同匹配者：**`Edit|Write`, `Bash`
 
 ---
 
-### UserPromptSubmit
+<a id="userpromptsubmit"></a>
+### 用户 Prompt 提交
 
-**Purpose:** Validate user prompts, inject context before Claude processes.
+**目标：** 验证用户提示，在 Claude 进程前注入上下文。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -140,12 +147,12 @@ Complete reference for developing Claude Code hooks. Use this to write hooks wit
 }
 ```
 
-**Output (Plain text):**
+**产出(书面文本):**
 ```
 Any stdout text is added to context for Claude.
 ```
 
-**Output (JSON):**
+**产出：**
 ```json
 {
   "decision": "block",
@@ -157,17 +164,18 @@ Any stdout text is added to context for Claude.
 }
 ```
 
-**Blocking:** `"decision": "block"` erases prompt, shows `"reason"` to user only (not Claude).
+**锁定：**`"decision": "block"`清除提示， 显示`"reason"`仅发送给用户(不是 Claude)。
 
-**Exit code 2:** Blocks prompt, shows stderr to user only.
+**退出代码 2:** 块提示，仅向用户显示 stderr.
 
 ---
 
-### PermissionRequest
+<a id="permissionrequest"></a>
+### 权限请求
 
-**Purpose:** Automate permission dialog decisions.
+**目标：** 自动权限对话框决定。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -180,7 +188,7 @@ Any stdout text is added to context for Claude.
 }
 ```
 
-**Output:**
+**产出：**
 ```json
 {
   "hookSpecificOutput": {
@@ -197,11 +205,12 @@ Any stdout text is added to context for Claude.
 
 ---
 
-### SessionStart
+<a id="sessionstart"></a>
+### 会话开始
 
-**Purpose:** Initialize session, load context, set environment variables.
+**目标：** 初始化会话，装入上下文，设置环境变量。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -213,9 +222,9 @@ Any stdout text is added to context for Claude.
 }
 ```
 
-**Environment variable:** `CLAUDE_ENV_FILE` - write `export VAR=value` to persist env vars.
+**环境变量：**`CLAUDE_ENV_FILE`- 写`export VAR=value`继续坚持下去
 
-**Output (Plain text or JSON):**
+**产出(原始文本或 JSON):**
 ```json
 {
   "hookSpecificOutput": {
@@ -226,15 +235,16 @@ Any stdout text is added to context for Claude.
 }
 ```
 
-Plain text stdout is added as context.
+纯文本 stdout 作为上下文添加。
 
 ---
 
-### SessionEnd
+<a id="sessionend"></a>
+### 结束会话
 
-**Purpose:** Cleanup, save state, log session.
+**目标：** 清理、保存状态、日志会话。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -246,15 +256,16 @@ Plain text stdout is added as context.
 }
 ```
 
-**Output:** Cannot affect session (already ending). Use for cleanup only.
+**产出：** 无法影响会话( 已经结束 ) 。 仅用于清理。
 
 ---
 
-### Stop
+<a id="stop"></a>
+### 停下来
 
-**Purpose:** Control when Claude stops, force continuation.
+**目标：** Claude 停止时控制，继续部队。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -266,9 +277,9 @@ Plain text stdout is added as context.
 }
 ```
 
-**CRITICAL:** Check `stop_hook_active: true` to prevent infinite loops!
+检查`stop_hook_active: true`防止无限循环!
 
-**Output:**
+**产出：**
 ```json
 {
   "decision": "block",
@@ -276,15 +287,16 @@ Plain text stdout is added as context.
 }
 ```
 
-**Blocking:** `"decision": "block"` forces Claude to continue with `"reason"` as prompt.
+**锁定：**`"decision": "block"`Claude 继续`"reason"`尽快
 
 ---
 
-### SubagentStop
+<a id="subagentstop"></a>
+### 副剂停止
 
-**Purpose:** Control when subagents (Task tool) stop.
+**目的：**子剂(任务工具)停止时的控制。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -296,15 +308,16 @@ Plain text stdout is added as context.
 }
 ```
 
-**Output:** Same as Stop.
+**产出：** 与 Stop 相同。
 
 ---
 
-### PreCompact
+<a id="precompact"></a>
+### 预约
 
-**Purpose:** Save state before context compaction.
+**目标：** 在上下文收缩前保存状态 。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -317,9 +330,9 @@ Plain text stdout is added as context.
 }
 ```
 
-**Matchers:** `manual`, `auto`
+**竞争者：**`manual`, `auto`
 
-**Output:**
+**产出：**
 ```json
 {
   "continue": true,
@@ -329,11 +342,12 @@ Plain text stdout is added as context.
 
 ---
 
-### Notification
+<a id="notification"></a>
+### 通知
 
-**Purpose:** Custom notification handling.
+**目的：** 自定义通知处理。
 
-**Input:**
+**投入：**
 ```json
 {
   "session_id": "string",
@@ -346,9 +360,9 @@ Plain text stdout is added as context.
 }
 ```
 
-**Matchers:** `permission_prompt`, `idle_prompt`, `auth_success`, `elicitation_dialog`, `*`
+**竞争者：**`permission_prompt`, `idle_prompt`, `auth_success`, `elicitation_dialog`, `*`
 
-**Output:**
+**产出：**
 ```json
 {
   "continue": true,
@@ -359,9 +373,11 @@ Plain text stdout is added as context.
 
 ---
 
-## Registration in settings.json
+<a id="registration-in-settingsjson"></a>
+## 在各种环境下进行登记。
 
-### Standard Structure
+<a id="standard-structure"></a>
+### 标准结构
 
 ```json
 {
@@ -382,28 +398,31 @@ Plain text stdout is added as context.
 }
 ```
 
-### Matcher Patterns
+<a id="matcher-patterns"></a>
+### 匹配模式
 
-| Pattern | Matches |
+| 图案 | 匹配 |
 |---------|---------|
-| `Bash` | Exactly Bash tool |
-| `Edit\|Write` | Edit OR Write |
-| `Read.*` | Regex: Read* |
-| `mcp__.*__write.*` | MCP write tools |
-| `*` | All tools |
+| `Bash` | 正是巴许工具 |
+| 编辑|写作 | 编辑 OR 写入 |
+| `Read.*` | Regex:读取* |
+| `mcp__.*__write.*` | MCP 写入工具 |
+| `*` | 所有工具 |
 
-**Case-sensitive:** `Bash` ≠ `bash`
+**对案件敏感：**`Bash` ≠ `bash`
 
-### Events Requiring Matchers
+<a id="events-requiring-matchers"></a>
+### 需要匹配者的事件
 
-- PreToolUse - YES (required)
-- PostToolUse - YES (required)
-- PermissionRequest - YES (required)
-- Notification - YES (optional)
-- SessionStart - YES (`startup|resume|clear|compact`)
-- PreCompact - YES (`manual|auto`)
+- 工具使用前 - 是(需要)
+- 后工具使用 - 是( 需要)
+- 许可请求 - 是( 需要)
+- 通知 - 是(可选)
+- 会话启动 - 是( E)`startup|resume|clear|compact`)
+- 预约 - 是( E)`manual|auto`)
 
-### Events Without Matchers
+<a id="events-without-matchers"></a>
+### 没有匹配者的事件
 
 ```json
 {
@@ -419,43 +438,49 @@ Plain text stdout is added as context.
 
 ---
 
-## Environment Variables
+<a id="environment-variables"></a>
+## 环境变量
 
-### Available to All Hooks
+<a id="available-to-all-hooks"></a>
+### 全钩可用
 
-| Variable | Description |
+| 变量 | 说明 |
 |----------|-------------|
-| `CLAUDE_PROJECT_DIR` | Absolute path to project root |
-| `CLAUDE_CODE_REMOTE` | "true" if remote, empty if local |
+| `CLAUDE_PROJECT_DIR` | 项目根的绝对路径 |
+| `CLAUDE_CODE_REMOTE` | “ true” 如果远程， 如果本地空 |
 
-### SessionStart Only
+<a id="sessionstart-only"></a>
+### 只开始会话
 
-| Variable | Description |
+| 变量 | 说明 |
 |----------|-------------|
-| `CLAUDE_ENV_FILE` | Path to write `export VAR=value` lines |
+| `CLAUDE_ENV_FILE` | 写入路径`export VAR=value`线条 |
 
 ---
 
-## Exit Codes
+<a id="exit-codes"></a>
+## 退出代码
 
-| Exit Code | Behavior | stdout | stderr |
+| 退出代码 | 行为 | 静态 | 标准 |
 |-----------|----------|--------|--------|
-| **0** | Success | JSON processed | Ignored |
-| **2** | Blocking error | IGNORED | Error message |
-| **Other** | Non-blocking error | Ignored | Verbose mode |
+| **0** | 成绩 | JSON 已处理 | 已忽略 |
+| **2** | 屏蔽错误 | 关闭 | 错误消息 |
+| **其他** | 非屏蔽错误 | 已忽略 | 微博模式 |
 
-### Exit Code 2 by Hook
+<a id="exit-code-2-by-hook"></a>
+### Hook 的退出代码 2
 
-| Hook | Effect |
+| 钩子 | 效果 |
 |------|--------|
-| PreToolUse | Blocks tool, stderr to Claude |
-| PostToolUse | stderr to Claude (tool already ran) |
-| UserPromptSubmit | Blocks prompt, stderr to user only |
-| Stop | Blocks stop, stderr to Claude |
+| 工具预用 | 块工具， Stderr 到 Claude |
+| 后工具使用 | Stderr 到 Claude( 工具已经运行) |
+| 用户 Prompt 提交 | 块提示， 仅向用户显示 |
+| 停下来 | 街站站住，向 Claude 报告 |
 
 ---
 
-## Shell Wrapper Pattern
+<a id="shell-wrapper-pattern"></a>
+## 外壳折叠模式
 
 ```bash
 #!/bin/bash
@@ -464,7 +489,7 @@ cd "$CLAUDE_PROJECT_DIR/.claude/hooks"
 cat | npx tsx src/my-hook.ts
 ```
 
-Or for bundled:
+或被捆绑：
 
 ```bash
 #!/bin/bash
@@ -475,7 +500,8 @@ cat | node dist/my-hook.mjs
 
 ---
 
-## TypeScript Handler Pattern
+<a id="typescript-handler-pattern"></a>
+## 类型脚本处理器模式
 
 ```typescript
 import { readFileSync } from 'fs';
@@ -511,9 +537,11 @@ main().catch(console.error);
 
 ---
 
-## Testing Hooks
+<a id="testing-hooks"></a>
+## 测试钩
 
-### Manual Test Commands
+<a id="manual-test-commands"></a>
+### 手动测试命令
 
 ```bash
 # PostToolUse (Write)
@@ -537,7 +565,8 @@ echo '{"prompt":"test prompt","session_id":"test"}' | \
   .claude/hooks/prompt-submit.sh
 ```
 
-### Rebuild After TypeScript Edits
+<a id="rebuild-after-typescript-edits"></a>
+### 键入脚本编辑后重建
 
 ```bash
 cd .claude/hooks
@@ -548,9 +577,11 @@ npx esbuild src/my-hook.ts \
 
 ---
 
-## Common Patterns
+<a id="common-patterns"></a>
+## 常见模式
 
-### Block Dangerous Files (PreToolUse)
+<a id="block-dangerous-files-pretooluse"></a>
+### 屏蔽危险文件( PreTools)
 
 ```python
 #!/usr/bin/env python3
@@ -572,7 +603,8 @@ else:
     print('{}')
 ```
 
-### Auto-Format Files (PostToolUse)
+<a id="auto-format-files-posttooluse"></a>
+### 自动格式文件( 后工具使用)
 
 ```bash
 #!/bin/bash
@@ -586,7 +618,8 @@ fi
 echo '{}'
 ```
 
-### Inject Git Context (UserPromptSubmit)
+<a id="inject-git-context-userpromptsubmit"></a>
+### 弹出基特上下文( UserPrompt Submit)
 
 ```bash
 #!/bin/bash
@@ -597,7 +630,8 @@ echo "Recent commits:"
 git log --oneline -5 2>/dev/null || echo "(no commits)"
 ```
 
-### Force Test Verification (Stop)
+<a id="force-test-verification-stop"></a>
+### 部队测试核查(停止)
 
 ```python
 #!/usr/bin/env python3
@@ -623,29 +657,32 @@ else:
 
 ---
 
-## Debugging Checklist
+<a id="debugging-checklist"></a>
+## 调试检查列表
 
-- [ ] Hook registered in settings.json?
-- [ ] Shell script has `+x` permission?
-- [ ] Bundle rebuilt after TS changes?
-- [ ] Using `tool_response` not `tool_result`?
-- [ ] Output is valid JSON (or plain text)?
-- [ ] Checking `stop_hook_active` in Stop hooks?
-- [ ] Using `$CLAUDE_PROJECT_DIR` for paths?
+- [ ] Hook 注册在设置中。 json?
+- [ ] 贝壳脚本`+x`允许吗?
+- [ ] 在 TS 更改后重建了套装吗 ?
+- [ ] 使用`tool_response`没有`tool_result`?
+- [ ] 输出是有效的 JSON( 或者纯文本) ?
+- [ ] 检查中`stop_hook_active`在停止钩?
+- [ ] 使用`$CLAUDE_PROJECT_DIR`为路径?
 
 ---
 
-## Key Learnings from Past Sessions
+<a id="key-learnings-from-past-sessions"></a>
+## 过去会议的关键学习
 
-1. **Field names matter** - `tool_response` not `tool_result`
-2. **Output format** - `decision: "block"` + `reason` for blocking
-3. **Exit code 2** - stderr goes to Claude/user, stdout IGNORED
-4. **Rebuild bundles** - TypeScript source edits don't auto-apply
-5. **Test manually** - `echo '{}' | ./hook.sh` before relying on it
-6. **Check outputs first** - `ls .claude/cache/` before editing code
-7. **Detached spawn hides errors** - add logging to debug
+1. **外地名称很重要** -`tool_response`没有`tool_result`
+2. **产出格式** -`decision: "block"` + `reason`用于屏蔽
+3. **退出代号 2** - stderr 去 Claude/用户，stdout IGNORED
+4. **重建捆绑** - TypeScript 源编辑不自动应用
+5. **手工试验** -`echo '{}' | ./hook.sh`在依赖它之前
+6. **首先检查产出** -`ls .claude/cache/`在编辑代码前
+7. **分离产卵隐藏出错** - 在调试中添加记录
 
-## See Also
+<a id="see-also"></a>
+## 另见
 
-- `/debug-hooks` - Systematic debugging workflow
-- `.claude/rules/hooks.md` - Hook development rules
+- `/debug-hooks`- 系统调试工作流程
+- `.claude/rules/hooks.md`- Hook 发展规则

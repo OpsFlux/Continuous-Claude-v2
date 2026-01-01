@@ -1,22 +1,26 @@
-# Codebase Pattern Finder Agent
+<a id="codebase-pattern-finder-agent"></a>
+# 代码库模式查找器代理
 
-Finds similar implementations, usage examples, or existing patterns to model after. Gives you concrete code examples.
+查找类似的执行，使用示例，或现有的模式，以在后作模型。 给了你具体代码的例子。
 
-## When to Use
+<a id="when-to-use"></a>
+## 何时使用
 
-- Finding examples of how something is done in the codebase
-- Looking for patterns to follow when implementing something new
-- Finding usage examples of a function or component
-- Discovering existing conventions
+- 查找代码库中一些如何做的例子
+- 寻找执行新任务时遵循的模式
+- 查找函数或组件的用法示例
+- 发现现有公约
 
-## Capabilities
+<a id="capabilities"></a>
+## 能力
 
-- Grep for patterns
-- Glob for files
-- Read files to show examples
-- List directories
+- 图案的 Grep
+- 文件的覆盖
+- 读取文件以显示示例
+- 列表目录
 
-## Example Prompts
+<a id="example-prompts"></a>
+## 示例提示
 
 ```
 Find examples of form validation in the codebase
@@ -34,8 +38,9 @@ Find similar implementations to what I need for the search feature
 Show me how other components handle loading states
 ```
 
-## Best Practices
+<a id="best-practices"></a>
+## 最佳做法
 
-- Describe what pattern you're looking for
-- Ask for concrete examples, not just locations
-- This is great for "how do we do X here?" questions
+- 说明你在找什么模式
+- 问具体的例子，而不仅仅是地点
+- 这是伟大的，"我们如何做 X 在这里?"的问题。

@@ -2,56 +2,62 @@
 description: Implement technical plans from thoughts/shared/plans with verification
 ---
 
-# Implement Plan
+<a id="implement-plan"></a>
+# 执行计划
 
-You are tasked with implementing an approved technical plan from `thoughts/shared/plans/`. These plans contain phases with specific changes and success criteria.
+你的任务是执行经核准的技术计划`thoughts/shared/plans/`这些计划包含有具体变化和成功标准的阶段。
 
-## Execution Modes
+<a id="execution-modes"></a>
+## 执行模式
 
-You have two execution modes:
+您有两种执行模式：
 
-### Mode 1: Direct Implementation (Default)
-For small plans (3 or fewer tasks) or when user requests direct implementation.
-- You implement each phase yourself
-- Context accumulates in main conversation
-- Use this for quick, focused implementations
+<a id="mode-1-direct-implementation-default"></a>
+### 方式 1:直接执行(违约)
+对于小型计划(3 个或更少的任务)，或者当用户要求直接执行时。
+- 你自己执行每个阶段
+- 主对话中累积上下文
+- 用于快速、有重点的执行
 
-### Mode 2: Agent Orchestration (Recommended for larger plans)
-For plans with 4+ tasks or when context preservation is critical.
-- You act as a thin orchestrator
-- Agents execute each task and create handoffs
-- Compaction-resistant: handoffs persist even if context compacts
-- Use this for multi-phase implementations
+<a id="mode-2-agent-orchestration-recommended-for-larger-plans"></a>
+### 模式 2:代理管弦乐团(为较大的计划推荐)
+对于有 4+任务的计划，或者当环境保存至关重要时。
+- 你扮演一个瘦的管弦乐家
+- 代理执行每项任务并创建交割
+- 抗紧凑性：即使上下文紧凑，交割仍持续
+- 用于多阶段执行
 
-**To use agent orchestration mode**, say: "I'll use agent orchestration for this plan" and follow the Agent Orchestration section below.
+**要使用代理管弦乐模式**，请说："我会为这个计划使用代理管弦乐"，并遵循下面代理管弦乐部分。
 
 ---
 
-## Getting Started
+<a id="getting-started"></a>
+## 开始
 
-When given a plan path:
-- Read the plan completely and check for any existing checkmarks (- [x])
-- Read the original ticket and all files mentioned in the plan
-- **Read files fully** - never use limit/offset parameters, you need complete context
-- Think deeply about how the pieces fit together
-- Create a todo list to track your progress
-- Start implementing if you understand what needs to be done
+当给定计划路径时：
+- 完全读取计划并检查任何已存在的检查标记 (- [x])
+- 阅读计划中提到的原始票和所有文件
+- **完全读取文件** - 从不使用限制/抵消参数，您需要完整的上下文
+- 深思熟虑 如何拼凑在一起
+- 创建待办事宜列表以跟踪您的进度
+- 了解需要做什么就开始执行
 
-If no plan path provided, ask for one.
+如果没有提供计划路径，则要求一条。
 
-## Implementation Philosophy
+<a id="implementation-philosophy"></a>
+## 执行哲学
 
-Plans are carefully designed, but reality can be messy. Your job is to:
-- Follow the plan's intent while adapting to what you find
-- Implement each phase fully before moving to the next
-- Verify your work makes sense in the broader codebase context
-- Update checkboxes in the plan as you complete sections
+计划是精心设计的，但现实可能很乱。 你的职责是：
+- 遵循计划的意图 同时适应你的发现
+- 在移动到下一个阶段前， 完全执行每个阶段
+- 在更广泛的代码库背景中验证您的工作是有意义的
+- 完成段落时更新计划中的复选框
 
-When things don't match the plan exactly, think about why and communicate clearly. The plan is your guide, but your judgment matters too.
+当事情与计划不完全吻合时，想想原因，清楚沟通。 计划是你的向导 但你的判断也很重要
 
-If you encounter a mismatch:
-- STOP and think deeply about why the plan can't be followed
-- Present the issue clearly:
+如果遇到错配：
+- 停下来好好想想为什么计划不能被执行
+- 明确提出问题：
   ```
   Issue in Phase [N]:
   Expected: [what the plan says]
@@ -61,14 +67,15 @@ If you encounter a mismatch:
   How should I proceed?
   ```
 
-## Verification Approach
+<a id="verification-approach"></a>
+## 核查办法
 
-After implementing a phase:
-- Run the success criteria checks (usually `make check test` covers everything)
-- Fix any issues before proceeding
-- Update your progress in both the plan and your todos
-- Check off completed items in the plan file itself using Edit
-- **Pause for human verification**: After completing all automated verification for a phase, pause and inform the human that the phase is ready for manual testing. Use this format:
+实施阶段后：
+- 运行成功标准检查(通常是)`make check test`涵盖一切)
+- 处理任何问题之前
+- 更新您的计划及任务进度
+- 使用 Edit 检查计划中已完成的项目
+- **暂停人力核查**: 在完成一个阶段的所有自动化验证后，暂停并告知人类该阶段已准备好进行人工测试。 使用此格式 :
   ```
   Phase [N] Complete - Ready for Manual Verification
 
@@ -81,27 +88,29 @@ After implementing a phase:
   Let me know when manual testing is complete so I can proceed to Phase [N+1].
   ```
 
-If instructed to execute multiple phases consecutively, skip the pause until the last phase. Otherwise, assume you are just doing one phase.
+如果指示连续执行多个相，则跳过暂停到最后一个相。 否则，假设你只是做一个阶段。
 
-do not check off items in the manual testing steps until confirmed by the user.
+在用户确认之前，不检查人工测试步骤中的项目。
 
 
-## If You Get Stuck
+<a id="if-you-get-stuck"></a>
+## 如果你被困住了的话
 
-When something isn't working as expected:
-- First, make sure you've read and understood all the relevant code
-- Consider if the codebase has evolved since the plan was written
-- Present the mismatch clearly and ask for guidance
+当事情不起作用时：
+- 首先，确保你已经读懂 所有相关代码
+- 考虑一下密码库是否已经进化 从计划编写之后
+- 说明不匹配 并请求指导
 
-Use sub-tasks sparingly - mainly for targeted debugging or exploring unfamiliar territory.
+节制使用子任务——主要用于定向调试或探索陌生领地。
 
-## Resumable Agents
+<a id="resumable-agents"></a>
+## 有偿代理
 
-If the plan was created by `plan-agent`, you may be able to resume it for clarification:
+如果计划是由`plan-agent`，您可能可以恢复它以澄清：
 
-1. Check `.claude/cache/agents/agent-log.jsonl` for the plan-agent entry
-2. Look for the `agentId` field
-3. To clarify or update the plan:
+1. 检查`.claude/cache/agents/agent-log.jsonl`计划代理条目
+2. 寻找`agentId`字段
+3. 为澄清或更新计划：
    ```
    Task(
      resume="<agentId>",
@@ -109,81 +118,87 @@ If the plan was created by `plan-agent`, you may be able to resume it for clarif
    )
    ```
 
-The resumed agent retains its full prior context (research, codebase analysis).
+恢复的代理保留其完整的前置上下文(研究，代码库分析).
 
-Available agents to resume:
-- `plan-agent` - Created the implementation plan
-- `research-agent` - Researched best practices
-- `debug-agent` - Investigated issues
+可恢复的代理 :
+- `plan-agent`- 制定执行计划
+- `research-agent`- 研究最佳做法
+- `debug-agent`- 调查的问题
 
-## Resuming Work
+<a id="resuming-work"></a>
+## 恢复工作
 
-If the plan has existing checkmarks:
-- Trust that completed work is done
-- Pick up from the first unchecked item
-- Verify previous work only if something seems off
+如果计划有现有的检查标记：
+- 相信已完成的工作已经完成
+- 从第一个未选中的项目中拾取
+- 只有在有问题时才验证前次工作
 
-Remember: You're implementing a solution, not just checking boxes. Keep the end goal in mind and maintain forward momentum.
+记住，你正在执行一个解决方案，不只是检查盒子。 牢记最终目标并保持前进势头。
 
 ---
 
-## Agent Orchestration Mode
+<a id="agent-orchestration-mode"></a>
+## 代理管弦乐模式
 
-When implementing larger plans (4+ tasks), use agent orchestration to stay compaction-resistant.
+在执行更大的计划(4+任务)时，使用剂管弦来保持收缩耐受。
 
-### Why Agent Orchestration?
+<a id="why-agent-orchestration"></a>
+### 为什么是 Orchestration 探员?
 
-**The Problem:** During long implementations, context accumulates. If auto-compact triggers mid-task, you lose implementation context. Handoffs created at 80% context become stale.
+**问题：** 在长期实施期间，环境积累。 如果自动压缩触发了中任务，则会失去执行上下文。 用 80%的上下文创建的交易变得僵化了。
 
-**The Solution:** Delegate implementation to agents. Each agent:
-- Starts with fresh context
-- Implements one task
-- Creates a handoff on completion
-- Returns to orchestrator
+**解决办法：** 将执行工作委托给代理人。 每个代理人：
+- 从新上下文开始
+- 执行一个任务
+- 完成后创建交接
+- 返回指挥家
 
-Handoffs persist on disk. If compaction happens, you re-read handoffs and continue.
+磁盘上仍然有交易。 如果发生收缩，你重新读取并继续。
 
-### Setup
+<a id="setup"></a>
+### 设置
 
-1. **Create handoff directory:**
+1. **创建交接目录：**
    ```bash
    mkdir -p thoughts/handoffs/<session-name>
    ```
-   Use the session name from your continuity ledger.
+使用您连续性分类账中的会话名称 。
 
-2. **Read the implementation agent skill:**
+2. **学习执行机构的技能：**
    ```bash
    cat .claude/skills/implement_task/SKILL.md
    ```
-   This defines how agents should behave.
+这定义了代理应如何行事。
 
-### Pre-Requisite: Plan Validation
+<a id="pre-requisite-plan-validation"></a>
+### 预先要求：计划审定
 
-Before implementing, ensure the plan has been validated using the `validate-agent`. The validation step is separate and should have created a handoff with status VALIDATED.
+在实施之前，确保该计划得到验证。`validate-agent`。验证步骤是分开的，应当建立具有 VALIDATED 地位的交接。
 
-**Check for validation handoff:**
+**核证交接的检查：**
 ```bash
 ls thoughts/handoffs/<session>/validation-*.md
 ```
 
-If no validation exists, suggest running validation first:
+如果没有验证，则建议首先运行验证：
 ```
 "This plan hasn't been validated yet. Would you like me to spawn validate-agent first?"
 ```
 
-If validation exists but status is NEEDS REVIEW, present the issues before proceeding.
+如果存在审定，但状况是需要审查，请在进行审查前提出问题。
 
-### Orchestration Loop
+<a id="orchestration-loop"></a>
+### 管弦乐圈
 
-For each task in the plan:
+对于计划中的每一项任务：
 
-1. **Prepare agent context:**
-   - Read continuity ledger (current state)
-   - Read the plan (overall context)
-   - Read previous handoff if exists (from thoughts/handoffs/<session>/)
-   - Identify the specific task
+1. **准备剂上下文：**
+   - 读取连续性分类账( 当前状态)
+   - 阅读计划( 总体上下文)
+   - 如果存在，请阅读先前的交割(取自想法/接取/<会话>/)
+   - 确定具体任务
 
-2. **Spawn implementation agent:**
+2. **日出执行机构：**
    ```
    Task(
      subagent_type="general-purpose",
@@ -220,30 +235,32 @@ For each task in the plan:
    )
    ```
 
-3. **Process agent result:**
-   - Read the agent's handoff file
-   - Update ledger checkbox: `[x] Task N`
-   - Update plan checkbox if applicable
-   - Continue to next task
+3. **加工剂结果：**
+   - 读取代理文件
+   - 更新分类账复选框 :`[x] Task N`
+   - 如果适用， 更新计划复选框
+   - 继续下一个任务
 
-4. **On agent failure/blocker:**
-   - Read the handoff (status will be "blocked")
-   - Present blocker to user
-   - Decide: retry, skip, or ask user
+4. **关于代理故障/阻断器：**
+   - 读取交接( 状态为“ block” )
+   - 向用户提供屏蔽器
+   - 决定： 重试、 跳过或询问用户
 
-### Recovery After Compaction
+<a id="recovery-after-compaction"></a>
+### 压缩后恢复
 
-If auto-compact happens mid-orchestration:
+如果自动压缩发生中节奏：
 
-1. Read continuity ledger (loaded by SessionStart hook)
-2. List handoff directory:
+1. 读取连续性分类账( 由 SessionStart hook 载入)
+2. 列出交接目录 :
    ```bash
    ls -la thoughts/handoffs/<session-name>/
    ```
-3. Read the last handoff to understand where you were
-4. Continue spawning agents from next uncompleted task
+3. 阅读最后的交割 以了解你在哪里
+4. 继续从下一个未完成的任务中产出毒剂
 
-### Example Orchestration Session
+<a id="example-orchestration-session"></a>
+### 实例管弦会话
 
 ```
 User: /implement_plan thoughts/shared/plans/PLAN-add-auth.md
@@ -276,9 +293,10 @@ Resuming from Task 3 of 6: Create login endpoint
 ...
 ```
 
-### Handoff Chain
+<a id="handoff-chain"></a>
+### 手提链
 
-Each agent reads previous handoff → does work → creates next handoff:
+每个代理都读取之前的交接 工作完成 创造下一个交接：
 
 ```
 task-01-user-model.md
@@ -290,23 +308,25 @@ task-03-login-endpoint.md
 ...
 ```
 
-The chain preserves context even across compactions.
+连锁连锁连锁连锁连锁店都保留上下文。
 
-### When to Use Agent Orchestration
+<a id="when-to-use-agent-orchestration"></a>
+### 何时使用代理管弦乐
 
-| Scenario | Mode |
+| 假设 | 模式 |
 |----------|------|
-| 1-3 simple tasks | Direct implementation |
-| 4+ tasks | Agent orchestration |
-| Critical context to preserve | Agent orchestration |
-| Quick bug fix | Direct implementation |
-| Major feature implementation | Agent orchestration |
-| User explicitly requests | Respect user preference |
+| 1-3 个简单任务 | 直接执行 |
+| 4+任务 | 代理指挥 |
+| B. 保护的关键背景 | 代理指挥 |
+| 快速修复错误 | 直接执行 |
+| 主要特点的执行 | 代理指挥 |
+| 用户明确要求 | 尊重用户偏好 |
 
-### Tips
+<a id="tips"></a>
+### 提示
 
-- **Keep orchestrator thin:** Don't do implementation work yourself. Just manage agents.
-- **Trust the handoffs:** Agents create detailed handoffs. Use them for context.
-- **One agent per task:** Don't batch multiple tasks into one agent.
-- **Sequential execution:** Start with sequential. Parallel adds complexity.
-- **Update ledger:** After each task, update the continuity ledger checkbox.
+- **使管弦乐手瘦：** 不要做执行工作自己。 只是管理探员。
+- **相信交割：** 代理制作详细的交割 用来做上下文
+- **每个任务一名代理人：** 别把多个任务分成一个代理
+- **相应处决：** 从相相起。 平行增加了复杂性。
+- **最新分类账：** 每次任务结束后，更新连续性分类账复选框。
